@@ -20,9 +20,7 @@ const EditorElement = (...props) => {
       },
     ])
 
-    const renderElement = (props) => {
-        return <DefaultElement {...props} />
-    }
+    const id = Math.random();
 
     const renderLeaf = useCallback( props => {
         switch (props.leaf.element) {
@@ -49,13 +47,36 @@ const EditorElement = (...props) => {
                 <Editable
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
+                        const s = editor.selection;
+                        console.log(s.anchor.offset, s.focus.offset);
                         if (event.key === 'a' && event.ctrlKey) {
-                            event.preventDefault()
-                            Transforms.setNodes(
-                                editor,
-                                { element: 'variable' },
-                                { match: n => Text.isText(n), split: true }
-                            )
+                            event.preventDefault();
+                            // Determine whether any of the currently selected blocks are code blocks.
+                            const [match] = Editor.nodes(editor, {
+                                match: n => n.element === 'variable',
+                            });
+                            if (match === undefined) {
+                                Transforms.setNodes(
+                                    editor,
+                                    { element: 'variable', id },
+                                    {
+                                        at: s,
+                                        match: n => Text.isText(n),
+                                        split: true, 
+                                        mode: 'lowest',
+                                    }
+                                );
+                            } else {
+                                Transforms.unsetNodes(
+                                    editor,
+                                    ['element', 'id'],
+                                    {
+                                        at: s,
+                                        match: n => Text.isText(n),
+                                        split: true
+                                    }
+                                );
+                            }
                         }
                     }}
                 />
