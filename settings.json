@@ -1,0 +1,8 @@
+// settings.json
+{
+    "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+    "files.associations": {
+        "*.js": "javascriptreact"
+    },
+    "javascript.validate.enable": false
+}
