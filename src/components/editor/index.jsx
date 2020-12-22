@@ -1,5 +1,6 @@
 //@flow
 import React, { useMemo, useState, useCallback } from 'react';
+import isHotkey from 'is-hotkey';
 
 import { Editor, createEditor, Transforms, Text, Node, Range, Element as SlateElement } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
@@ -27,9 +28,7 @@ const EditorElement = (...props) => {
         return false
     }
 
-    editor.isVoid = element => {
-        return element.element === 'list' ? false : isVoid(element)
-    }
+    
 
     const [value, setValue] = useState([
       {
@@ -72,13 +71,8 @@ const EditorElement = (...props) => {
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        if (event.key === 'a' && event.ctrlKey) {
-                            event.preventDefault();
-
-                            const list = { type: 'list', element: 'list', children: [{ text: '' }] }
-                            Transforms.wrapNodes(editor, list, { split: true })
-
-                        }
+                        console.log(event)
+                        if (event.key === 'a' && event.ctrlKey) {}
                     }}
                 />
             </Slate>

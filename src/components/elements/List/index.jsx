@@ -12,16 +12,8 @@ export const ListDefinition = {
     action: (event, editor) => {
         event.preventDefault();
 
-        const [match] = Editor.nodes(editor, {
-            match: n => n.element === ListName,
-        });
-
-        Transforms.wrapNodes(
-            editor,
-            { type: 'paragraph', element: ListName},
-            { match: n => Text.isText(n), mode: 'highest' }
-        );
-        
+        const list = { element: 'list', children: [{ text: '' }] }
+        Transforms.wrapNodes(editor, list, { split: true })
     },
     icon: VscSymbolArray
 };
