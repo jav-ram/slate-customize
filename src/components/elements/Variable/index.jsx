@@ -20,10 +20,14 @@ export const VariableDefinition = {
             Transforms.setNodes(
                 editor,
                 { element: VariableName },
-                { match: n => Text.isText(n), split: true }
+                { match: n => Text.isText(n) && n.type !== 'block', split: true }
             );
         } else {
-            Transforms.unsetNodes(editor, ['element'], { match: n => Text.isText(n)});
+            Transforms.unsetNodes(
+                editor,
+                ['element'],
+                { match: n => Text.isText(n) && n.type !== 'block'}
+            );
         }
         
     },

@@ -12,7 +12,7 @@ export const ListDefinition = {
     action: (event, editor) => {
         event.preventDefault();
 
-        const list = { element: 'list', children: [{ text: '' }] }
+        const list = { type: 'block', element: 'list', children: [{ text: '' }] }
         Transforms.wrapNodes(editor, list, { split: true })
     },
     icon: VscSymbolArray
@@ -20,9 +20,9 @@ export const ListDefinition = {
 
 
 const ListElement = (props) => (
-    <span className={styles.wrapper} {...props.attributes}>
+    <p className={styles.wrapper} {...props.attributes}>
         {props.children}
-    </span>
+    </p>
 );
 
 export default ListElement;
