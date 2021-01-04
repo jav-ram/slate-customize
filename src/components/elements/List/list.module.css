@@ -1,0 +1,6 @@
+.wrapper {
+    outline: 2px solid red;
+    display: inline;
+    margin: auto;
+    background-color: rgba(26, 46, 100, 0.5);
+}

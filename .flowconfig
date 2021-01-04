@@ -1,7 +1,12 @@
+[ignore]
+
 [include]
 
-[ignore]
-.*/build/.*
-
 [libs]
-./lib
+
+[lints]
+
+[options]
+react.runtime=automatic
+
+[strict]

@@ -1,20 +1,47 @@
-import React, { Component } from 'react';
+// @flow
+import React from 'react';
+import { Editor, Transforms, Text } from 'slate';
+
+import { VscSymbolVariable } from 'react-icons/vsc';
+
 import styles from './variable.module.css';
 
-class VariableElement extends Component {
+const name = 'variable';
 
-    constructor(props) {
-        super(props);
-    }
+const action = (event:SyntheticEvent<HTMLButtonElement>, editor) => {
+    event.preventDefault();
 
-    render() {
-        const { ...props } = this.props;
-        return (
-            <span className={styles.wrapper} {...props.attributes}>
-                {props.children}
-            </span>    
+    const [match] = Editor.nodes(editor, {
+        match: n => n.element === name,
+    });
+
+    if (!match) {
+        Transforms.setNodes(
+            editor,
+            { element: name },
+            { match: n => Text.isText(n) && n.type !== 'block', split: true }
+        );
+    } else {
+        Transforms.unsetNodes(
+            editor,
+            ['element'],
+            { match: n => Text.isText(n) && n.type !== 'block'}
         );
     }
+    
 }
 
-export default VariableElement;
+const Element = (props:any) => (
+    <span className={styles.wrapper} {...props.attributes}>
+        {props.children}
+    </span>
+);
+
+const definition = {
+    name,
+    action: action,
+    icon: VscSymbolVariable,
+    component: Element,
+};
+
+export default definition;
