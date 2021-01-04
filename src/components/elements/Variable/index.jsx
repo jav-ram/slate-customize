@@ -39,7 +39,7 @@ const Element = (props:any) => (
 
 const definition = {
     name,
-    action: action,
+    action,
     icon: VscSymbolVariable,
     component: Element,
 };

@@ -10,7 +10,7 @@ import { withHistory } from 'slate-history';
 import Toolbar from '../toolbar';
 
 import VariableDefinition from '../elements/Variable';
-import List, {ListDefinition} from '../elements/List';
+import ListDefinition from '../elements/List';
 
 
 const DefaultElement = (props) => {
@@ -39,6 +39,7 @@ const EditorElement = ():Node => {
 
     const renderElement = (props) => {
         if (props.element.element === 'list') {
+            const List = ListDefinition.component;
             return <List {...props} />
         }
         return <DefaultElement {...props} />
@@ -50,6 +51,7 @@ const EditorElement = ():Node => {
                 const Variable = VariableDefinition.component;
                 return <Variable {...props} />;
             case ListDefinition.name:
+                const List = ListDefinition.component;
                 return <List {...props} />
             default:
                 return <span {...props.attributes}>{ props.children }</span>

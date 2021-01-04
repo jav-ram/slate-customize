@@ -5,24 +5,27 @@ import { VscSymbolArray } from 'react-icons/vsc';
 
 import styles from './list.module.css';
 
-export const ListName = 'list';
+const name = 'list';
 
-export const ListDefinition = {
-    name: ListName,
-    action: (event, editor) => {
-        event.preventDefault();
+const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
+    event.preventDefault();
 
-        const list = { type: 'block', element: 'list', children: [{ text: '' }] }
-        Transforms.wrapNodes(editor, list, { split: true })
-    },
-    icon: VscSymbolArray
-};
+    const list = { type: 'block', element: 'list', children: [{ text: '' }] }
+    Transforms.wrapNodes(editor, list, { split: true })
+}
 
 
-const ListElement = (props) => (
+const Element = (props) => (
     <p className={styles.wrapper} {...props.attributes}>
         {props.children}
     </p>
 );
 
-export default ListElement;
+const definition = {
+    name,
+    action,
+    icon: VscSymbolArray,
+    component: Element,
+}
+
+export default definition;
