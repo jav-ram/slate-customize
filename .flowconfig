@@ -1,5 +1,4 @@
 [ignore]
-./node_modules
 
 [include]
 
@@ -8,5 +7,6 @@
 [lints]
 
 [options]
+react.runtime=automatic
 
 [strict]

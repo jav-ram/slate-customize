@@ -5,5 +5,6 @@ export type ElementDefinition = {
     name: string,
     action: Function,
     hotkey: string,
-    icon: Node,
+    icon: Function,
+    component: Node,
 };

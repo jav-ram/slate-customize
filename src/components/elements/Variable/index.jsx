@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 
@@ -5,40 +6,42 @@ import { VscSymbolVariable } from 'react-icons/vsc';
 
 import styles from './variable.module.css';
 
-export const VariableName = 'variable';
+const name = 'variable';
 
-export const VariableDefinition = {
-    name: VariableName,
-    action: (event, editor) => {
-        event.preventDefault();
+const action = (event:SyntheticEvent<HTMLButtonElement>, editor) => {
+    event.preventDefault();
 
-        const [match] = Editor.nodes(editor, {
-            match: n => n.element === VariableName,
-        });
+    const [match] = Editor.nodes(editor, {
+        match: n => n.element === name,
+    });
 
-        if (!match) {
-            Transforms.setNodes(
-                editor,
-                { element: VariableName },
-                { match: n => Text.isText(n) && n.type !== 'block', split: true }
-            );
-        } else {
-            Transforms.unsetNodes(
-                editor,
-                ['element'],
-                { match: n => Text.isText(n) && n.type !== 'block'}
-            );
-        }
-        
-    },
-    icon: VscSymbolVariable
-};
+    if (!match) {
+        Transforms.setNodes(
+            editor,
+            { element: name },
+            { match: n => Text.isText(n) && n.type !== 'block', split: true }
+        );
+    } else {
+        Transforms.unsetNodes(
+            editor,
+            ['element'],
+            { match: n => Text.isText(n) && n.type !== 'block'}
+        );
+    }
+    
+}
 
-
-const VariableElement = (props) => (
+const Element = (props:any) => (
     <span className={styles.wrapper} {...props.attributes}>
         {props.children}
     </span>
 );
 
-export default VariableElement;
+const definition = {
+    name,
+    action: action,
+    icon: VscSymbolVariable,
+    component: Element,
+};
+
+export default definition;

@@ -1,12 +1,13 @@
 //@flow
-import React, { useMemo, useState, useCallback } from 'react';
+import * as React from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
 import type { Node } from 'react';
 import type { ElementDefinition } from '../elements';
 
 type ToolbarButtonPropsType = {
     editor: any,
-    Icon: Node,
+    Icon: Function,
     action: Function
 }
 
