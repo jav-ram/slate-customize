@@ -1,14 +1,14 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 
-import { VscSymbolArray } from 'react-icons/vsc';
+import { GiChoice } from 'react-icons/gi';
 
-import styles from './list.module.css';
+import styles from './conditional.module.css';
 
-const name = 'list';
+const name = 'conditional';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
+const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
     event.preventDefault();
 
     const list = { type: 'block', element: name, children: [{ text: '' }] }
@@ -16,7 +16,7 @@ const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
 }
 
 
-const Element = (props: any) => (
+const Element = (props) => (
     <p className={styles.wrapper} {...props.attributes}>
         {props.children}
     </p>
@@ -25,7 +25,7 @@ const Element = (props: any) => (
 const definition = {
     name,
     action,
-    icon: VscSymbolArray,
+    icon: GiChoice,
     component: Element,
 }
 

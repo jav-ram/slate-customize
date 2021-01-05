@@ -4,7 +4,7 @@ import type { Node } from 'react';
 export type ElementDefinition = {
     name: string,
     action: Function,
-    hotkey: string,
+    hotkey?: string,
     icon: Function,
     component: Node,
 };

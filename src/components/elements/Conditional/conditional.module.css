@@ -1,0 +1,6 @@
+.wrapper {
+    outline: 2px solid blue;
+    display: inline;
+    margin: auto;
+    background-color: rgba(100, 46, 26, 0.5);
+}
