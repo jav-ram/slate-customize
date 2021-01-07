@@ -8,7 +8,7 @@ import styles from './conditional.module.css';
 
 const name = 'conditional';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
+const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
     event.preventDefault();
 
     const list = { type: 'block', element: name, children: [{ text: '' }] }
