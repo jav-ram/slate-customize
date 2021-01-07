@@ -8,7 +8,7 @@ import styles from './variable.module.css';
 
 const name = 'variable';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
+const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
     event.preventDefault();
 
     const [match] = Editor.nodes(editor, {
