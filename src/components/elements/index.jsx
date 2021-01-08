@@ -9,69 +9,51 @@ export type ElementDefinition = {
     component: Node,
 };
 
-type ActionOptionsType = {
-    match: ?(any) => boolean,
-    split: ?boolean,
-}
 
-export type ActionFunctionType = (
-    event: SyntheticEvent<HTMLButtonElement>,
-    editor: any,
-    name: string,
-    type: string,
-
-    toggle: ?boolean,
-    options: ?ActionOptionsType,
-) => void;
-
-export type ActionDefinition = {
-
+export type ActionDefinitionType = {
     before: ?(SyntheticEvent<HTMLButtonElement>, any) => void,
     after: ?(SyntheticEvent<HTMLButtonElement>, any) => void,
 
     split: ?boolean,
     match: ?(any) => boolean,
-
 }
 
-type actionDefinition = {
+type handlererDefinitionType = {
     name: string,
-    editor: any,
-    event: SyntheticEvent<HTMLButtonElement>,
     type: 'block' | 'inline',
     isNested: ?boolean,
     preventDefault: ?boolean,
-
-    set: ?ActionFunctionType,
-    unset: ?ActionFunctionType,
+    actionDef?: ActionDefinitionType
 }
 
 export const handlerMaker = ({
     name,
-    editor,
-    event,
     type,
     isNested=false,
     preventDefault=true,
-    set,
-    unset
-}: actionDefinition): ((SyntheticEvent<HTMLButtonElement>, any) => void) => {
-    preventDefault && event.preventDefault();
+    actionDef={},
+}: handlererDefinitionType): ((SyntheticEvent<HTMLButtonElement>, any) => void) => {
 
-    let action;
-    if (isNested) {
-        action = (event, editor) => {
-            if (set)
-                set(event, editor, name, type, true);
+    let action = (event, editor) =>  {
+        preventDefault && event.preventDefault();
+        actionDef.after && actionDef.after(event, editor);
+
+        const match = actionDef.match ? actionDef.match : defaultMatch;
+        const split = actionDef.split ? actionDef.split : false; 
+
+        // do stuff here
+        if (isNested) {
+
+        } else {
+            
         }
-    } else {
-        action = (event, editor) => {
-            if (set)
-                set(event, editor, name, type, true);
-            if (unset)
-                unset(event, editor, name, type, true);
-        }
-    }
+
+        actionDef.before && actionDef.before(event, editor);
+    };
 
     return action;
 };
+
+const ActionGenerator = ({}: ActionDefinitionType): Function => {
+
+} 
