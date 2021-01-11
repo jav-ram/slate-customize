@@ -1,8 +1,11 @@
 // @flow
 import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-
 import { VscSymbolVariable } from 'react-icons/vsc';
+
+import { actionGenerator } from '../index';
+
+import type { ElementDefinition } from '../index';
 
 import styles from './variable.module.css';
 
@@ -37,9 +40,10 @@ const Element = (props: any) => (
     </span>
 );
 
-const definition = {
+const definition: ElementDefinition = {
     name,
-    action,
+    action: actionGenerator({ name, type: 'inline' }),
+    hotkey: 'ctrl+v',
     icon: VscSymbolVariable,
     component: Element,
 };

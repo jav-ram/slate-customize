@@ -1,51 +1,79 @@
 //@flow
-import type { Node } from 'react';
+import type { ComponentType } from 'react';
+import { useSlate } from 'slate-react';
+import { Editor, Transforms, Text } from 'slate';
 
 export type ElementDefinition = {
     name: string,
     action: Function,
     hotkey?: string,
     icon: Function,
-    component: Node,
+    component: ComponentType<*>,
 };
 
-
 export type ActionDefinitionType = {
-    before: ?(SyntheticEvent<HTMLButtonElement>, any) => void,
-    after: ?(SyntheticEvent<HTMLButtonElement>, any) => void,
+    before?: (SyntheticEvent<HTMLButtonElement>, any) => void,
+    after?: (SyntheticEvent<HTMLButtonElement>, any) => void,
 
-    split: ?boolean,
-    match: ?(any) => boolean,
+    split?: boolean,
+    match?: (any) => boolean,
 }
 
-type handlererDefinitionType = {
+export type handlererDefinitionType = {
     name: string,
     type: 'block' | 'inline',
-    isNested: ?boolean,
-    preventDefault: ?boolean,
+    isNested?: boolean,
+    preventDefault?: boolean,
     actionDef?: ActionDefinitionType
 }
 
-export const handlerMaker = ({
+const generateDefaultMatch = (
+    editor,
+    value: any,
+    key: (string | number)
+): Function => {
+    return () => {
+        const [match] = Editor.nodes(editor, {
+            match: n => n[key] === value,
+        });
+        return match;
+    }
+}
+
+export const actionGenerator = ({
     name,
     type,
     isNested=false,
     preventDefault=true,
     actionDef={},
 }: handlererDefinitionType): ((SyntheticEvent<HTMLButtonElement>, any) => void) => {
-
     let action = (event, editor) =>  {
+        const defaultMatch = generateDefaultMatch(editor, name, 'element');
+
         preventDefault && event.preventDefault();
         actionDef.after && actionDef.after(event, editor);
 
         const match = actionDef.match ? actionDef.match : defaultMatch;
-        const split = actionDef.split ? actionDef.split : false; 
+        const split = actionDef.split ? actionDef.split : true;
 
         // do stuff here
         if (isNested) {
-
+            const list = { type: type, element: name, children: [{ text: '' }] }
+            Transforms.wrapNodes(editor, list, { split })
         } else {
-            
+            if (!match()) {
+                Transforms.setNodes(
+                    editor,
+                    { element: name },
+                    { match: n => Text.isText(n) && n.type !== type, split: true }
+                );
+            } else {
+                Transforms.unsetNodes(
+                    editor,
+                    ['element'],
+                    { match: n => Text.isText(n) && n.type !== type}
+                );
+            }
         }
 
         actionDef.before && actionDef.before(event, editor);
@@ -53,7 +81,3 @@ export const handlerMaker = ({
 
     return action;
 };
-
-const ActionGenerator = ({}: ActionDefinitionType): Function => {
-
-} 

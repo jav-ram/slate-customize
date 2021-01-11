@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-
 import { GiChoice } from 'react-icons/gi';
+
+import { actionGenerator } from '../index';
 
 import styles from './conditional.module.css';
 
@@ -24,7 +25,8 @@ const Element = (props) => (
 
 const definition = {
     name,
-    action,
+    action: actionGenerator({ name, type: 'block', isNested: true }),
+    hotkey: 'ctrl+i',
     icon: GiChoice,
     component: Element,
 }
