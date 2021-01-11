@@ -1,14 +1,15 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-
 import { GiChoice } from 'react-icons/gi';
+
+import { actionGenerator } from '../index';
 
 import styles from './conditional.module.css';
 
 const name = 'conditional';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
+const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
     event.preventDefault();
 
     const list = { type: 'block', element: name, children: [{ text: '' }] }
@@ -24,7 +25,8 @@ const Element = (props) => (
 
 const definition = {
     name,
-    action,
+    action: actionGenerator({ name, type: 'block', isNested: true }),
+    hotkey: 'ctrl+i',
     icon: GiChoice,
     component: Element,
 }

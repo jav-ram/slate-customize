@@ -7,7 +7,7 @@ import { css } from '@emotion/css';
 import { Portal, Menu } from './extras.jsx';
 
 const HoveringToolbar = ({ value }) => {
-    const ref = useRef<HTMLDivElement | null>();
+    const ref = useRef<HTMLDivElement | void>();
     const editor = useSlate();
 
     useEffect(() => {
