@@ -3,7 +3,8 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolArray } from 'react-icons/vsc';
 
-import { actionGenerator } from '../index';
+import { ActionGenerator } from '../index';
+import type { ElementDefinition } from '../index';
 
 import styles from './list.module.css';
 
@@ -22,9 +23,9 @@ const Element = (props: any) => (
     </p>
 );
 
-const definition = {
+const definition: ElementDefinition = {
     name,
-    action: actionGenerator({ name, type: 'block', isNested: true }),
+    action: ActionGenerator({ name, type: 'block', isNested: true }),
     hotkey: 'ctrl+l',
     icon: VscSymbolArray,
     component: Element,

@@ -3,7 +3,7 @@ import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
-import { actionGenerator } from '../index';
+import { ActionGenerator } from '../index';
 
 import type { ElementDefinition } from '../index';
 
@@ -42,7 +42,7 @@ const Element = (props: any) => (
 
 const definition: ElementDefinition = {
     name,
-    action: actionGenerator({ name, type: 'inline' }),
+    action: ActionGenerator({ name, type: 'inline' }),
     hotkey: 'ctrl+v',
     icon: VscSymbolVariable,
     component: Element,

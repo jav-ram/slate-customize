@@ -3,7 +3,8 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
-import { actionGenerator } from '../index';
+import { ActionGenerator } from '../index';
+import type { ElementDefinition } from '../index';
 
 import styles from './conditional.module.css';
 
@@ -23,10 +24,10 @@ const Element = (props) => (
     </p>
 );
 
-const definition = {
+const definition: ElementDefinition = {
     name,
-    action: actionGenerator({ name, type: 'block', isNested: true }),
-    hotkey: 'ctrl+i',
+    action: ActionGenerator({ name, type: 'block', isNested: true }),
+    hotkey: 'ctrl+v',
     icon: GiChoice,
     component: Element,
 }

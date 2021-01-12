@@ -40,7 +40,7 @@ const generateDefaultMatch = (
     }
 }
 
-export const actionGenerator = ({
+export const ActionGenerator = ({
     name,
     type,
     isNested=false,
