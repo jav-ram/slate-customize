@@ -32,7 +32,7 @@ const EditorElement = (...props) => {
 
     }, [])
 
-  
+
     return (
         <div>
             <Slate
@@ -42,13 +42,11 @@ const EditorElement = (...props) => {
                     setValue(value)
                     // Save the value to Local Storage.
                     const content = JSON.stringify(value);
-                    console.log(content)
                 }}>
                 <Editable
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
                         const s = editor.selection;
-                        console.log(s.anchor.offset, s.focus.offset);
                         if (event.key === 'a' && event.ctrlKey) {
                             event.preventDefault();
                             // Determine whether any of the currently selected blocks are code blocks.
@@ -62,7 +60,7 @@ const EditorElement = (...props) => {
                                     {
                                         at: s,
                                         match: n => Text.isText(n),
-                                        split: true, 
+                                        split: true,
                                         mode: 'lowest',
                                     }
                                 );

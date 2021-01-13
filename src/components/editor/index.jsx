@@ -1,15 +1,14 @@
 // @flow
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import isHotkey from 'is-hotkey';
-
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
-import { withHistory } from 'slate-history';
+import { Slate, Editable } from 'slate-react';
+
+import { withCusmize } from '../../customize';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
-
 import VariableDefinition from '../elements/Variable';
 import ListDefinition from '../elements/List';
 import ConditionalDefinition from '../elements/Conditional';
@@ -17,17 +16,7 @@ import ConditionalDefinition from '../elements/Conditional';
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
-    const editor = useMemo(() => withHistory(withReact(createEditor()), []), []);
-    const { isInline, isVoid } = editor;
-
-    editor.isInline = (node) => {
-        if (node.element === 'list' || node.element === 'variable' || node.text !== undefined) {
-            return true
-        }
-        return false
-    }
-
-
+    const editor = withCusmize(createEditor());
 
     const [value, setValue] = useState([
         {
@@ -58,7 +47,6 @@ const EditorElement = (): Node => {
         }
 
     }, [])
-    console.log(HoveringToolbar)
     return (
         <div>
             <Toolbar editor={editor} options={[VariableDefinition, ListDefinition, ConditionalDefinition]} />
@@ -75,7 +63,6 @@ const EditorElement = (): Node => {
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        console.log(event)
                         if (event.key === 'a' && event.ctrlKey) {}
                     }}
                 />

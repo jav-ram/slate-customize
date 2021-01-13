@@ -10,13 +10,6 @@ import styles from './list.module.css';
 
 const name = 'list';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
-    event.preventDefault();
-
-    const list = { type: 'block', element: name, children: [{ text: '' }] }
-    Transforms.wrapNodes(editor, list, { split: true })
-}
-
 const Element = (props: any) => (
     <p className={styles.wrapper} {...props.attributes}>
         {props.children}

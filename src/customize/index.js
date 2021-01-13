@@ -1,5 +1,29 @@
 // @flow
+import { withReact } from 'slate-react';
+import { withHistory } from 'slate-history';
+import { useMemo } from 'react';
 
-const ElementHandler = (element:string, editor:any, set:Function, unset:Function):Function => {
-    
-};
+import { withCommands } from './commands';
+
+const withCustomInlines = (elements: Array<string>): ((any) => any) => {
+    return (editor) => {
+        editor.isInline = (node) => {
+            return elements.includes(node.element ? node.element : '');
+        }
+        return editor;
+    }
+}
+
+
+
+export const withCusmize = (editor: any): any => {
+    const withInlines = withCustomInlines(['list', 'variable', 'conditional']); // FIXME: better way to call the names
+
+    editor = withReact(editor, []);
+    editor = withHistory(editor, []);
+
+    editor = withInlines(editor);
+    editor = withCommands(editor);
+
+    return useMemo(() => editor, []); // FIXME: take advantage of memoization
+}
