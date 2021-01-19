@@ -20,13 +20,13 @@ const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
 
 type ToolbarPropsType = {
     editor: any,
-    options: Array<ElementDefinition>,
+    options: {[string]: ElementDefinition},
 }
 
 const Toolbar = ({editor, options}: ToolbarPropsType) => (
     <div>
-        {options.map(
-            option => <ToolbarButton editor={editor} Icon={option.icon} action={option.action} />
+        {Object.entries(options).map(
+            ([_, option: ElementDefinition]) => <ToolbarButton editor={editor} Icon={option.icon} action={option.action} />
         )}
     </div>
 );

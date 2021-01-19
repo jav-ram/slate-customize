@@ -6,17 +6,19 @@ import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement 
 import { Slate, Editable } from 'slate-react';
 
 import { withCusmize } from '../../customize';
+import Decorator from '../../customize/decorator';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
-import VariableDefinition from '../elements/Variable';
-import ListDefinition from '../elements/List';
-import ConditionalDefinition from '../elements/Conditional';
+import { Elements } from '../elements';
+import error from '../elements/Error';
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
     const editor = withCusmize(createEditor());
+    const { list, variable, conditional } = Elements;
+    const decorator = Decorator;
 
     const [value, setValue] = useState([
         {
@@ -26,12 +28,12 @@ const EditorElement = (): Node => {
     ]);
 
     const renderElement = (props) => {
-        if (props.element.element === ListDefinition.name) {
-            const List = ListDefinition.component;
+        if (props.element.element === list.name) {
+            const List = list.component;
             return <List {...props} />
         }
-        if (props.element.element === ConditionalDefinition.name) {
-          const Conditional = ConditionalDefinition.component;
+        if (props.element.element === conditional.name) {
+          const Conditional = conditional.component;
           return <Conditional {...props} />
         }
         return <DefaultElement {...props} />
@@ -39,30 +41,36 @@ const EditorElement = (): Node => {
 
     const renderLeaf = useCallback( props => {
         switch (props.leaf.element) {
-        case VariableDefinition.name:
-            const Variable = VariableDefinition.component;
-            return <Variable {...props} />;
-        default:
-            return <span {...props.attributes}>{ props.children }</span>
+            case variable.name:
+                const Variable = variable.component;
+                return <Variable {...props} />;
+            case error.name:
+                const Error = error.component;
+                console.log(props.leaf.element, error.name);
+                return <Error {...props} />;
+            default:
+                return <span {...props.attributes}>{ props.children }</span>
         }
 
     }, [])
     return (
-        <div>
-            <Toolbar editor={editor} options={[VariableDefinition, ListDefinition, ConditionalDefinition]} />
+        <div spellcheck="false">
+            <Toolbar editor={editor} options={Elements} />
             <Slate
                 editor={editor}
                 value={value}
                 onChange={value => {
                 setValue(value)
                 // Save the value to Local Storage.
-                console.log(value)
+                console.log(value);
             }}>
                 <HoveringToolbar value={value} />
                 <Editable
+                    decorate={decorator}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
+                        console.log(editor.selection.anchor)
                         if (event.key === 'a' && event.ctrlKey) {}
                     }}
                 />

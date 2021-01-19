@@ -1,29 +1,29 @@
 // @flow
 import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-import { VscSymbolVariable } from 'react-icons/vsc';
+import { MdErrorOutline } from 'react-icons/md';
 
 import ActionGenerator from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
-import styles from './variable.module.css';
+import styles from './error.module.css';
 
-const name = 'variable';
-const command = 'v';
-const hotkey = 'ctrl+v';
+const name = 'error';
+const command = '';
+const hotkey = '';
 
 const Element = (props: any) => (
-    <span className={styles.wrapper} {...props.attributes}>
+    <span className={styles.error} {...props.attributes}>
         {props.children}
     </span>
 );
 
 const definition: ElementDefinition = {
     name,
-    action: ActionGenerator({ name, type: 'inline' }),
+    action: ()=>{},
     hotkey,
     command,
-    icon: VscSymbolVariable,
+    icon: MdErrorOutline,
     component: Element,
 };
 

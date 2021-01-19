@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolArray } from 'react-icons/vsc';
 
-import { ActionGenerator } from '../index';
+import ActionGenerator from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
 import styles from './list.module.css';
@@ -20,6 +20,7 @@ const definition: ElementDefinition = {
     name,
     action: ActionGenerator({ name, type: 'block', isNested: true }),
     hotkey: 'ctrl+l',
+    command: 'for',
     icon: VscSymbolArray,
     component: Element,
 }
