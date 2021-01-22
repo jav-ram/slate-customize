@@ -6,7 +6,6 @@ import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement 
 import { Slate, Editable } from 'slate-react';
 
 import { withCusmize } from '../../customize';
-import Decorator from '../../customize/decorator';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
@@ -16,9 +15,8 @@ import error from '../elements/Error';
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
-    const editor = withCusmize(createEditor());
+    const editor = withCusmize(createEditor(), Elements);
     const { list, variable, conditional } = Elements;
-    const decorator = Decorator;
 
     const [value, setValue] = useState([
         {
@@ -66,7 +64,6 @@ const EditorElement = (): Node => {
             }}>
                 <HoveringToolbar value={value} />
                 <Editable
-                    decorate={decorator}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {

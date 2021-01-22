@@ -12,7 +12,7 @@ type ToolbarButtonPropsType = {
 }
 
 const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
-    <button onClick={(event) => action(event, editor)}>
+    <button onClick={(event) => action({ event, editor })}>
         {Icon()}
     </button>
 );

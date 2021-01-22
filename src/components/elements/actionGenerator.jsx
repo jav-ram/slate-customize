@@ -2,9 +2,22 @@
 import { useSlate } from 'slate-react';
 import { Editor, Transforms, Text } from 'slate';
 
+// FIXME: MOVE IT OR IMPORT inspect
+// ----------------------------------
+export type PathLocation = {
+    offset: number,
+    path: Array<number>,
+}
+
+export type PathType = {
+    anchor: PathLocation,
+    focus: PathLocation,
+}
+// ----------------------------------
+
 export type ActionDefinitionType = {
-    before?: (SyntheticEvent<HTMLButtonElement>, any) => void,
-    after?: (SyntheticEvent<HTMLButtonElement>, any) => void,
+    before?: ActionFunctionType,
+    after?: ActionFunctionType,
 
     split?: boolean,
     match?: (any) => boolean,
@@ -17,6 +30,14 @@ export type handlererDefinitionType = {
     preventDefault?: boolean,
     actionDef?: ActionDefinitionType
 }
+
+export type ActionParamsType = {
+    event: ?SyntheticEvent<HTMLButtonElement>,
+    editor: any,
+    at: ?PathType,
+};
+
+type ActionFunctionType = (ActionParamsType) => void;
 
 const generateDefaultMatch = (
     editor,
@@ -37,37 +58,44 @@ const ActionGenerator = ({
     isNested=false,
     preventDefault=true,
     actionDef={},
-}: handlererDefinitionType): ((SyntheticEvent<HTMLButtonElement>, any) => void) => {
-    let action = (event, editor) =>  {
+}: handlererDefinitionType): ActionFunctionType => {
+    let action = ({event, editor, at}: ActionParamsType): void =>  {
         const defaultMatch = generateDefaultMatch(editor, name, 'element');
 
-        preventDefault && event.preventDefault();
-        actionDef.after && actionDef.after(event, editor);
+        preventDefault && event && event.preventDefault();
+        actionDef.after && actionDef.after({ event, editor, at });
 
         const match = actionDef.match ? actionDef.match : defaultMatch;
         const split = actionDef.split ? actionDef.split : true;
 
         // do stuff here
         if (isNested) {
+            const options = { split };
+            if (at) options.at = at;
             const list = { type: type, element: name, children: [{ text: '' }] }
-            Transforms.wrapNodes(editor, list, { split })
+            Transforms.wrapNodes(editor, list, options )
         } else {
             if (!match()) {
+                const options = { match: n => Text.isText(n) && n.type !== type, split: true };
+                if (at) options.at = at;
+                console.log(options);
                 Transforms.setNodes(
                     editor,
                     { element: name },
-                    { match: n => Text.isText(n) && n.type !== type, split: true }
+                    options,
                 );
             } else {
+                const options = { match: n => Text.isText(n) && n.type !== type };
+                if (at) options.at = at;
                 Transforms.unsetNodes(
                     editor,
                     ['element'],
-                    { match: n => Text.isText(n) && n.type !== type}
+                    options,
                 );
             }
         }
 
-        actionDef.before && actionDef.before(event, editor);
+        actionDef.before && actionDef.before({ event, editor, at });
     };
 
     return action;

@@ -3,7 +3,11 @@ const LanguageDefinition = {
         pattern: /v<.*>/,
         greedy: true,
     },
-    'error': /\w<([^(>|\S)]*)(\S+)/,
+    'list': {
+        pattern: /l<.*>/,
+        greedy: true,
+    },
+    
 };
 
 export default LanguageDefinition;
