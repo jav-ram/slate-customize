@@ -8,7 +8,7 @@ import type { ElementDefinition } from '../components/elements';
 
 import { withCommands } from './commands';
 import Tokenize from './commands/tokenizer';
-import { normalizeCommands } from './decorator';
+import { normalizeCommands } from './normalizers';
 
 const withCustomInlines = (elements: Array<string>): ((any) => any) => {
     return (editor) => {
@@ -33,7 +33,13 @@ const withCustomNormalizer = (elements: {[string]: ElementDefinition}): (any => 
                 for (const [child, childPath] of Node.children(editor, path)) {
                     normalize([child, childPath]);
                     if (Text.isText(child)) {
-                        normalizeCommands({ editor, node: child, path: childPath, elements, father: node });
+                        normalizeCommands({
+                            editor,
+                            node: child,
+                            path: childPath,
+                            elements, father: node,
+                            fatherPath: path
+                        });
                     }
 
                 }
