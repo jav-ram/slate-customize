@@ -1,13 +1,16 @@
 const LanguageDefinition = {
     'variable': {
-        pattern: /v<.*>/,
+        pattern: /\\var/,
         greedy: true,
     },
     'list': {
-        pattern: /l<.*>/,
+        pattern: /\\list/,
         greedy: true,
     },
-    
+    'command': {
+        pattern: /\\\w+/,
+    },
+
 };
 
 export default LanguageDefinition;

@@ -31,17 +31,17 @@ const withCustomNormalizer = (elements: {[string]: ElementDefinition}): (any => 
 
             if (Node.isNode(node) && node.children) {
                 for (const [child, childPath] of Node.children(editor, path)) {
-                    normalize([child, childPath]);
                     if (Text.isText(child)) {
                         normalizeCommands({
                             editor,
                             node: child,
                             path: childPath,
-                            elements, father: node,
+                            elements,
+                            father: node,
                             fatherPath: path
                         });
                     }
-
+                    normalize([child, childPath]);
                 }
             }
             normalizeNode(entry);
