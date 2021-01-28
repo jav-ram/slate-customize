@@ -1,5 +1,5 @@
 // @flow
-import { Text, Transforms } from 'slate';
+import { Text, Transforms, Element } from 'slate';
 import Tokenize from './commands/tokenizer';
 
 import type { PathType } from './commands';
@@ -24,12 +24,20 @@ const getLength = token => {
       }
 }
 
-const hasChildren = (node) => {
-    if (node.children) return true;
-    return false;
+const defaultNormalizer = entry => {
+    const [node, path] = entry;
+    // If the element is a paragraph, ensure its children are valid.
+    if (Element.isElement(node) && node.type === 'paragraph') {
+        for (const [child, childPath] of Node.children(editor, path)) {
+            if (Element.isElement(child) && !editor.isInline(child)) {
+                Transforms.unwrapNodes(editor, { at: childPath })
+                return;
+            }
+        }
+    }
 }
 
-const normalizeTextCommands = ({
+const normalizeCommand = ({
     editor,
     node,
     path,
@@ -38,51 +46,56 @@ const normalizeTextCommands = ({
     fatherPath,
 }: normalizerParamsType): void => {
     if (Text.isText(node)) {
+        // check for invalid commands
+        if (node.element && node.element === 'command') {
+            console.log('revisando ', node)
+            if (node.text[0] !== '\\') {
+                const element = elements['command'];
+                console.log({
+                    anchor: { offset: 0, path },
+                    focus: { offset: 0, path }
+                });
+                element.unset({
+                    editor
+                });
+                return;
+            }
+        }
+        // check if is command
         const tokens = Tokenize(node.text);
-        let start = 0;
 
-        for (let token of tokens) {
+        let start = 0;
+        for (const token of tokens) {
             const length = getLength(token);
             const end = start + length;
-
             if (typeof token !== 'string') {
-                // if command
-                if (token.type === 'command') {
-                    const range = editor.selection;
-                    const element = elements[token.type];
-                    console.log(start, range.anchor.offset, end);
-                    if (range.anchor.offset > start && range.anchor.offset <= end+1) {
-                        element.action({ editor,  at: {
-                            anchor: { path, offset: start },
-                            focus: { path, offset: end },
-                        }});
-                        return
-                    } else {
-                        console.log('por alguna razon estoy aqui')
-                        element.unset({ editor,  at: {
-                            anchor: { path, offset: start },
-                            focus: { path, offset: end },
-                        }})
-                        return;
-                    }
-                } else {
-                    const element = elements[token.type];
-                    element.action({ editor,  at: {
-                        anchor: { path, offset: start },
-                        focus: { path, offset: end },
-                    }});
+                if (token.alias === "command" && node.element === 'command') {
+                    return;
                 }
 
+                const element = elements[token.alias];
+                const len = end - start;
+                const cursor = end - len;
+
+                element.action({
+                    editor,
+                    at: {
+                        anchor: { offset: start, path },
+                        focus: { offset: end, path }
+                    }
+                });
+                return;
             }
 
             start = end;
         }
+
     }
     return;
 }
 
 export const normalizeCommands = (params: normalizerParamsType): void => {
-    //normalizeTextCommands(params);
+    normalizeCommand(params);
     return;
 
 };

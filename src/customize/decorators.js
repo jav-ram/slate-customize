@@ -19,23 +19,17 @@ const decorate = ([node, path]) => {
     const ranges = [];
     if (Text.isText(node)){
         const tokens = Tokenize(node.text);
-        let start = 0
-
+        let start = 0;
         for (const token of tokens) {
             const length = getLength(token);
             const end = start + length;
-            if (typeof token !== 'string' && token.type === 'command') {
-                ranges.push({
-                    element: token.type,
-                    anchor: { path, offset: start },
-                    focus: { path, offset: end },
-                });
+            if (typeof token !== 'string' && token.alias === 'command') {
+
             }
 
             start = end;
         }
     }
-    console.log(ranges);
     return ranges;
 }
 

@@ -69,7 +69,11 @@ const EditorElement = (): Node => {
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
                         console.log(editor.selection.anchor)
-                        if (event.key === 'a' && event.ctrlKey) {}
+                        if (event.keyCode === 13) {
+                            // Cancel the default action, if needed
+                            // event.preventDefault();
+                            console.log('enter');
+                        }
                     }}
                 />
             </Slate>

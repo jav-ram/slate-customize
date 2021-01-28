@@ -76,16 +76,16 @@ const ActionGenerator = ({
             Transforms.wrapNodes(editor, list, options )
         } else {
             if (!match()) {
-                const options = { match: n => Text.isText(n) && n.type !== type, split: true };
+                const options = { match: n => Text.isText(n) && n.type !== type, split: true, voids: false };
                 if (at) options.at = at;
-                console.log(options);
+                console.log(at);
                 Transforms.setNodes(
                     editor,
                     { element: name },
                     options,
                 );
             } else {
-                const options = { match: n => Text.isText(n) && n.type !== type };
+                const options = { match: n => Text.isText(n) && n.type !== type, voids: false };
                 if (at) options.at = at;
                 Transforms.unsetNodes(
                     editor,

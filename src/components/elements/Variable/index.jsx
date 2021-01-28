@@ -12,11 +12,17 @@ const name = 'variable';
 const command = 'v';
 const hotkey = 'ctrl+v';
 
-const Element = (props: any) => (
-    <span className={styles.wrapper} {...props.attributes}>
-        {props.children}
-    </span>
-);
+const Element = (props: any) => {
+    if (props.text.text === "") {
+        console.log(props.children);
+    }
+    return(
+        <span className={styles.wrapper} {...props.attributes}>
+            {props.children}
+        </span>
+    );
+}
+
 
 const definition: ElementDefinition = {
     name,

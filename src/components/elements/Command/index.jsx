@@ -36,7 +36,7 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
     if (at) options.at = at;
     Transforms.unsetNodes(
         editor,
-        [name],
+        ['element'],
         options,
     );
 }

@@ -1,14 +1,16 @@
 const LanguageDefinition = {
     'variable': {
-        pattern: /\\var/,
-        greedy: true,
+        pattern: /\\var \w*/,
+        alias: 'command',
+        lookahead: true,
     },
     'list': {
         pattern: /\\list/,
-        greedy: true,
+        alias: 'command',
     },
     'command': {
         pattern: /\\\w+/,
+        alias: 'command',
     },
 
 };
