@@ -52,7 +52,7 @@ const EditorElement = (): Node => {
 
     }, [])
     return (
-        <div spellcheck="false">
+        <div spellCheck="false">
             <Toolbar editor={editor} options={Elements} />
             <Slate
                 editor={editor}

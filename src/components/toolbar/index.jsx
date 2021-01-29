@@ -27,7 +27,7 @@ const Toolbar = ({editor, options}: ToolbarPropsType) => (
     <div>
         {Object.entries(options).map(
             ([_, option: ElementDefinition]) => (!option.hide ?
-                                                    <ToolbarButton editor={editor} Icon={option.icon} action={option.action} /> :
+                                                    <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
                                                     null
                                                 )
         )}

@@ -37,6 +37,36 @@ const defaultNormalizer = entry => {
     }
 }
 
+const normalizeOtherCommands = ({
+    editor,
+    node,
+    path,
+    elements,
+    father,
+    fatherPath,
+}: normalizerParamsType): void => {
+    const element = elements['command'];
+    const tokens = Tokenize(node.text);
+    if (node.element && node.element === 'command') {
+        let start = 0;
+        for (const token of tokens) {
+            const length = getLength(token);
+            const end = start + length;
+            if (typeof token !== 'string') {
+                element.action({
+                    editor,
+                    at: {
+                        anchor: { offset: start, path },
+                        focus: { offset: end, path }
+                    },
+                    token: token.type,
+                });
+            }
+            start = end;
+        }
+    }
+}
+
 const normalizeCommand = ({
     editor,
     node,
@@ -45,57 +75,45 @@ const normalizeCommand = ({
     father,
     fatherPath,
 }: normalizerParamsType): void => {
-    if (Text.isText(node)) {
-        // check for invalid commands
-        if (node.element && node.element === 'command') {
-            console.log('revisando ', node)
-            if (node.text[0] !== '\\') {
-                const element = elements['command'];
-                console.log({
-                    anchor: { offset: 0, path },
-                    focus: { offset: 0, path }
-                });
-                element.unset({
-                    editor
-                });
-                return;
-            }
+    const element = elements['command'];
+    // check for invalid commands
+    if (node.element && node.element === 'command') {
+        if (node.text[0] !== '\\') {
+            element.unset({
+                editor
+            });
+            return;
         }
-        // check if is command
-        const tokens = Tokenize(node.text);
-
-        let start = 0;
-        for (const token of tokens) {
-            const length = getLength(token);
-            const end = start + length;
-            if (typeof token !== 'string') {
-                if (token.alias === "command" && node.element === 'command') {
-                    return;
-                }
-
-                const element = elements[token.alias];
-                const len = end - start;
-                const cursor = end - len;
-
-                element.action({
-                    editor,
-                    at: {
-                        anchor: { offset: start, path },
-                        focus: { offset: end, path }
-                    }
-                });
-                return;
-            }
-
-            start = end;
-        }
-
     }
+    // check if is command
+    const tokens = Tokenize(node.text);
+
+    let start = 0;
+    for (const token of tokens) {
+        const length = getLength(token);
+        const end = start + length;
+        if (typeof token !== 'string' && node.element !== 'command') {
+            element.action({
+                editor,
+                at: {
+                    anchor: { offset: start, path },
+                    focus: { offset: end, path }
+                },
+                token: token.type,
+            });
+        }
+
+        start = end;
+    }
+
     return;
 }
 
 export const normalizeCommands = (params: normalizerParamsType): void => {
-    normalizeCommand(params);
+    if (Text.isText(params.node)) {
+        normalizeCommand(params);
+        normalizeOtherCommands(params);
+    }
     return;
 
 };

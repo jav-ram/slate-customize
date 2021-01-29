@@ -13,7 +13,7 @@ const name = 'command';
 const command = '';
 const hotkey = '';
 
-const set = ({event, editor, at}: ActionParamsType): void => {
+const set = ({event, editor, at, token}: ActionParamsType): void => {
     event && event.preventDefault();
     const options = {
         match: n => Text.isText(n) && n.type !== 'inline',
@@ -22,7 +22,7 @@ const set = ({event, editor, at}: ActionParamsType): void => {
     if (at) options.at = at;
     Transforms.setNodes(
         editor,
-        { element: name },
+        { element: name, token },
         options,
     );
 }
@@ -36,7 +36,7 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
     if (at) options.at = at;
     Transforms.unsetNodes(
         editor,
-        ['element'],
+        ['element', 'token'],
         options,
     );
 }
