@@ -1,6 +1,6 @@
 const LanguageDefinition = {
     'variable': {
-        pattern: /\\var \w*/,
+        pattern: /\\var .*/,
         alias: 'command',
         lookahead: true,
     },
@@ -12,7 +12,6 @@ const LanguageDefinition = {
         pattern: /\\\w+/,
         alias: 'command',
     },
-
 };
 
 export default LanguageDefinition;

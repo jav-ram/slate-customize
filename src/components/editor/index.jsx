@@ -2,10 +2,10 @@
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import isHotkey from 'is-hotkey';
-import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement } from 'slate';
+import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
 
-import { withCusmize } from '../../customize';
+import { withCustomize } from '../../customize';
 import Decorate from '../../customize/decorators';
 
 import Toolbar from '../toolbar';
@@ -13,10 +13,12 @@ import HoveringToolbar from '../hovermenu';
 import { Elements } from '../elements';
 import command from '../elements/Command';
 
+import { getNode } from '../hovermenu';
+
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
-    const editor = withCusmize(createEditor(), Elements);
+
     const { list, variable, conditional } = Elements;
 
     const [value, setValue] = useState([
@@ -25,7 +27,7 @@ const EditorElement = (): Node => {
             children: [{ text: 'A line of text in a paragraph.' }],
         },
     ]);
-
+    const editor = withCustomize(createEditor(), Elements, value);
     const renderElement = (props) => {
         if (props.element.element === list.name) {
             const List = list.component;
@@ -60,7 +62,9 @@ const EditorElement = (): Node => {
                 onChange={value => {
                 setValue(value)
                 // Save the value to Local Storage.
+                console.log('-------')
                 console.log(value);
+                console.log('-------')
             }}>
                 <HoveringToolbar value={value} />
                 <Editable
@@ -68,7 +72,10 @@ const EditorElement = (): Node => {
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        console.log(editor.selection.anchor)
+                        const path = editor.selection.anchor.path;
+                        console.log(path)
+                        const node = getNode(value, path);
+                        //console.log(node);
                         if (event.keyCode === 13) {
                             // Cancel the default action, if needed
                             // event.preventDefault();

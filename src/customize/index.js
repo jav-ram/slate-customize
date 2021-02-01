@@ -53,7 +53,7 @@ const withCustomNormalizer = (elements: {[string]: ElementDefinition}): (any => 
     return normalize;
 };
 
-export const withCusmize = (editor: any, elements: {[string]: ElementDefinition}): any => {
+export const withCustomize = (editor: any, elements: {[string]: ElementDefinition}): any => {
     const withInlines = withCustomInlines(['list', 'variable', 'conditional']); // FIXME: better way to call the names
     const withNormalize = withCustomNormalizer(elements);
 

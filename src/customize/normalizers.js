@@ -9,7 +9,7 @@ export type normalizerParamsType = {
     editor: any,
     node: any,
     path: PathType,
-    elements: Array<ElementDefinition>,
+    elements: {[string]: ElementDefinition},
     father: any,
     fatherPath: PathType,
 };
@@ -46,23 +46,19 @@ const normalizeOtherCommands = ({
     fatherPath,
 }: normalizerParamsType): void => {
     const element = elements['command'];
-    const tokens = Tokenize(node.text);
-    if (node.element && node.element === 'command') {
-        let start = 0;
-        for (const token of tokens) {
-            const length = getLength(token);
-            const end = start + length;
-            if (typeof token !== 'string') {
-                element.action({
-                    editor,
-                    at: {
-                        anchor: { offset: start, path },
-                        focus: { offset: end, path }
-                    },
-                    token: token.type,
-                });
-            }
-            start = end;
+    const tokens = Tokenize(node.text).filter(token => typeof token !== 'string');
+    if (node.element && node.element === 'command' && tokens.length > 0) {
+        const token = tokens[0];
+        if (node.token !== token.type) {
+
+            element.action({
+                editor,
+                at: {
+                    anchor: {offset: 0, path},
+                    focus: {offset: node.text.length, path}
+                },
+                token: token.type,
+            });
         }
     }
 }
@@ -99,7 +95,7 @@ const normalizeCommand = ({
                     anchor: { offset: start, path },
                     focus: { offset: end, path }
                 },
-                token: token.type,
+                token: 'command',
             });
         }
 
