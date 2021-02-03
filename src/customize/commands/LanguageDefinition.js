@@ -5,7 +5,7 @@ const LanguageDefinition = {
         lookahead: true,
     },
     'list': {
-        pattern: /\\list/,
+        pattern: /\\list .*/,
         alias: 'command',
     },
     'command': {

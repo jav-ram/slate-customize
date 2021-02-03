@@ -24,7 +24,7 @@ const EditorElement = (): Node => {
     const [value, setValue] = useState([
         {
             type: 'paragraph',
-            children: [{ text: 'A line of text in a paragraph.' }],
+            children: [{ text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nisl nisi, placerat nec eros ac, finibus lacinia leo. Aenean sagittis ligula molestie felis gravida, tempus placerat libero lobortis. Aenean efficitur scelerisque augue, eu gravida tellus egestas eget. Vestibulum rutrum mauris et massa blandit, sit amet semper ipsum mollis. Duis euismod sapien dolor, non consequat leo eleifend ut. Nam libero lectus, rutrum vel velit eu, semper porta diam. Integer ultricies odio id tincidunt rutrum. Duis tristique diam justo, placerat viverra leo laoreet pharetra. Aenean sed vestibulum odio, vitae sollicitudin magna. Curabitur id augue vel nisi vehicula molestie commodo at tellus. Aliquam ut bibendum mauris. Proin sed urna dolor. Vestibulum nec velit nec arcu vulputate pharetra. Praesent nibh massa, gravida sit amet dui a, ultrices maximus eros. Integer iaculis metus et velit eleifend lobortis eu quis odio. Nullam sed aliquam diam, iaculis iaculis sem.' }],
         },
     ]);
     const editor = withCustomize(createEditor(), Elements, value);
@@ -62,9 +62,7 @@ const EditorElement = (): Node => {
                 onChange={value => {
                 setValue(value)
                 // Save the value to Local Storage.
-                console.log('-------')
                 console.log(value);
-                console.log('-------')
             }}>
                 <HoveringToolbar value={value} />
                 <Editable
@@ -73,13 +71,26 @@ const EditorElement = (): Node => {
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
                         const path = editor.selection.anchor.path;
-                        console.log(path)
                         const node = getNode(value, path);
-                        //console.log(node);
-                        if (event.keyCode === 13) {
+                        console.log(path);
+                        if (event.keyCode === 13 && node.element && node.element === 'command' && node.token !== 'command') {
                             // Cancel the default action, if needed
-                            // event.preventDefault();
-                            console.log('enter');
+                            event.preventDefault();
+                            const element = Elements[node.token];
+                            const text = node.text.replace('\\var ', '');
+
+                            Transforms.delete(editor, {
+                                at: {
+                                    anchor: { offset: 0, path},
+                                    focus: { offset: node.text.length, path},
+                                }
+                            });
+
+                            Transforms.insertNodes(editor, {
+                                element: element.name,
+                                text
+                            },)
+
                         }
                     }}
                 />
