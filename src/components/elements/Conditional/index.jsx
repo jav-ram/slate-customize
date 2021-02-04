@@ -3,19 +3,12 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
-import { actionGenerator } from '../index';
+import ActionGenerator from '../actionGenerator';
+import type { ElementDefinition } from '../index';
 
 import styles from './conditional.module.css';
 
 const name = 'conditional';
-
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
-    event.preventDefault();
-
-    const list = { type: 'block', element: name, children: [{ text: '' }] }
-    Transforms.wrapNodes(editor, list, { split: true })
-}
-
 
 const Element = (props) => (
     <p className={styles.wrapper} {...props.attributes}>
@@ -23,10 +16,11 @@ const Element = (props) => (
     </p>
 );
 
-const definition = {
+const definition: ElementDefinition = {
     name,
-    action: actionGenerator({ name, type: 'block', isNested: true }),
-    hotkey: 'ctrl+i',
+    action: ActionGenerator({ name, type: 'block', isNested: true }),
+    hotkey: 'ctrl+v',
+    command: 'if',
     icon: GiChoice,
     component: Element,
 }

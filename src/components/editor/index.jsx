@@ -1,48 +1,40 @@
 // @flow
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
 import isHotkey from 'is-hotkey';
+import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
+import { Slate, Editable } from 'slate-react';
 
-import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
-import { withHistory } from 'slate-history';
+import { withCustomize } from '../../customize';
+import Decorate from '../../customize/decorators';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
+import { Elements } from '../elements';
+import command from '../elements/Command';
 
-import VariableDefinition from '../elements/Variable';
-import ListDefinition from '../elements/List';
-import ConditionalDefinition from '../elements/Conditional';
+import { getNode } from '../hovermenu';
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
-    const editor = useMemo(() => withHistory(withReact(createEditor()), []), []);
-    const { isInline, isVoid } = editor;
 
-    editor.isInline = (node) => {
-        if (node.element === 'list' || node.element === 'variable' || node.text !== undefined) {
-            return true
-        }
-        return false
-    }
-
-
+    const { list, variable, conditional } = Elements;
 
     const [value, setValue] = useState([
         {
             type: 'paragraph',
-            children: [{ text: 'A line of text in a paragraph.' }],
+            children: [{ text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nisl nisi, placerat nec eros ac, finibus lacinia leo. Aenean sagittis ligula molestie felis gravida, tempus placerat libero lobortis. Aenean efficitur scelerisque augue, eu gravida tellus egestas eget. Vestibulum rutrum mauris et massa blandit, sit amet semper ipsum mollis. Duis euismod sapien dolor, non consequat leo eleifend ut. Nam libero lectus, rutrum vel velit eu, semper porta diam. Integer ultricies odio id tincidunt rutrum. Duis tristique diam justo, placerat viverra leo laoreet pharetra. Aenean sed vestibulum odio, vitae sollicitudin magna. Curabitur id augue vel nisi vehicula molestie commodo at tellus. Aliquam ut bibendum mauris. Proin sed urna dolor. Vestibulum nec velit nec arcu vulputate pharetra. Praesent nibh massa, gravida sit amet dui a, ultrices maximus eros. Integer iaculis metus et velit eleifend lobortis eu quis odio. Nullam sed aliquam diam, iaculis iaculis sem.' }],
         },
     ]);
-
+    const editor = withCustomize(createEditor(), Elements, value);
     const renderElement = (props) => {
-        if (props.element.element === ListDefinition.name) {
-            const List = ListDefinition.component;
+        if (props.element.element === list.name) {
+            const List = list.component;
             return <List {...props} />
         }
-        if (props.element.element === ConditionalDefinition.name) {
-          const Conditional = ConditionalDefinition.component;
+        if (props.element.element === conditional.name) {
+          const Conditional = conditional.component;
           return <Conditional {...props} />
         }
         return <DefaultElement {...props} />
@@ -50,33 +42,56 @@ const EditorElement = (): Node => {
 
     const renderLeaf = useCallback( props => {
         switch (props.leaf.element) {
-        case VariableDefinition.name:
-            const Variable = VariableDefinition.component;
-            return <Variable {...props} />;
-        default:
-            return <span {...props.attributes}>{ props.children }</span>
+            case variable.name:
+                const Variable = variable.component;
+                return <Variable {...props} />;
+            case command.name:
+                const Command = command.component;
+                return <Command {...props} />;
+            default:
+                return <span {...props.attributes}>{ props.children }</span>
         }
 
     }, [])
-    console.log(HoveringToolbar)
     return (
-        <div>
-            <Toolbar editor={editor} options={[VariableDefinition, ListDefinition, ConditionalDefinition]} />
+        <div spellCheck="false">
+            <Toolbar editor={editor} options={Elements} />
             <Slate
                 editor={editor}
                 value={value}
                 onChange={value => {
                 setValue(value)
                 // Save the value to Local Storage.
-                console.log(value)
+                console.log(value);
             }}>
                 <HoveringToolbar value={value} />
                 <Editable
+                    decorate={Decorate}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        console.log(event)
-                        if (event.key === 'a' && event.ctrlKey) {}
+                        const path = editor.selection.anchor.path;
+                        const node = getNode(value, path);
+                        console.log(path);
+                        if (event.keyCode === 13 && node.element && node.element === 'command' && node.token !== 'command') {
+                            // Cancel the default action, if needed
+                            event.preventDefault();
+                            const element = Elements[node.token];
+                            const text = node.text.replace('\\var ', '');
+
+                            Transforms.delete(editor, {
+                                at: {
+                                    anchor: { offset: 0, path},
+                                    focus: { offset: node.text.length, path},
+                                }
+                            });
+
+                            Transforms.insertNodes(editor, {
+                                element: element.name,
+                                text
+                            },)
+
+                        }
                     }}
                 />
             </Slate>

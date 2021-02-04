@@ -70,12 +70,10 @@ const HoveringToolbar = ({ value }) => {
 };
 
 // FIXME: arreglar esta funcion y moverla a otro lado
-const getNode = (root, path): any => {
+export const getNode = (root, path): any => {
   const pos = path;
-  console.log(path, pos);
   let current = root;
     for (let i of pos) {
-        console.log(i);
         let nCurrent = current.children ? current.children[i] : current[i];
         if (!nCurrent || (!nCurrent.element && nCurrent.text)) {
             return current;

@@ -3,47 +3,32 @@ import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
-import { actionGenerator } from '../index';
-
+import ActionGenerator from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
 import styles from './variable.module.css';
 
 const name = 'variable';
+const command = 'v';
+const hotkey = 'ctrl+v';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor: any) => {
-    event.preventDefault();
-
-    const [match] = Editor.nodes(editor, {
-        match: n => n.element === name,
-    });
-
-    if (!match) {
-        Transforms.setNodes(
-            editor,
-            { element: name },
-            { match: n => Text.isText(n) && n.type !== 'block', split: true }
-        );
-    } else {
-        Transforms.unsetNodes(
-            editor,
-            ['element'],
-            { match: n => Text.isText(n) && n.type !== 'block'}
-        );
+const Element = (props: any) => {
+    if (props.text.text === "") {
+        console.log(props.children);
     }
-
+    return(
+        <span className={styles.wrapper} {...props.attributes}>
+            {props.children}
+        </span>
+    );
 }
 
-const Element = (props: any) => (
-    <span className={styles.wrapper} {...props.attributes}>
-        {props.children}
-    </span>
-);
 
 const definition: ElementDefinition = {
     name,
-    action: actionGenerator({ name, type: 'inline' }),
-    hotkey: 'ctrl+v',
+    action: ActionGenerator({ name, type: 'inline' }),
+    hotkey,
+    command,
     icon: VscSymbolVariable,
     component: Element,
 };
