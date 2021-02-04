@@ -11,12 +11,16 @@ import * as styles from './index.module.css';
 
 export type ElementDefinition = {
     name: string,
-    action: Function,
-    hotkey: string,
     command: string,
+    description?: string,
+    hotkey?: string,
+
+    action: Function,
     icon: Function,
     component: ComponentType<*>,
-    hide?: boolean,
+    input: ComponentType<*>,
+
+    hideInToolbar?: boolean,
     unset?: Function,
 };
 

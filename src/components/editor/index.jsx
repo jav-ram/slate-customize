@@ -72,7 +72,7 @@ const EditorElement = (): Node => {
                     onKeyDown={event => {
                         const path = editor.selection.anchor.path;
                         const node = getNode(value, path);
-                        console.log(path);
+
                         if (event.keyCode === 13 && node.element && node.element === 'command' && node.token !== 'command') {
                             // Cancel the default action, if needed
                             event.preventDefault();
