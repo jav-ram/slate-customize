@@ -6,9 +6,8 @@ import { Text, Element, Node } from 'slate';
 
 import type { ElementDefinition } from '../components/elements';
 
-import { withCommands } from './commands';
+import withCommands from './commands';
 import Tokenize from './commands/tokenizer';
-import { normalizeCommands } from './normalizers';
 
 const withCustomInlines = (elements: Array<string>): ((any) => any) => {
     return (editor) => {
@@ -55,13 +54,11 @@ const withCustomNormalizer = (elements: {[string]: ElementDefinition}): (any => 
 
 export const withCustomize = (editor: any, elements: {[string]: ElementDefinition}): any => {
     const withInlines = withCustomInlines(['list', 'variable', 'conditional']); // FIXME: better way to call the names
-    const withNormalize = withCustomNormalizer(elements);
 
     editor = withReact(editor, []);
     editor = withHistory(editor, []);
 
     editor = withInlines(editor);
-    editor = withNormalize(editor);
     editor = withCommands(editor);
 
     return useMemo(() => editor, []); // FIXME: take advantage of memoization

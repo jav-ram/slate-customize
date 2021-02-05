@@ -18,7 +18,7 @@ export type ElementDefinition = {
     action: Function,
     icon: Function,
     component: ComponentType<*>,
-    input: ComponentType<*>,
+    input?: ComponentType<*>,
 
     hideInToolbar?: boolean,
     unset?: Function,

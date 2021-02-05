@@ -6,7 +6,7 @@ import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement,
 import { Slate, Editable } from 'slate-react';
 
 import { withCustomize } from '../../customize';
-import Decorate from '../../customize/decorators';
+import { customizeOnKeyDown } from '../../customize/commands';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
@@ -60,38 +60,17 @@ const EditorElement = (): Node => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                setValue(value)
-                // Save the value to Local Storage.
-                console.log(value);
-            }}>
+                    setValue(value)
+                    // Save the value to Local Storage.
+                    console.log(value);
+                }}
+            >
                 <HoveringToolbar value={value} />
                 <Editable
-                    decorate={Decorate}
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        const path = editor.selection.anchor.path;
-                        const node = getNode(value, path);
-
-                        if (event.keyCode === 13 && node.element && node.element === 'command' && node.token !== 'command') {
-                            // Cancel the default action, if needed
-                            event.preventDefault();
-                            const element = Elements[node.token];
-                            const text = node.text.replace('\\var ', '');
-
-                            Transforms.delete(editor, {
-                                at: {
-                                    anchor: { offset: 0, path},
-                                    focus: { offset: node.text.length, path},
-                                }
-                            });
-
-                            Transforms.insertNodes(editor, {
-                                element: element.name,
-                                text
-                            },)
-
-                        }
+                        customizeOnKeyDown(event, editor);
                     }}
                 />
             </Slate>

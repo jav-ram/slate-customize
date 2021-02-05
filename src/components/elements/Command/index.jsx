@@ -14,7 +14,6 @@ const command = '';
 const hotkey = '';
 
 const set = ({event, editor, at, token}: ActionParamsType): void => {
-    event && event.preventDefault();
     const options = {
         match: n => Text.isText(n) && n.type !== 'inline',
         split: true,
@@ -28,7 +27,6 @@ const set = ({event, editor, at, token}: ActionParamsType): void => {
 }
 
 export const unset = ({event, editor, at}: ActionParamsType): void => {
-    event && event.preventDefault();
     const options = {
         match: n => Text.isText(n) && n.type !== 'inline',
         split: true,
@@ -54,7 +52,7 @@ const definition: ElementDefinition = {
     command,
     icon: MdErrorOutline,
     component: Element,
-    hide: true,
+    hideInToolbar: true,
     unset: unset,
 };
 
