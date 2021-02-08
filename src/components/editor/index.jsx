@@ -1,11 +1,12 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
+import _ from 'lodash';
 import isHotkey from 'is-hotkey';
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
 
-import { withCustomize } from '../../customize';
+import { withCustomize, iterateSlateValue } from '../../customize';
 import { customizeOnKeyDown } from '../../customize/commands';
 
 import Toolbar from '../toolbar';
@@ -34,13 +35,13 @@ const EditorElement = (): Node => {
             return <List {...props} />
         }
         if (props.element.element === conditional.name) {
-          const Conditional = conditional.component;
-          return <Conditional {...props} />
+            const Conditional = conditional.component;
+            return <Conditional {...props} />
         }
         return <DefaultElement {...props} />
     }
 
-    const renderLeaf = useCallback( props => {
+    const renderLeaf = useCallback(props => {
         switch (props.leaf.element) {
             case variable.name:
                 const Variable = variable.component;
@@ -49,7 +50,7 @@ const EditorElement = (): Node => {
                 const Command = command.component;
                 return <Command {...props} />;
             default:
-                return <span {...props.attributes}>{ props.children }</span>
+                return <span {...props.attributes}>{props.children}</span>
         }
 
     }, [])
@@ -60,7 +61,7 @@ const EditorElement = (): Node => {
                 editor={editor}
                 value={value}
                 onChange={value => {
-                    setValue(value)
+                    setValue(value);
                     // Save the value to Local Storage.
                     console.log(value);
                 }}

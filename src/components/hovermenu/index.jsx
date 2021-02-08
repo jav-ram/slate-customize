@@ -37,7 +37,6 @@ const HoveringToolbar = ({ value }) => {
         const domSelection = window.getSelection();
         const domRange = domSelection.getRangeAt(0);
         const rect = domRange.getBoundingClientRect();
-        console.log('a', rect.top, window.pageYOffset, -el.offsetHeight);
         el.style.opacity = '1';
         el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`;
         el.style.left = `${rect.left

@@ -7,6 +7,7 @@ import { Text, Element, Node } from 'slate';
 import type { ElementDefinition } from '../components/elements';
 
 import withCommands from './commands';
+import { iterateValue } from './extras'
 import Tokenize from './commands/tokenizer';
 
 const withCustomInlines = (elements: Array<string>): ((any) => any) => {
@@ -63,3 +64,5 @@ export const withCustomize = (editor: any, elements: {[string]: ElementDefinitio
 
     return useMemo(() => editor, []); // FIXME: take advantage of memoization
 }
+
+export const iterateSlateValue = iterateValue;
