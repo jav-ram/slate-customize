@@ -39,11 +39,34 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
     );
 }
 
-const Element = (props: any) => (
-    <span className={styles.command} {...props.attributes}>
-        {props.children}
-    </span>
-);
+const Element = (props: any) => {
+    const text = props.children.props.text.text;
+    console.log(text === '/' || text === '/ ')
+    return (
+        <span className={styles.command}>
+            <span {...props.attributes}>
+                {props.children}
+            </span>
+            { text === '/' || text === '/ ' ? 
+                <span
+                style={{
+                    pointerEvents: "none",
+                    display: "inline",
+                    width: "0",
+                    maxWidth: "100%",
+                    whiteSpace: "nowrap",
+                    opacity: 0.333,
+                    verticalAlign: "text-top",
+        
+                    // placeholders shouldn't interfere with height
+                    // of the object
+                    height: 0
+                  }} contentEditable={false}> Insert command... </span>
+                : null
+            }
+        </span>
+    );
+}
 
 const definition: ElementDefinition = {
     name,

@@ -29,11 +29,11 @@ const iterativeNormalize = iterateValue(normalize);
 export const withCommand = (editor: any): any => {
     const { normalizeNode } = editor
 
-    editor.normalizeNode = entry => {
+    editor.normalizeNode = (entry: [any, [number]]) => {
         const [node, path] = entry
 
         // If the element is a paragraph, ensure its children are valid.
-        iterativeNormalize({editor, value: node});
+        iterativeNormalize({ editor, value: node });
 
         // Fall back to the original `normalizeNode` to enforce other constraints.
         normalizeNode(entry)
