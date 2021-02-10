@@ -1,9 +1,10 @@
 // @flow
-import React from 'react';
+import React, { useState } from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { MdErrorOutline } from 'react-icons/md';
 
-import ActionGenerator from '../actionGenerator';
+import Menu from './menu';
+import { Elements } from '../index';
 import type { ActionParamsType } from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
@@ -13,7 +14,7 @@ const name = 'command';
 const command = '';
 const hotkey = '';
 
-const set = ({event, editor, at, token}: ActionParamsType): void => {
+const set = ({event, editor, at}: ActionParamsType): void => {
     const options = {
         match: n => Text.isText(n) && n.type !== 'inline',
         split: true,
@@ -21,7 +22,7 @@ const set = ({event, editor, at, token}: ActionParamsType): void => {
     if (at) options.at = at;
     Transforms.setNodes(
         editor,
-        { element: name, token },
+        { element: name },
         options,
     );
 }
@@ -34,21 +35,15 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
     if (at) options.at = at;
     Transforms.unsetNodes(
         editor,
-        ['element', 'token'],
+        ['element'],
         options,
     );
 }
 
-const Element = (props: any) => {
-    const text = props.children.props.text.text;
-    console.log(text === '/' || text === '/ ')
-    return (
-        <span className={styles.command}>
-            <span {...props.attributes}>
-                {props.children}
-            </span>
-            { text === '/' || text === '/ ' ? 
-                <span
+const Placeholder = (props) => {
+    if (props.condition) {
+        return (
+            <span
                 style={{
                     pointerEvents: "none",
                     display: "inline",
@@ -57,13 +52,31 @@ const Element = (props: any) => {
                     whiteSpace: "nowrap",
                     opacity: 0.333,
                     verticalAlign: "text-top",
-        
+
                     // placeholders shouldn't interfere with height
                     // of the object
                     height: 0
-                  }} contentEditable={false}> Insert command... </span>
-                : null
-            }
+                }}
+                contentEditable={false}
+            >
+                {props.children}
+            </span>
+        );
+    }
+    return null;
+}
+
+const Element = (props: any) => {
+    const text = props.children.props.text.text;
+    return (
+        <span
+            className={styles.command}
+        >
+            <span {...props.attributes}>
+                {props.children}
+            </span>
+            <Placeholder condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
+            <Menu elements={Elements} />
         </span>
     );
 }

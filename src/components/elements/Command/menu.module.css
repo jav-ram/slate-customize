@@ -1,0 +1,12 @@
+.menuContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    min-width: 5rem;
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: row;
+}
