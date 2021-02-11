@@ -26,7 +26,6 @@ const HoveringToolbar = ({ value }) => {
 
         if (
             !selection
-            || true
             || !ReactEditor.isFocused(editor)
             || !selected.element
         ) {

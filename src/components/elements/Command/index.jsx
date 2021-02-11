@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { MdErrorOutline } from 'react-icons/md';
 
@@ -67,16 +67,18 @@ const Placeholder = (props) => {
 }
 
 const Element = (props: any) => {
+    const ref = useRef<HTMLDivElement | void>();
     const text = props.children.props.text.text;
     return (
         <span
+            ref={ref}
             className={styles.command}
         >
             <span {...props.attributes}>
                 {props.children}
             </span>
             <Placeholder condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
-            <Menu elements={Elements} />
+            <Menu text={text} command={ref} elements={Elements} />
         </span>
     );
 }

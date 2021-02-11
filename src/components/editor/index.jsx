@@ -66,7 +66,7 @@ const EditorElement = (): Node => {
                     console.log(value);
                 }}
             >
-                <HoveringToolbar value={value} />
+                {/* <HoveringToolbar value={value} /> */}
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
