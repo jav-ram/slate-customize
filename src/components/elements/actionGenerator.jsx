@@ -117,3 +117,27 @@ export const UnsetGenerator = ({
 
     return unset;
 }
+
+export const InsertGenerator = ({
+    name,
+    type,
+    isNested=false,
+    preventDefault=false,
+    actionDef={}
+}: handlererDefinitionType): ActionFunctionType => {
+    let insert = ({ event, editor, at, meta }: transformParamsType): void => {
+        let metaOptions = {};
+        if (meta && meta.options) metaOptions = meta.options;
+        preventDefault && event && event.preventDefault();
+
+        const options = { split: true, ...metaOptions };
+        if (at) options.at = at;
+
+        Transforms.insertNodes(
+            editor,
+            meta.element ? meta.element : {},
+            options,
+        );
+    }
+    return insert;
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
-import ActionGenerator from '../actionGenerator';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
 import styles from './variable.module.css';
@@ -12,6 +12,9 @@ const name = 'variable';
 const command = 'var';
 const type = 'inline';
 
+const set = SetGenerator({ name, type });
+const unset = UnsetGenerator({ name, type });
+const insert = InsertGenerator({ name, type });
 
 const Element = (props: any) => {
     if (props.text.text === "") {
@@ -31,6 +34,10 @@ const definition: ElementDefinition = {
     icon: VscSymbolVariable,
     component: Element,
     type,
+
+    set,
+    unset,
+    insert,
 };
 
 export default definition;

@@ -3,12 +3,18 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
-import ActionGenerator from '../actionGenerator';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
 import styles from './conditional.module.css';
 
 const name = 'conditional';
+const command = 'conditional';
+const type = 'block';
+
+const set = SetGenerator({ name, type });
+const unset = UnsetGenerator({ name, type });
+const insert = InsertGenerator({ name, type });
 
 const Element = (props) => (
     <p className={styles.wrapper} {...props.attributes}>
@@ -18,11 +24,14 @@ const Element = (props) => (
 
 const definition: ElementDefinition = {
     name,
-    action: ActionGenerator({ name, type: 'block', isNested: true }),
-    hotkey: 'ctrl+v',
-    command: 'if',
+    command,
+    type,
     icon: GiChoice,
     component: Element,
+
+    set,
+    unset,
+    insert,
 }
 
 export default definition;

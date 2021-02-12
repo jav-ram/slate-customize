@@ -1,10 +1,13 @@
 // @flow
-import React, { useRef } from 'react';
+import * as React from 'react';
+import { useRef } from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { MdErrorOutline } from 'react-icons/md';
 
 import Menu from './menu';
 import { Elements } from '../index';
+import { InsertGenerator } from '../actionGenerator';
+
 import type { ActionParamsType } from '../actionGenerator';
 import type { ElementDefinition } from '../index';
 
@@ -40,6 +43,8 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
     );
 }
 
+const insert = InsertGenerator({ name, type });
+
 const Placeholder = (props) => {
     if (props.condition) {
         return (
@@ -67,7 +72,7 @@ const Placeholder = (props) => {
 }
 
 const Element = (props: any) => {
-    const ref = useRef<HTMLSpanElement | any>();
+    const ref = useRef<?React.ElementRef<'span'>>();
     const text = props.children.props.text.text;
     return (
         <span
@@ -90,6 +95,7 @@ const definition: ElementDefinition = {
     type,
     set,
     unset,
+    insert,
 };
 
 export default definition;

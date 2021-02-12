@@ -9,7 +9,7 @@ import type { ElementDefinition } from '../index';
 import styles from './menu.module.css';
 
 type MenuPropsType = {
-    command: ?React.ElementRef<'span'>,
+    command?: React.ElementRef<'span'>,
     elements: {[string]: ElementDefinition},
     text: string
 }
@@ -39,7 +39,7 @@ const filterCommand = (elements, text): [ElementDefinition] => {
 }
 
 const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
-    const ref = useRef<?React.ElementRef<'span'>>();
+    const ref = useRef<?React.ElementRef<'div'>>();
     useEffect(() => {
         const el = ref.current;
 
