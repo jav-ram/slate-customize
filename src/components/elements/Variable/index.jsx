@@ -9,8 +9,9 @@ import type { ElementDefinition } from '../index';
 import styles from './variable.module.css';
 
 const name = 'variable';
-const command = 'v';
-const hotkey = 'ctrl+v';
+const command = 'var';
+const type = 'inline';
+
 
 const Element = (props: any) => {
     if (props.text.text === "") {
@@ -26,11 +27,10 @@ const Element = (props: any) => {
 
 const definition: ElementDefinition = {
     name,
-    action: ActionGenerator({ name, type: 'inline' }),
-    hotkey,
     command,
     icon: VscSymbolVariable,
     component: Element,
+    type,
 };
 
 export default definition;

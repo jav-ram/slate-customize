@@ -2,6 +2,8 @@
 import { useSlate } from 'slate-react';
 import { Editor, Transforms, Text } from 'slate';
 
+import type { transformParamsType } from './index';
+
 // FIXME: MOVE IT OR IMPORT inspect
 // ----------------------------------
 export type PathLocation = {
@@ -32,9 +34,10 @@ export type handlererDefinitionType = {
 }
 
 export type ActionParamsType = {
-    event: ?SyntheticEvent<HTMLButtonElement>,
+    event?: SyntheticEvent<HTMLButtonElement>,
     editor: any,
-    at: ?PathType,
+    at?: PathType,
+    meta?: any,
 };
 
 type ActionFunctionType = (ActionParamsType) => void;
@@ -52,14 +55,14 @@ const generateDefaultMatch = (
     }
 }
 
-const ActionGenerator = ({
+export const SetGenerator = ({
     name,
     type,
     isNested=false,
-    preventDefault=true,
-    actionDef={},
-}: handlererDefinitionType): ActionFunctionType => {
-    let action = ({event, editor, at}: ActionParamsType): void =>  {
+    preventDefault=false,
+    actionDef={}
+}: handlererDefinitionType) => {
+    let set = ({ event, editor, at, meta }: transformParamsType): void => {
         const defaultMatch = generateDefaultMatch(editor, name, 'element');
 
         preventDefault && event && event.preventDefault();
@@ -68,36 +71,49 @@ const ActionGenerator = ({
         const match = actionDef.match ? actionDef.match : defaultMatch;
         const split = actionDef.split ? actionDef.split : true;
 
-        // do stuff here
         if (isNested) {
             const options = { split };
             if (at) options.at = at;
             const list = { type: type, element: name, children: [{ text: '' }] }
             Transforms.wrapNodes(editor, list, options )
         } else {
-            if (!match()) {
-                const options = { match: n => Text.isText(n) && n.type !== type, split: true };
-                if (at) options.at = at;
-                Transforms.setNodes(
-                    editor,
-                    { element: name },
-                    options,
-                );
-            } else {
-                const options = { match: n => Text.isText(n) && n.type !== type };
-                if (at) options.at = at;
-                Transforms.unsetNodes(
-                    editor,
-                    ['element'],
-                    options,
-                );
-            }
+            const options = { match: n => Text.isText(n) && n.type !== type, split: true };
+            if (at) options.at = at;
+            Transforms.setNodes(
+                editor,
+                { element: name },
+                options,
+            );
         }
+    }
 
-        actionDef.before && actionDef.before({ event, editor, at });
-    };
+    return set;
+}
 
-    return action;
-};
+export const UnsetGenerator = ({
+    name,
+    type,
+    isNested=false,
+    preventDefault=false,
+    actionDef={}
+}: handlererDefinitionType): ActionFunctionType => {
+    let unset = ({ event, editor, at, meta }: transformParamsType): void => {
+        const defaultMatch = generateDefaultMatch(editor, name, 'element');
 
-export default ActionGenerator;
+        preventDefault && event && event.preventDefault();
+        actionDef.after && actionDef.after({ event, editor, at });
+
+        const match = actionDef.match ? actionDef.match : defaultMatch;
+        const split = actionDef.split ? actionDef.split : true;
+
+        const options = { match: n => Text.isText(n) && n.type !== type };
+        if (at) options.at = at;
+        Transforms.unsetNodes(
+            editor,
+            ['element'],
+            options,
+        );
+    }
+
+    return unset;
+}

@@ -12,11 +12,11 @@ import styles from './command.module.css';
 
 const name = 'command';
 const command = '';
-const hotkey = '';
+const type = 'inline';
 
-const set = ({event, editor, at}: ActionParamsType): void => {
+const set = ({ event, editor, at }: ActionParamsType): void => {
     const options = {
-        match: n => Text.isText(n) && n.type !== 'inline',
+        match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
     if (at) options.at = at;
@@ -29,7 +29,7 @@ const set = ({event, editor, at}: ActionParamsType): void => {
 
 export const unset = ({event, editor, at}: ActionParamsType): void => {
     const options = {
-        match: n => Text.isText(n) && n.type !== 'inline',
+        match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
     if (at) options.at = at;
@@ -67,7 +67,7 @@ const Placeholder = (props) => {
 }
 
 const Element = (props: any) => {
-    const ref = useRef<HTMLDivElement | void>();
+    const ref = useRef<HTMLSpanElement | any>();
     const text = props.children.props.text.text;
     return (
         <span
@@ -85,13 +85,11 @@ const Element = (props: any) => {
 
 const definition: ElementDefinition = {
     name,
-    action: set,
-    hotkey,
     command,
-    icon: MdErrorOutline,
     component: Element,
-    hideInToolbar: true,
-    unset: unset,
+    type,
+    set,
+    unset,
 };
 
 export default definition;

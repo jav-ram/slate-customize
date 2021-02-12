@@ -1,5 +1,6 @@
 // @flow
-import React, { useEffect, useRef } from 'react';
+import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
@@ -8,14 +9,14 @@ import type { ElementDefinition } from '../index';
 import styles from './menu.module.css';
 
 type MenuPropsType = {
-    command: HTMLDivElement | void,
+    command: ?React.ElementRef<'span'>,
     elements: {[string]: ElementDefinition},
     text: string
 }
 
 type filterCommandParamsType = ({[string]: ElementDefinition}, string) => Array<ElementDefinition>;
-
-export const Portal = ({ children, ref }) => ReactDOM.createPortal(children, ref || document.body);
+type PortalPropsType = { children: React.Node, ref?: React.ElementRef<'span'> };
+export const Portal = ({ children, ref }: PortalPropsType): React.Node => ReactDOM.createPortal(children, ref || document.body);
 
 const Item = (element: ElementDefinition) => {
     return (
@@ -29,7 +30,7 @@ const Item = (element: ElementDefinition) => {
     );
 }
 
-const filterCommand = (elements, text): filterCommandParamsType => {
+const filterCommand = (elements, text): [ElementDefinition] => {
     const command = text.replace('/', '').replace(' ', '');
     const byName = Object.values(elements).filter((element: ElementDefinition) => element.name.includes(command));
     const byCommand = Object.values(elements).filter((element: ElementDefinition) => element.command.includes(command));
@@ -37,8 +38,8 @@ const filterCommand = (elements, text): filterCommandParamsType => {
     return _.union(byName, byCommand);
 }
 
-const Menu = ({ elements, command, text }: MenuPropsType) => {
-    const ref = useRef<HTMLDivElement | void>();
+const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
+    const ref = useRef<?React.ElementRef<'span'>>();
     useEffect(() => {
         const el = ref.current;
 
@@ -63,7 +64,7 @@ const Menu = ({ elements, command, text }: MenuPropsType) => {
     return (
         <Portal>
             <div ref={ref} className={styles.menuContainer} contentEditable={false}>
-                { filteredElements.map((element: ElementDefinition) => <Item {...element} /> ) }
+                { filteredElements.map(element => <Item {...element} /> ) }
             </div>
         </Portal>
     );

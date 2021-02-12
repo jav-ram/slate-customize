@@ -56,7 +56,7 @@ const EditorElement = (): Node => {
     }, [])
     return (
         <div spellCheck="false">
-            <Toolbar editor={editor} options={Elements} />
+            {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
                 editor={editor}
                 value={value}
