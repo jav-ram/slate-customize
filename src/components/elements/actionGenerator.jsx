@@ -127,6 +127,7 @@ export const InsertGenerator = ({
 }: handlererDefinitionType): ActionFunctionType => {
     let insert = ({ event, editor, at, meta }: transformParamsType): void => {
         let metaOptions = {};
+        const node = { element: name }
         if (meta && meta.options) metaOptions = meta.options;
         preventDefault && event && event.preventDefault();
 
@@ -135,7 +136,7 @@ export const InsertGenerator = ({
 
         Transforms.insertNodes(
             editor,
-            meta.element ? meta.element : {},
+            { ...node, ...meta.element },
             options,
         );
     }

@@ -48,8 +48,8 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
             const commandElement = getElementCommand(node.text);
             if (commandElement) {
                 Transforms.removeNodes(editor, { at: path });
-                Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'}, { at: [0] })
-                commandElement.insert && commandElement.insert({ editor, event, at: [0], meta: {text: 'var', ref: 'var'}});
+                //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
+                commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
             } else {
                 // show alert of command not completed or bad command
             }
