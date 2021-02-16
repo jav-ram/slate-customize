@@ -22,7 +22,7 @@ const Item = (element: ElementDefinition) => {
     return (
         <div className={styles.itemContainer} key={element.name}>
             <div className={styles.itemLeftContainer}>
-                {element.icon()}
+                {element.icon ? element.icon() : null}
                 <span className={styles.itemName}> { element.name } </span>
             </div>
             <code className={styles.itemCommand}> { element.command } </code>

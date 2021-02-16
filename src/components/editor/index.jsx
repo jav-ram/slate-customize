@@ -71,7 +71,7 @@ const EditorElement = (): Node => {
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}
                     onKeyDown={event => {
-                        customizeOnKeyDown(event, editor);
+                        customizeOnKeyDown(event, editor, value);
                     }}
                 />
             </Slate>
