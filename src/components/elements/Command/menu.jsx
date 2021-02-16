@@ -53,7 +53,6 @@ const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
 
         const top = rect.top + 32;
         const left = command.current.offsetLeft;
-        console.log(command.current.offsetLeft)
 
         el.style.opacity = '1';
         el.style.top = `${top}px`;

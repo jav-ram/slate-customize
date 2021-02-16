@@ -11,6 +11,21 @@ import * as styles from './index.module.css';
 
 export type transformParamsType = { event?: any, editor: any, at: any, meta?: any };
 
+export type Element = {
+    element: string,
+    type: 'inline' | 'block',
+};
+
+export type ElementLeaf = Element & {
+    text: string,
+}
+
+export type ElementBlock = Element & {
+    children: [ElementBlock | ElementLeaf],
+};
+
+
+
 export type ElementDefinition = {
     name: string,
     command: string,

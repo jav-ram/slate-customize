@@ -4,9 +4,14 @@ import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition } from '../index';
+import type { ElementDefinition, ElementLeaf } from '../index';
 
 import styles from './variable.module.css';
+
+export type VariableElementType = ElementLeaf & {
+    ref: string,
+    name: string,
+};
 
 const name = 'variable';
 const command = 'var';

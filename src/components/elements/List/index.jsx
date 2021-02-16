@@ -4,9 +4,13 @@ import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolArray } from 'react-icons/vsc';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition } from '../index';
+import type { ElementDefinition, ElementBlock, ElementLeaf } from '../index';
 
 import styles from './list.module.css';
+
+export type ListElementType = ElementBlock & {
+    ref?: string,
+};
 
 const name = 'list';
 const command = 'list';
