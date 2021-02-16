@@ -5,6 +5,7 @@ import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
 
 import { getNode } from '../../components/hovermenu';
+import type { ElementDefinition } from '../../components/elements';
 
 export type PathLocation = {
     offset: number,
@@ -18,11 +19,11 @@ export type PathType = {
 
 const COMMAND_KEY = '/'; 
 
-const getElementCommand = (command: string): (any | void) => {
+const getElementCommand = (command: string): (?ElementDefinition) => {
     const text = command.replace(' ', '').replace('/', '');
     for (let key in Elements) {
         const element = Elements[key];
-        if (element.command === text)
+        if (element.command === text || element.name === text)
             return element;
     }
     return;
@@ -30,10 +31,10 @@ const getElementCommand = (command: string): (any | void) => {
 
 export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any) => {
     const { selection } = editor;
+    const { path, offset } = editor.selection.anchor;
     const node = getNode(value, selection.anchor.path);
 
     if (event.key === COMMAND_KEY) {
-        const { path, offset } = editor.selection.anchor;
         event.preventDefault();
         Transforms.insertNodes(editor, { element: "command", text: COMMAND_KEY });
         return;
@@ -41,9 +42,17 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
 
     if (node.element === 'command') {
         // only if it is inside the command element
-        if (event.key === ' ' || event.key === '\n' || event.key === COMMAND_KEY) {
+        if (event.key === ' ' || event.keyCode === 13 || event.key === COMMAND_KEY) {
             // check if command is valid if not delete command
             event.preventDefault();
+            const commandElement = getElementCommand(node.text);
+            if (commandElement) {
+                Transforms.removeNodes(editor, { at: path });
+                Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'}, { at: [0] })
+                commandElement.insert && commandElement.insert({ editor, event, at: [0], meta: {text: 'var', ref: 'var'}});
+            } else {
+                // show alert of command not completed or bad command
+            }
             
         }
     }

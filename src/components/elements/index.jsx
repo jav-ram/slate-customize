@@ -9,12 +9,7 @@ import CommandDefinition from './Command';
 
 import * as styles from './index.module.css';
 
-export type transformParamsType = {
-    event?: any,
-    editor: any,
-    at: any,
-    meta?: any,
-};
+export type transformParamsType = { event?: any, editor: any, at: any, meta?: any };
 
 export type ElementDefinition = {
     name: string,
@@ -24,9 +19,9 @@ export type ElementDefinition = {
     component: ComponentType<*>,
     type: 'inline' | 'block',
 
-    insert?: (transformParamsType) => void;
-    set?: (transformParamsType) => void;
-    unset?: (transformParamsType) => void;
+    insert?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
+    set?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
+    unset?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
 
     params?: {[string]: {
         name: string,
