@@ -4,13 +4,12 @@ import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementLeaf } from '../index';
+import type { ElementDefinition, ElementLeafType } from '../index';
 
 import styles from './variable.module.css';
 
-export type VariableElementType = ElementLeaf & {
+export type VariableElementType = ElementLeafType & {
     ref: string,
-    name: string,
 };
 
 const name = 'variable';
@@ -21,16 +20,19 @@ const set = SetGenerator({ name, type });
 const unset = UnsetGenerator({ name, type });
 const insert = InsertGenerator({ name, type });
 
-const Element = (props: any) => {
-    if (props.text.text === "") {
-        console.log(props.children);
-    }
-    return(
-        <span className={styles.wrapper} {...props.attributes}>
-            {props.children}
-        </span>
-    );
-}
+type createParamsType = { ref: string };
+const create = ({ ref }: createParamsType): VariableElementType => ({
+    element: name,
+    type,
+    ref,
+    text: ref,
+});
+
+const Element = (props: any) => (
+    <span className={styles.wrapper} {...props.attributes}>
+        {props.children}
+    </span>
+);
 
 
 const definition: ElementDefinition = {
@@ -39,6 +41,8 @@ const definition: ElementDefinition = {
     icon: VscSymbolVariable,
     component: Element,
     type,
+
+    create,
 
     set,
     unset,

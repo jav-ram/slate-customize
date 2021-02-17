@@ -4,13 +4,21 @@ import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolArray } from 'react-icons/vsc';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementBlock, ElementLeaf } from '../index';
+import type { ElementDefinition, ElementBlockType, ElementLeafType, ElementType } from '../index';
 
 import styles from './list.module.css';
 
-export type ListElementType = ElementBlock & {
-    ref?: string,
+export type ListElementType = ElementBlockType & {
+    refs: string | string[],
 };
+
+type createParamsType = { children: ElementType[], refs: string | string[] };
+const create = ({ children, refs }: createParamsType): ListElementType => ({
+    element: name,
+    type,
+    children,
+    refs
+});
 
 const name = 'list';
 const command = 'list';
@@ -32,6 +40,8 @@ const definition: ElementDefinition = {
     type,
     icon: VscSymbolArray,
     component: Element,
+
+    create,
 
     set,
     unset,

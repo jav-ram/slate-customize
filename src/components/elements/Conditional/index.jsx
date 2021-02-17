@@ -4,15 +4,25 @@ import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementBlock, ElementLeaf } from '../index';
+import type { ElementDefinition, ElementBlockType, ElementLeafType, ElementType } from '../index';
 
 import styles from './conditional.module.css';
 
-export type ConditionalElementType = ElementBlock & {
+export type ConditionalElementType = ElementBlockType & {
     condition: string,
-    ifTrue: ElementBlock | ElementLeaf,
-    ifFalse?: ElementBlock | ElementLeaf,
+    ifTrue: ElementType,
+    ifFalse?: ElementType,
 };
+
+type createParamsType = { condition: string, ifTrue: ElementType, ifFalse?: ElementType };
+const create = ({ condition, ifTrue, ifFalse }: createParamsType): ConditionalElementType => ({
+    element: name,
+    type,
+    ifTrue,
+    ifFalse,
+    condition,
+    children: [ ifTrue, (ifFalse ? ifFalse : null) ],
+});
 
 const name = 'conditional';
 const command = 'conditional';
@@ -34,6 +44,8 @@ const definition: ElementDefinition = {
     type,
     icon: GiChoice,
     component: Element,
+
+    create,
 
     set,
     unset,

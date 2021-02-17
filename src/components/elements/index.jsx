@@ -11,20 +11,18 @@ import * as styles from './index.module.css';
 
 export type transformParamsType = { event?: any, editor: any, at: any, meta?: any };
 
-export type Element = {
-    element: string,
+export type ElementType = {
+    element?: string,
     type: 'inline' | 'block',
 };
 
-export type ElementLeaf = Element & {
+export type ElementLeafType = ElementType & {
     text: string,
 }
 
-export type ElementBlock = Element & {
-    children: [ElementBlock | ElementLeaf],
+export type ElementBlockType = ElementType & {
+    children: ElementType[],
 };
-
-
 
 export type ElementDefinition = {
     name: string,
@@ -33,6 +31,7 @@ export type ElementDefinition = {
 
     component: ComponentType<*>,
     type: 'inline' | 'block',
+    create: Object => ElementType,
 
     insert?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
     set?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
