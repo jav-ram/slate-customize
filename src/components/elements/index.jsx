@@ -33,9 +33,9 @@ export type ElementDefinition = {
     type: 'inline' | 'block',
     create: Object => ElementType,
 
-    insert?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
-    set?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
-    unset?: ({ event?: any, editor: any, at: any, meta?: any }) => void;
+    insert?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
+    set?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
+    unset?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
 
     params?: {[string]: {
         name: string,

@@ -5,7 +5,7 @@ import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
 
 import { getNode } from '../../components/hovermenu';
-import type { ElementDefinition } from '../../components/elements';
+import type { ElementDefinition, ElementType } from '../../components/elements';
 
 export type PathLocation = {
     offset: number,
@@ -47,9 +47,32 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
             event.preventDefault();
             const commandElement = getElementCommand(node.text);
             if (commandElement) {
+                let element: ElementType = {};
+                switch (commandElement.name) {
+                    case 'variable':
+                        element = commandElement.create({ ref: 'var' });
+                        break;
+                    case 'list':
+                        element = commandElement.create({
+                            ref: 'list',
+                            children: [{
+                                text: 'list',
+                            }]
+                        });
+                        break;
+                    case 'conditional':
+                        element = commandElement.create({
+                            conditional: 'true',
+                            ifTrue: { element: 'conditional-true', text: 'place this if true' },
+                            ifFalse: { element: 'conditional-false', text: 'place this if false' }
+                        });
+                        break;
+                }
+                
                 Transforms.removeNodes(editor, { at: path });
+                commandElement.insert && commandElement.insert({ editor, event, meta: { element } });
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
-                commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
+                //commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
             } else {
                 // show alert of command not completed or bad command
             }

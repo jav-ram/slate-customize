@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import _ from 'lodash';
 import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
@@ -21,7 +22,7 @@ const create = ({ condition, ifTrue, ifFalse }: createParamsType): ConditionalEl
     ifTrue,
     ifFalse,
     condition,
-    children: [ ifTrue, (ifFalse ? ifFalse : null) ],
+    children: _.compact([ ifTrue, (ifFalse ? ifFalse : null) ]),
 });
 
 const name = 'conditional';
