@@ -1,5 +1,5 @@
 // @flow
-import { Transforms, Element, Text, Node, findNode } from 'slate';
+import { Transforms, Element, Text, Node, Editor } from 'slate';
 import { Elements } from '../../components/elements';
 import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
@@ -49,10 +49,10 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
             if (commandElement) {
                 let element: ElementType = {};
                 switch (commandElement.name) {
-                    case 'variable':
+                    case Elements.variable.name:
                         element = commandElement.create({ ref: 'var' });
                         break;
-                    case 'list':
+                    case Elements.list.name:
                         element = commandElement.create({
                             ref: 'list',
                             children: [{
@@ -60,13 +60,20 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
                             }]
                         });
                         break;
-                    case 'conditional':
+                    case Elements.conditional.name:
                         element = commandElement.create({
                             conditional: 'true',
                             ifTrue: { element: 'conditional-true', text: 'place this if true' },
                             ifFalse: { element: 'conditional-false', text: 'place this if false' }
                         });
                         break;
+                    case Elements.title.name:
+                        element = commandElement.create({
+                            title: 'Mock'
+                        });
+                        break;
+                    default:
+                        return;
                 }
                 
                 Transforms.removeNodes(editor, { at: path });

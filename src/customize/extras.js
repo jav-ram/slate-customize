@@ -1,13 +1,23 @@
 // @flow
+import { Editor } from 'slate';
 
 type IterateSlateValueType = {
     editor: any,
     value: any,
-    path?: [number],
+    path?: number[],
 }
 
-export const iterateValue = (action: (any, any, [number]) => null): (IterateSlateValueType => null) => {
-    let loop = ({editor, value, path = []}: IterateSlateValueType) => {
+const isMarkActive = (editor: Object, key: string): boolean => {
+    const marks = Editor.marks(editor)
+    return marks ? marks[key] === true : false
+}
+
+export const toggleMark = (editor: Object, key: string): void => {
+    isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key);
+};
+
+export const iterateValue = (action: (any, any, number[]) => void): (IterateSlateValueType => void) => {
+    let loop = ({editor, value, path = []}: IterateSlateValueType): void => {
         let children = undefined;
         if (value.children) {
             children = value.children;
@@ -15,11 +25,11 @@ export const iterateValue = (action: (any, any, [number]) => null): (IterateSlat
             children = value
         }
         if (children) {
-            for (const [i, node] of children.entries()) {
+            for (const [i, node] of Object.entries(children)) {
                 loop({
                     editor,
                     value: node,
-                    path: [...path, i],
+                    path: [...path, parseInt(i)],
                 });
             }   
         }

@@ -20,7 +20,7 @@ const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
 
-    const { list, variable, conditional } = Elements;
+    const { list, variable, conditional, title } = Elements;
 
     const [value, setValue] = useState([
         {
@@ -37,6 +37,10 @@ const EditorElement = (): Node => {
         if (props.element.element === conditional.name) {
             const Conditional = conditional.component;
             return <Conditional {...props} />
+        }
+        if (props.element.element === title.name) {
+            const Title = title.component;
+            return <Title {...props} />
         }
         return <DefaultElement {...props} />
     }

@@ -6,6 +6,7 @@ import ListDefinition from './List';
 import VariableDefinition from './Variable';
 import ConditionalDefinition from './Conditional';
 import CommandDefinition from './Command';
+import TitleDefinition from './Titles';
 
 import * as styles from './index.module.css';
 
@@ -64,4 +65,5 @@ export const Elements: { [string]: ElementDefinition } = {
     conditional: ConditionalDefinition,
     list: ListDefinition,
     command: CommandDefinition,
+    title: TitleDefinition,
 }
