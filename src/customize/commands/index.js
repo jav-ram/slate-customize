@@ -72,10 +72,26 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any
                             title: 'Mock'
                         });
                         break;
+
+                    case Elements.bold.name:
+                        element = commandElement.create({
+                            text: 'bold'
+                        });
+                        break;
+                    case Elements.italic.name:
+                        element = commandElement.create({
+                            text: 'italic'
+                        });
+                        break;
+                    case Elements.underline.name:
+                        element = commandElement.create({
+                            text: 'underline'
+                        });
+                        break;
                     default:
                         return;
                 }
-                
+                console.log(element);
                 Transforms.removeNodes(editor, { at: path });
                 commandElement.insert && commandElement.insert({ editor, event, meta: { element } });
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})

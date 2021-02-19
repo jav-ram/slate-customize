@@ -7,6 +7,11 @@ import VariableDefinition from './Variable';
 import ConditionalDefinition from './Conditional';
 import CommandDefinition from './Command';
 import TitleDefinition from './Titles';
+import {
+    BoldDefinition,
+    ItalicDefinition,
+    UnderlineDefinition,
+} from './LeafStyles';
 
 import * as styles from './index.module.css';
 
@@ -66,4 +71,8 @@ export const Elements: { [string]: ElementDefinition } = {
     list: ListDefinition,
     command: CommandDefinition,
     title: TitleDefinition,
+
+    bold: BoldDefinition,
+    italic: ItalicDefinition,
+    underline: UnderlineDefinition,
 }

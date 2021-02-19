@@ -1,16 +1,23 @@
 // @flow 
 import * as React from 'react';
+import Bold from './bold';
+import Italic from './italic';
+import Underline from './underline';
 
 import styles from './leaf.module.css';
 
-const Richtext = (props: Object): React.Element<*> => (
+export const Richtext = (props: Object): React.Element<*> => {
+    console.log(props.leaf);
+return (
     <span { ...props.attributes } className={`
-        ${props.bold ? styles.bold : ''}
-        ${props.italic ? styles.italic : ''}
-        ${props.underline ? styles.underline : ''}
+        ${props.leaf.element === 'bold' || props.leaf.bold ? styles.bold : ''}
+        ${props.leaf.element === 'italic' || props.leaf.italic ? styles.italic : ''}
+        ${props.leaf.element === 'underline' || props.leaf.underline ? styles.underline : ''}
     `}>
         { props.children }
     </span>
-);
+)}
 
-export default Richtext;
+export const BoldDefinition = Bold;
+export const ItalicDefinition = Italic;
+export const UnderlineDefinition = Underline;

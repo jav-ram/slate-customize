@@ -10,7 +10,7 @@ type ElementRendererFunctionType = (Object) => ReactElement<*>;
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
-const MakeElementRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
+export const MakeElementRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
     const ElementRenderer = (props) => {
         const name = props.element.element;
         const element = Elements[name];
@@ -26,15 +26,15 @@ const MakeElementRenderer = (elements: { [string]: ElementDefinition }): Element
     return ElementRenderer;
 }
 
-const MakeLeafRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
+export const MakeLeafRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
     const LeafRenderer = (props) => {
         const name = props.leaf.element;
         const leaf = Elements[name];
         if (leaf) {
-            // if richtext
             const Leaf = leaf.component;
             return <Leaf {...props} />
-        } else {
+        }
+        else {
             // default
             return <span {...props.attributes}>{props.children}</span>
         }

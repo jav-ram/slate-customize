@@ -4,7 +4,7 @@ import { BiItalic } from 'react-icons/bi';
 
 import { toggleMark } from '../../../customize/extras.js';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import Richtext from './index';
+import { Richtext } from './index';
 import type { ElementDefinition, ElementLeafType } from '../index';
 
 import styles from './leaf.module.css';
@@ -15,7 +15,7 @@ const type = 'inline';
 
 const set = ({ event, editor, at, meta }) => Editor.addMark(editor, name, true);
 const unset = ({ event, editor, at, meta }) => Editor.removeMark(editor, name);
-const insert = ({ event, editor, at, meta }) => toggleMark(editor, name);
+const insert = InsertGenerator({ name, type });
 
 type createParamsType = { text: string };
 const create = ({ text }: createParamsType): ElementLeafType => ({

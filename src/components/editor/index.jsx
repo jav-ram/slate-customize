@@ -7,6 +7,7 @@ import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement,
 import { Slate, Editable } from 'slate-react';
 
 import { withCustomize, iterateSlateValue } from '../../customize';
+import { MakeElementRenderer, MakeLeafRenderer } from '../../customize/render';
 import { customizeOnKeyDown } from '../../customize/commands';
 
 import Toolbar from '../toolbar';
@@ -29,35 +30,9 @@ const EditorElement = (): Node => {
         },
     ]);
     const editor = withCustomize(createEditor(), Elements, value);
-    const renderElement = (props) => {
-        if (props.element.element === list.name) {
-            const List = list.component;
-            return <List {...props} />
-        }
-        if (props.element.element === conditional.name) {
-            const Conditional = conditional.component;
-            return <Conditional {...props} />
-        }
-        if (props.element.element === title.name) {
-            const Title = title.component;
-            return <Title {...props} />
-        }
-        return <DefaultElement {...props} />
-    }
-
-    const renderLeaf = useCallback(props => {
-        switch (props.leaf.element) {
-            case variable.name:
-                const Variable = variable.component;
-                return <Variable {...props} />;
-            case command.name:
-                const Command = command.component;
-                return <Command {...props} />;
-            default:
-                return <span {...props.attributes}>{props.children}</span>
-        }
-
-    }, [])
+    
+    const renderElement = MakeElementRenderer(Elements);
+    const renderLeaf = MakeLeafRenderer(Elements);
     return (
         <div spellCheck="false">
             {/* <Toolbar editor={editor} options={Elements} /> */}
