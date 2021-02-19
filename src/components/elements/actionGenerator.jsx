@@ -22,7 +22,7 @@ export type ActionDefinitionType = {
     after?: ActionFunctionType,
 
     split?: boolean,
-    match?: (any) => boolean,
+    match?: (Object) => boolean,
 }
 
 export type handlererDefinitionType = {
@@ -35,16 +35,16 @@ export type handlererDefinitionType = {
 
 export type ActionParamsType = {
     event?: SyntheticEvent<HTMLButtonElement>,
-    editor: any,
+    editor: Object,
     at?: PathType,
-    meta?: any,
+    meta?: Object,
 };
 
 type ActionFunctionType = (ActionParamsType) => void;
 
 const generateDefaultMatch = (
     editor,
-    value: any,
+    value: Object,
     key: (string | number)
 ): Function => {
     return () => {
@@ -61,7 +61,7 @@ export const SetGenerator = ({
     isNested=false,
     preventDefault=false,
     actionDef={}
-}: handlererDefinitionType) => {
+}: handlererDefinitionType): ActionFunctionType => {
     let set = ({ event, editor, at, meta }: transformParamsType): void => {
         const defaultMatch = generateDefaultMatch(editor, name, 'element');
 
