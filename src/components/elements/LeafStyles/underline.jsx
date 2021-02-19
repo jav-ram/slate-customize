@@ -4,6 +4,7 @@ import { BiItalic } from 'react-icons/bi';
 
 import { toggleMark } from '../../../customize/extras.js';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
+import Richtext from './index';
 import type { ElementDefinition, ElementLeafType } from '../index';
 
 import styles from './leaf.module.css';
@@ -26,9 +27,7 @@ const create = ({ text }: createParamsType): ElementLeafType => ({
 
 
 const Element = (props: Object) => (
-    <u className={styles.underline} {...props.attributes}>
-        { props.children }
-    </u>
+    <Richtext {...props} />
 );
 
 const definition: ElementDefinition = {

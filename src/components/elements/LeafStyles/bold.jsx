@@ -1,9 +1,11 @@
 // @flow
+import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { BiBold } from 'react-icons/bi';
 
 import { toggleMark } from '../../../customize/extras.js';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
+import Richtext from './index';
 import type { ElementDefinition, ElementLeafType } from '../index';
 
 import styles from './leaf.module.css';
@@ -26,9 +28,7 @@ const create = ({ text }: createParamsType): ElementLeafType => ({
 
 
 const Element = (props: Object) => (
-    <b className={styles.bold} {...props.attributes}>
-        { props.children }
-    </b>
+    <Richtext {...props} />
 );
 
 const definition: ElementDefinition = {
