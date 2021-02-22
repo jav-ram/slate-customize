@@ -47,8 +47,8 @@ const EditorElement = (): Node => {
             >
                 {/* <HoveringToolbar value={value} /> */}
                 <Editable
-                    renderElement={renderElement}
-                    renderLeaf={renderLeaf}
+                    renderElement={(props) => renderElement(props, editor)}
+                    renderLeaf={(props) => renderLeaf(props, editor)}
                     onKeyDown={event => {
                         customizeOnKeyDown(event, editor, value);
                     }}

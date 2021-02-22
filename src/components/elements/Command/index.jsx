@@ -45,9 +45,16 @@ export const unset = ({event, editor, at}: ActionParamsType): void => {
 
 const insert = InsertGenerator({ name, type });
 
-const Placeholder = (props) => {
+const Placeholder = ({ editor, ...props}) => {
     if (props.condition) {
+        const path = editor.selection.anchor.path;
+        console.log(path);
         return (
+            <a
+                contentEditable={false}
+                className={styles.placeholder}
+                onClick={() => Transforms.select(editor, { offset: 1, path }) }
+            >
             <span
                 style={{
                     pointerEvents: "none",
@@ -66,6 +73,7 @@ const Placeholder = (props) => {
             >
                 {props.children}
             </span>
+            </a>
         );
     }
     return null;
@@ -74,6 +82,7 @@ const Placeholder = (props) => {
 const Element = (props: any) => {
     const ref = useRef<?React.ElementRef<'span'>>();
     const text = props.children.props.text.text;
+    const editor = props.editor;
     return (
         <span
             ref={ref}
@@ -82,7 +91,7 @@ const Element = (props: any) => {
             <span {...props.attributes}>
                 {props.children}
             </span>
-            <Placeholder condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
+            <Placeholder editor={editor} condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
             <Menu text={text} command={ref} elements={Elements} />
         </span>
     );
@@ -92,6 +101,9 @@ const definition: ElementDefinition = {
     name,
     command,
     component: Element,
+
+    create: () => ({ element: 'command', type: 'inline' }),
+
     type,
     set,
     unset,

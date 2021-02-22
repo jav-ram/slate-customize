@@ -6,18 +6,18 @@ import { Elements } from '../components/elements';
 
 import type { ElementDefinition } from '../components/elements';
 
-type ElementRendererFunctionType = (Object) => ReactElement<*>;
+type ElementRendererFunctionType = (Object, Object) => ReactElement<*>;
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 export const MakeElementRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
-    const ElementRenderer = (props) => {
+    const ElementRenderer = (props, editor) => {
         const name = props.element.element;
         const element = Elements[name];
 
         if (element) {
             const Component = element.component;
-            return <Component {...props} />;
+            return <Component editor={editor} {...props} />;
         } else {
             // default
             return <DefaultElement {...props} />
@@ -27,12 +27,12 @@ export const MakeElementRenderer = (elements: { [string]: ElementDefinition }): 
 }
 
 export const MakeLeafRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
-    const LeafRenderer = (props) => {
+    const LeafRenderer = (props, editor) => {
         const name = props.leaf.element;
         const leaf = Elements[name];
         if (leaf) {
             const Leaf = leaf.component;
-            return <Leaf {...props} />
+            return <Leaf editor={editor} {...props} />
         }
         else {
             // default

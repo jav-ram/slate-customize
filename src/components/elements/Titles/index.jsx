@@ -9,7 +9,7 @@ import styles from './titles.module.css';
 
 export type TitleElementType = ElementBlockType;
 
-const name = 'heading 1';
+const name = 'title';
 const command = 'h1';
 const type = 'block';
 
