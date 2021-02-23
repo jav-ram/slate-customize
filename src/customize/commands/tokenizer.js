@@ -5,7 +5,7 @@ import LanguageDefinition from './LanguageDefinition';
 
 
 
-const Tokenize = (text: string) => {
+const Tokenize = (text: string): Object => {
     return Prism.tokenize(text, LanguageDefinition);
 };
 

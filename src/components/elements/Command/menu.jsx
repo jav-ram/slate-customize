@@ -9,7 +9,7 @@ import type { ElementDefinition } from '../index';
 import styles from './menu.module.css';
 
 type MenuPropsType = {
-    command?: React.ElementRef<'span'>,
+    command: ?React.ElementRef<'span'>,
     elements: {[string]: ElementDefinition},
     text: string
 }
@@ -22,7 +22,7 @@ const Item = (element: ElementDefinition) => {
     return (
         <div className={styles.itemContainer} key={element.name}>
             <div className={styles.itemLeftContainer}>
-                {element.icon ? element.icon() : null}
+                {element.icon ? <element.icon /> : null}
                 <span className={styles.itemName}> { element.name } </span>
             </div>
             <code className={styles.itemCommand}> { element.command } </code>
@@ -32,7 +32,9 @@ const Item = (element: ElementDefinition) => {
 
 const filterCommand = (elements, text): [ElementDefinition] => {
     const command = text.replace('/', '').replace(' ', '');
+    // $FlowIgnore
     const byName = Object.values(elements).filter((element: ElementDefinition) => element.name.includes(command));
+    // $FlowIgnore
     const byCommand = Object.values(elements).filter((element: ElementDefinition) => element.command.includes(command));
 
     return _.union(byName, byCommand);
@@ -52,6 +54,7 @@ const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
         const rect = domRange.getBoundingClientRect();
 
         const top = rect.top + 32;
+        // $FlowFixMe
         const left = command.current.offsetLeft;
 
         el.style.opacity = '1';

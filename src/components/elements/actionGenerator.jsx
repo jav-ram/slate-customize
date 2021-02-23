@@ -72,12 +72,12 @@ export const SetGenerator = ({
         const split = actionDef.split ? actionDef.split : true;
 
         if (isNested) {
-            const options = { split };
+            const options: Object = { split };
             if (at) options.at = at;
             const list = { type: type, element: name, children: [{ text: '' }] }
             Transforms.wrapNodes(editor, list, options )
         } else {
-            const options = { match: n => Text.isText(n) && n.type !== type, split: true };
+            const options: Object = { match: n => Text.isText(n) && n.type !== type, split: true };
             if (at) options.at = at;
             Transforms.setNodes(
                 editor,
@@ -106,7 +106,7 @@ export const UnsetGenerator = ({
         const match = actionDef.match ? actionDef.match : defaultMatch;
         const split = actionDef.split ? actionDef.split : true;
 
-        const options = { match: n => Text.isText(n) && n.type !== type };
+        const options: Object = { match: n => Text.isText(n) && n.type !== type };
         if (at) options.at = at;
         Transforms.unsetNodes(
             editor,
@@ -131,7 +131,7 @@ export const InsertGenerator = ({
         if (meta && meta.options) metaOptions = meta.options;
         preventDefault && event && event.preventDefault();
 
-        const options = { split: true, ...metaOptions };
+        const options: Object = { split: true, ...metaOptions };
         if (at) options.at = at;
 
         Transforms.insertNodes(

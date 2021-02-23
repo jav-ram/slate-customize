@@ -28,7 +28,7 @@ const create = ({ ref }: createParamsType): VariableElementType => ({
     text: ref,
 });
 
-const Element = (props: any) => (
+const Element = (props: Object) => (
     <span className={styles.wrapper} {...props.attributes}>
         {props.children}
     </span>

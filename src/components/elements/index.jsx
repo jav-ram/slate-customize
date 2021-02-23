@@ -15,7 +15,7 @@ import {
 
 import * as styles from './index.module.css';
 
-export type transformParamsType = { event?: any, editor: any, at: any, meta?: any };
+export type transformParamsType = { event?: Object, editor: Object, at: Object, meta?: Object };
 
 export type ElementType = {
     element?: string,
@@ -35,13 +35,15 @@ export type ElementDefinition = {
     command: string,
     description?: string,
 
+    icon?: ComponentType<*>,
+
     component: ComponentType<*>,
     type: 'inline' | 'block',
     create: Object => ElementType,
 
-    insert?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
-    set?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
-    unset?: ({ event?: any, editor: any, at?: any, meta?: any }) => void;
+    insert?: ({ event?: Object, editor: Object, at?: Object, meta?: Object }) => void;
+    set?: ({ event?: Object, editor: Object, at?: Object, meta?: Object }) => void;
+    unset?: ({ event?: Object, editor: Object, at?: Object, meta?: Object }) => void;
 
     params?: {[string]: {
         name: string,

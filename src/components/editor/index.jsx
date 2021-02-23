@@ -29,7 +29,7 @@ const EditorElement = (): Node => {
             children: [{ text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nisl nisi, placerat nec eros ac, finibus lacinia leo. Aenean sagittis ligula molestie felis gravida, tempus placerat libero lobortis. Aenean efficitur scelerisque augue, eu gravida tellus egestas eget. Vestibulum rutrum mauris et massa blandit, sit amet semper ipsum mollis. Duis euismod sapien dolor, non consequat leo eleifend ut. Nam libero lectus, rutrum vel velit eu, semper porta diam. Integer ultricies odio id tincidunt rutrum. Duis tristique diam justo, placerat viverra leo laoreet pharetra. Aenean sed vestibulum odio, vitae sollicitudin magna. Curabitur id augue vel nisi vehicula molestie commodo at tellus. Aliquam ut bibendum mauris. Proin sed urna dolor. Vestibulum nec velit nec arcu vulputate pharetra. Praesent nibh massa, gravida sit amet dui a, ultrices maximus eros. Integer iaculis metus et velit eleifend lobortis eu quis odio. Nullam sed aliquam diam, iaculis iaculis sem.' }],
         },
     ]);
-    const editor = withCustomize(createEditor(), Elements, value);
+    const editor = withCustomize(createEditor(), Elements);
     
     const renderElement = MakeElementRenderer(Elements);
     const renderLeaf = MakeLeafRenderer(Elements);

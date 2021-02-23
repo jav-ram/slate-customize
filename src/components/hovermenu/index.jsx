@@ -70,7 +70,7 @@ const HoveringToolbar = ({ value }) => {
 };
 
 // FIXME: arreglar esta funcion y moverla a otro lado
-export const getNode = (root, path): any => {
+export const getNode = (root: Object, path: Object): Object => {
   const pos = path;
   let current = root;
     for (let i of pos) {

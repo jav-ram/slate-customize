@@ -28,7 +28,7 @@ const set = SetGenerator({ name, type });
 const unset = UnsetGenerator({ name, type });
 const insert = InsertGenerator({ name, type });
 
-const Element = (props: any) => (
+const Element = (props: Object) => (
     <p className={styles.wrapper} {...props.attributes}>
         {props.children}
     </p>

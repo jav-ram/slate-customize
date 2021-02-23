@@ -6,27 +6,27 @@ import type { Node } from 'react';
 import type { ElementDefinition } from '../elements';
 
 type ToolbarButtonPropsType = {
-    editor: any,
+    editor: Object,
     Icon: Function,
     action: Function
 }
 
-const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
-    <button onClick={(event) => action({ event, editor })}>
-        {Icon()}
-    </button>
-);
-
-
 type ToolbarPropsType = {
-    editor: any,
+    editor: Object,
     options: {[string]: ElementDefinition},
 }
 
-const Toolbar = ({editor, options}: ToolbarPropsType) => (
+const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
+    <button onClick={(event) => action({ event, editor })}>
+        {<Icon />}
+    </button>
+);
+
+const Toolbar = ({editor, options}: ToolbarPropsType): React$Element<"div"> => (
     <div>
-        {Object.entries(options).map(
-            ([_, option: ElementDefinition]) => (!option.hideInToolbar ?
+        {Object.values(options).map(
+            // $FlowIgnore
+            (option: ElementDefinition) => (!option.hideInToolbar ?
                                                     <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
                                                     null
                                                 )
