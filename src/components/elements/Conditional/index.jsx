@@ -1,20 +1,37 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
+import _ from 'lodash';
 import { Editor, Transforms, Text } from 'slate';
-
 import { GiChoice } from 'react-icons/gi';
+
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
+import type { ElementDefinition, ElementBlockType, ElementLeafType, ElementType } from '../index';
 
 import styles from './conditional.module.css';
 
+export type ConditionalElementType = ElementBlockType & {
+    condition: string,
+    ifTrue: ElementType,
+    ifFalse?: ElementType,
+};
+
+type createParamsType = { condition: string, ifTrue: ElementType, ifFalse?: ElementType };
+const create = ({ condition, ifTrue, ifFalse }: createParamsType): ConditionalElementType => ({
+    element: name,
+    type,
+    ifTrue,
+    ifFalse,
+    condition,
+    children: _.compact([ ifTrue, (ifFalse ? ifFalse : null) ]),
+});
+
 const name = 'conditional';
+const command = 'conditional';
+const type = 'block';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
-    event.preventDefault();
-
-    const list = { type: 'block', element: name, children: [{ text: '' }] }
-    Transforms.wrapNodes(editor, list, { split: true })
-}
-
+const set = SetGenerator({ name, type });
+const unset = UnsetGenerator({ name, type });
+const insert = InsertGenerator({ name, type });
 
 const Element = (props) => (
     <p className={styles.wrapper} {...props.attributes}>
@@ -22,11 +39,18 @@ const Element = (props) => (
     </p>
 );
 
-const definition = {
+const definition: ElementDefinition = {
     name,
-    action,
+    command,
+    type,
     icon: GiChoice,
     component: Element,
+
+    create,
+
+    set,
+    unset,
+    insert,
 }
 
 export default definition;

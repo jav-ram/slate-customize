@@ -12,7 +12,7 @@ type ToolbarButtonPropsType = {
 }
 
 const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
-    <button onClick={(event) => action(event, editor)}>
+    <button onClick={(event) => action({ event, editor })}>
         {Icon()}
     </button>
 );
@@ -20,13 +20,16 @@ const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
 
 type ToolbarPropsType = {
     editor: any,
-    options: Array<ElementDefinition>,
+    options: {[string]: ElementDefinition},
 }
 
 const Toolbar = ({editor, options}: ToolbarPropsType) => (
     <div>
-        {options.map(
-            option => <ToolbarButton editor={editor} Icon={option.icon} action={option.action} />
+        {Object.entries(options).map(
+            ([_, option: ElementDefinition]) => (!option.hideInToolbar ?
+                                                    <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
+                                                    null
+                                                )
         )}
     </div>
 );

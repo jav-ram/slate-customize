@@ -1,35 +1,32 @@
 // @flow
 import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-
 import { VscSymbolVariable } from 'react-icons/vsc';
+
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
+import type { ElementDefinition, ElementLeafType } from '../index';
 
 import styles from './variable.module.css';
 
+export type VariableElementType = ElementLeafType & {
+    ref: string,
+};
+
 const name = 'variable';
+const command = 'var';
+const type = 'inline';
 
-const action = (event: SyntheticEvent<HTMLButtonElement>, editor) => {
-    event.preventDefault();
+const set = SetGenerator({ name, type });
+const unset = UnsetGenerator({ name, type });
+const insert = InsertGenerator({ name, type });
 
-    const [match] = Editor.nodes(editor, {
-        match: n => n.element === name,
-    });
-
-    if (!match) {
-        Transforms.setNodes(
-            editor,
-            { element: name },
-            { match: n => Text.isText(n) && n.type !== 'block', split: true }
-        );
-    } else {
-        Transforms.unsetNodes(
-            editor,
-            ['element'],
-            { match: n => Text.isText(n) && n.type !== 'block'}
-        );
-    }
-
-}
+type createParamsType = { ref: string };
+const create = ({ ref }: createParamsType): VariableElementType => ({
+    element: name,
+    type,
+    ref,
+    text: ref,
+});
 
 const Element = (props: any) => (
     <span className={styles.wrapper} {...props.attributes}>
@@ -37,11 +34,19 @@ const Element = (props: any) => (
     </span>
 );
 
-const definition = {
+
+const definition: ElementDefinition = {
     name,
-    action,
+    command,
     icon: VscSymbolVariable,
     component: Element,
+    type,
+
+    create,
+
+    set,
+    unset,
+    insert,
 };
 
 export default definition;

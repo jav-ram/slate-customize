@@ -1,0 +1,38 @@
+.menuContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    min-width: 16rem;
+    min-height: 16.5rem;
+    border: 1px solid black;
+}
+
+.itemContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 1rem;
+}
+
+.itemLeftContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.itemName {
+    margin-left: 1rem;
+    height: 1rem;
+    display: flex;
+}
+
+.itemCommand {
+    font-size: 0.75rem;
+    height: 1rem;
+    margin-left: 2rem;
+    background-color: rgba(194, 194, 194, 0.5);
+    line-height: 1.5;
+    padding: 0.15rem 0.25rem;
+    border-radius: 3px;
+}
