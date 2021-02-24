@@ -30,9 +30,15 @@ const EditorElement = (): Node => {
         },
     ]);
     const editor = withCustomize(createEditor(), Elements);
+    const { insertData } = editor;
+    editor.insertData = data => {
+        console.log(data.getData("text/html"));
+        insertData(data);
+    }
     
     const renderElement = MakeElementRenderer(Elements);
     const renderLeaf = MakeLeafRenderer(Elements);
+
     return (
         <div spellCheck="false">
             {/* <Toolbar editor={editor} options={Elements} /> */}
