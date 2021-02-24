@@ -4,6 +4,9 @@ import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { subObjectMatcher } from '../../../customize/typeahead';
+import { Elements } from '../index';
+
 import type { ElementDefinition } from '../index';
 
 import styles from './menu.module.css';
@@ -40,8 +43,11 @@ const filterCommand = (elements, text): [ElementDefinition] => {
     return _.union(byName, byCommand);
 }
 
+
+
 const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
     const ref = useRef<?React.ElementRef<'div'>>();
+    const CommandEngine = subObjectMatcher<ElementDefinition>({ options: elements, includes: ['name', 'command'] });
     useEffect(() => {
         const el = ref.current;
 
@@ -63,6 +69,7 @@ const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
     });
 
     const filteredElements = filterCommand(elements, text);
+    console.log(CommandEngine(text));
     return (
         <Portal>
             <div ref={ref} className={styles.menuContainer} contentEditable={false}>
