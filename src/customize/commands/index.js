@@ -29,7 +29,7 @@ const getElementCommand = (command: string): (?ElementDefinition) => {
     return;
 }
 
-export const customizeOnKeyDown = (event: KeyboardEvent, editor: any, value: any) => {
+export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: Object) => {
     const { selection } = editor;
     const { path, offset } = editor.selection.anchor;
     const node = getNode(value, selection.anchor.path);

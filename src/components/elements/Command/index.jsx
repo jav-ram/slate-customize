@@ -18,7 +18,7 @@ const command = '';
 const type = 'inline';
 
 const set = ({ event, editor, at }: ActionParamsType): void => {
-    const options = {
+    const options: Object = {
         match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
@@ -31,7 +31,7 @@ const set = ({ event, editor, at }: ActionParamsType): void => {
 }
 
 export const unset = ({event, editor, at}: ActionParamsType): void => {
-    const options = {
+    const options: Object = {
         match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
@@ -79,7 +79,7 @@ const Placeholder = ({ editor, ...props}) => {
     return null;
 }
 
-const Element = (props: any) => {
+const Element = (props: Object) => {
     const ref = useRef<?React.ElementRef<'span'>>();
     const text = props.children.props.text.text;
     const editor = props.editor;
@@ -92,6 +92,7 @@ const Element = (props: any) => {
                 {props.children}
             </span>
             <Placeholder editor={editor} condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
+            {/*$FlowFixMe*/}
             <Menu text={text} command={ref} elements={Elements} />
         </span>
     );

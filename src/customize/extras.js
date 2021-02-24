@@ -2,8 +2,8 @@
 import { Editor } from 'slate';
 
 type IterateSlateValueType = {
-    editor: any,
-    value: any,
+    editor: Object,
+    value: Object,
     path?: number[],
 }
 
@@ -16,7 +16,7 @@ export const toggleMark = (editor: Object, key: string): void => {
     isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key);
 };
 
-export const iterateValue = (action: (any, any, number[]) => void): (IterateSlateValueType => void) => {
+export const iterateValue = (action: (Object, Object, number[]) => void): (IterateSlateValueType => void) => {
     let loop = ({editor, value, path = []}: IterateSlateValueType): void => {
         let children = undefined;
         if (value.children) {

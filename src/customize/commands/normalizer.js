@@ -22,10 +22,10 @@ const normalize = (editor, node, path) => {
 
 const iterativeNormalize = iterateValue(normalize);
 
-export const withCommand = (editor: any): any => {
+export const withCommand = (editor: Object): Object => {
     const { normalizeNode } = editor
 
-    editor.normalizeNode = (entry: [any, [number]]) => {
+    editor.normalizeNode = (entry: [Object, number[]]) => {
         const [node, path] = entry
 
         // If the element is a paragraph, ensure its children are valid.

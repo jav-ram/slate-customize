@@ -10,7 +10,7 @@ import withCommands from './commands';
 import { iterateValue } from './extras'
 import Tokenize from './commands/tokenizer';
 
-const withCustomInlines = (elements: Array<string>): ((any) => any) => {
+const withCustomInlines = (elements: Array<string>): ((Object) => Object) => {
     return (editor) => {
         editor.isInline = (node) => {
             return elements.includes(node.element ? node.element : '');
@@ -19,41 +19,7 @@ const withCustomInlines = (elements: Array<string>): ((any) => any) => {
     }
 }
 
-const withCustomNormalizer = (elements: {[string]: ElementDefinition}): (any => any) => {
-    const normalize = (editor: any) => {
-        const { normalizeNode } = editor;
-        editor.normalizeNode = (entry) => {
-            const [node, path] = entry;
-
-            if (node.text && node.text == 'paragraph') {
-                console.log((Node.isNode(node) && node.type) === true);
-            }
-
-            if (Node.isNode(node) && node.children) {
-                for (const [child, childPath] of Node.children(editor, path)) {
-                    if (Text.isText(child)) {
-                        normalizeCommands({
-                            editor,
-                            node: child,
-                            path: childPath,
-                            elements,
-                            father: node,
-                            fatherPath: path
-                        });
-                    }
-                    normalize([child, childPath]);
-                }
-            }
-            normalizeNode(entry);
-            return;
-        };
-
-        return editor;
-    };
-    return normalize;
-};
-
-export const withCustomize = (editor: any, elements: {[string]: ElementDefinition}): any => {
+export const withCustomize = (editor: Object, elements: {[string]: ElementDefinition}): Object => {
     const withInlines = withCustomInlines(['list', 'variable', 'conditional']); // FIXME: better way to call the names
 
     editor = withReact(editor, []);

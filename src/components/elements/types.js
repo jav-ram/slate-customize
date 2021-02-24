@@ -15,7 +15,7 @@ type LOOP_TYPE = ELEMENT_TYPE & {
     range: ?number[],
     start: ?number,
     end: ?number,
-    iterable: ?any[],
+    iterable: ?Object[],
 };
 
 type CONDITIONAL_TYPE = ELEMENT_TYPE & {
