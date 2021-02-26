@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { useRef, useEffect } from 'react';
 import { Editor, Range, Node } from 'slate';
@@ -70,7 +69,7 @@ const HoveringToolbar = ({ value }) => {
 };
 
 // FIXME: arreglar esta funcion y moverla a otro lado
-export const getNode = (root: Object, path: Object): Object => {
+export const getNode = (root, path) => {
   const pos = path;
   let current = root;
     for (let i of pos) {
