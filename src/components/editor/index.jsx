@@ -9,6 +9,7 @@ import { Slate, Editable } from 'slate-react';
 import { withCustomize, iterateSlateValue } from '../../customize';
 import { MakeElementRenderer, MakeLeafRenderer } from '../../customize/render';
 import { customizeOnKeyDown } from '../../customize/commands';
+import { deserializeHTML } from '../../customize/serializer';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
@@ -32,7 +33,10 @@ const EditorElement = (): Node => {
     const editor = withCustomize(createEditor(), Elements);
     const { insertData } = editor;
     editor.insertData = data => {
-        console.log(data.getData("text/html"));
+        const html =data.getData("text/html")
+        const document = new DOMParser().parseFromString(html, 'text/html');
+        console.log(document.body)
+        let text = deserializeHTML(document.body);;
         insertData(data);
     }
     
