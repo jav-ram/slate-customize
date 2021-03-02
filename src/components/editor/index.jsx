@@ -33,10 +33,16 @@ const EditorElement = (): Node => {
     const editor = withCustomize(createEditor(), Elements);
     const { insertData } = editor;
     editor.insertData = data => {
-        const html =data.getData("text/html")
-        const document = new DOMParser().parseFromString(html, 'text/html');
-        console.log(document.body)
-        let text = deserializeHTML(document.body);;
+        const html = data.getData('text/html');
+
+        if (html) {
+            const parsed = new DOMParser().parseFromString(html, 'text/html');
+            const fragment = deserializeHTML(parsed.body);
+            console.log(parsed.body)
+            console.log(fragment);
+            Transforms.insertFragment(editor, fragment)
+            return;
+        }
         insertData(data);
     }
     
