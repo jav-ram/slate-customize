@@ -34,6 +34,7 @@ const EditorElement = (): Node => {
     const { insertData } = editor;
     editor.insertData = data => {
         const html = data.getData('text/html');
+        console.log(data);
 
         if (html) {
             const parsed = new DOMParser().parseFromString(html, 'text/html');
