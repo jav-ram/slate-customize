@@ -20,10 +20,12 @@ export const deserializeHTML = (el: Node): Object => {
     let isBlock = children[0] && children[0].element;
     isBlock = children.length > 1 || isBlock;
 
-    if (isBlock) {
+    if (isBlock && (el.nodeName === 'SPAN' || el.nodeName === 'B' || el.nodeName === 'P')) {
         console.log(children)
         return jsx('fragment', {}, children);
     }
+
+    console.log(el.nodeName)
 
     switch (el.nodeName) {
         case 'BODY':
@@ -53,9 +55,12 @@ export const deserializeHTML = (el: Node): Object => {
         case 'H2':
         case 'H3':
         case 'H4':
+            console.log(children);
             return jsx('element', { element: 'title'}, children);
+        case 'STRONG':
         case 'B':
             return jsx('text', { element: 'bold' }, children);
+        case 'EM':
         case 'I':
             // TODO: Test if this works as intended
             return jsx('text', { element: 'italic' }, children);

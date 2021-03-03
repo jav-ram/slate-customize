@@ -21,6 +21,7 @@ import { getNode } from '../hovermenu';
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
+    const [ file, setFile ] = useState({})
 
     const { list, variable, conditional, title } = Elements;
 
@@ -52,6 +53,23 @@ const EditorElement = (): Node => {
 
     return (
         <div spellCheck="false">
+            <input type="file" name="file" onChange={(event) => {
+                const f = event.target.files[0];
+                const reader = new FileReader();
+                setFile(f);
+                console.log(f, typeof f);
+
+                reader.onload = (function(theFile) {
+                    return function(e) {
+                        const rawText = e.target.result;
+                        const document = new DOMParser().parseFromString(rawText, "text/html");
+                        console.log(document.body)
+                        setValue(deserializeHTML(document.body));
+                    };
+                })(f);
+
+                console.log(reader.readAsText(f))
+            }}/>
             {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
                 editor={editor}
