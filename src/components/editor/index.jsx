@@ -1,7 +1,6 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import mammoth from 'mammoth';
 import isHotkey from 'is-hotkey';
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
@@ -9,7 +8,7 @@ import { Slate, Editable } from 'slate-react';
 import { withCustomize, iterateSlateValue } from '../../customize';
 import { MakeElementRenderer, MakeLeafRenderer } from '../../customize/render';
 import { customizeOnKeyDown } from '../../customize/commands';
-import { deserializeHTML } from '../../customize/serializer';
+import { OnChangeUpload } from '../../customize/serializer/upload';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
@@ -32,63 +31,13 @@ const EditorElement = (): Node => {
         },
     ]);
     const editor = withCustomize(createEditor(), Elements);
-    const { insertData } = editor;
-    editor.insertData = data => {
-        const html = data.getData('text/html');
-        console.log(data);
-
-        if (html) {
-            const parsed = new DOMParser().parseFromString(html, 'text/html');
-            const fragment = deserializeHTML(parsed.body);
-            console.log(parsed.body)
-            console.log(fragment);
-            Transforms.insertFragment(editor, fragment)
-            return;
-        }
-        insertData(data);
-    }
     
     const renderElement = MakeElementRenderer(Elements);
     const renderLeaf = MakeLeafRenderer(Elements);
 
     return (
         <div spellCheck="false">
-            <input type="file" name="file" onChange={(event) => {
-                const f = event.target.files[0];
-                const reader = new FileReader();
-                setFile(f);
-                
-                const ext = f.name.split('.').slice(-1)[0];
-
-                reader.onload = (function(theFile) {
-                    return function(e) {
-                        const rawText = e.target.result;
-
-                        if (ext === "docx") {
-                            console.log(rawText)
-                            mammoth.convertToHtml({ arrayBuffer: rawText })
-                                .then(result => {
-                                    const txtHTML = result.value;
-                                    const document = new DOMParser().parseFromString(txtHTML, "text/html");
-                                    setValue(deserializeHTML(document.body));
-                                })
-                                .catch( e => console.log(e) )
-                                .done();
-                        } else if (ext === "html") {
-                            const document = new DOMParser().parseFromString(rawText, "text/html");
-                            setValue(deserializeHTML(document.body));
-                        }
-
-                        
-                    };
-                })(f);
-
-                if (ext === "docx") {
-                    reader.readAsArrayBuffer(f)
-                } else if (ext === "html") {
-                    reader.readAsText(f);
-                }
-            }}/>
+            <input type="file" name="file" onChange={ (event) => OnChangeUpload(event, setValue) }/>
             {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
                 editor={editor}

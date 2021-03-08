@@ -1,7 +1,9 @@
 // @flow
 import { jsx } from 'slate-hyperscript';
 
-export const deserializeHTML = (el: ?HTMLBodyElement): Object => {
+type deserilizeHTMLParamsType = HTMLBodyElement | Node;
+
+export const deserializeHTML = (el: ?deserilizeHTMLParamsType): Object => {
 
     if (!el) {
         return {};
@@ -20,7 +22,7 @@ export const deserializeHTML = (el: ?HTMLBodyElement): Object => {
         return t;
     });
     // translate
-    const styles = el.style;
+    const styles = el.style ? el.style : {};
     let isBlock = children[0] && children[0].element;
     isBlock = children.length > 1 || isBlock;
 
