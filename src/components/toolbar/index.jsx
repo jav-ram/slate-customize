@@ -27,9 +27,9 @@ const Toolbar = ({editor, options}: ToolbarPropsType): React$Element<'div'> => (
         {Object.values(options).map(
             // $FlowIgnore
             (option: ElementDefinition) => (!option.hideInToolbar ?
-                                                <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
-                                                null
-                                           )
+                <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
+                null
+            )
         )}
     </div>
 );

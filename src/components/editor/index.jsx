@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import _ from 'lodash';
+import mammoth from 'mammoth';
 import isHotkey from 'is-hotkey';
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
@@ -9,6 +9,7 @@ import { Slate, Editable } from 'slate-react';
 import { withCustomize, iterateSlateValue } from '../../customize';
 import { MakeElementRenderer, MakeLeafRenderer } from '../../customize/render';
 import { customizeOnKeyDown } from '../../customize/commands';
+import { deserializeHTML } from '../../customize/serializer';
 
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
@@ -20,6 +21,7 @@ import { getNode } from '../hovermenu';
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = (): Node => {
+    const [ file, setFile ] = useState({})
 
     const { list, variable, conditional, title } = Elements;
 
@@ -32,7 +34,17 @@ const EditorElement = (): Node => {
     const editor = withCustomize(createEditor(), Elements);
     const { insertData } = editor;
     editor.insertData = data => {
-        console.log(data.getData("text/html"));
+        const html = data.getData('text/html');
+        console.log(data);
+
+        if (html) {
+            const parsed = new DOMParser().parseFromString(html, 'text/html');
+            const fragment = deserializeHTML(parsed.body);
+            console.log(parsed.body)
+            console.log(fragment);
+            Transforms.insertFragment(editor, fragment)
+            return;
+        }
         insertData(data);
     }
     
@@ -41,6 +53,42 @@ const EditorElement = (): Node => {
 
     return (
         <div spellCheck="false">
+            <input type="file" name="file" onChange={(event) => {
+                const f = event.target.files[0];
+                const reader = new FileReader();
+                setFile(f);
+                
+                const ext = f.name.split('.').slice(-1)[0];
+
+                reader.onload = (function(theFile) {
+                    return function(e) {
+                        const rawText = e.target.result;
+
+                        if (ext === "docx") {
+                            console.log(rawText)
+                            mammoth.convertToHtml({ arrayBuffer: rawText })
+                                .then(result => {
+                                    const txtHTML = result.value;
+                                    const document = new DOMParser().parseFromString(txtHTML, "text/html");
+                                    setValue(deserializeHTML(document.body));
+                                })
+                                .catch( e => console.log(e) )
+                                .done();
+                        } else if (ext === "html") {
+                            const document = new DOMParser().parseFromString(rawText, "text/html");
+                            setValue(deserializeHTML(document.body));
+                        }
+
+                        
+                    };
+                })(f);
+
+                if (ext === "docx") {
+                    reader.readAsArrayBuffer(f)
+                } else if (ext === "html") {
+                    reader.readAsText(f);
+                }
+            }}/>
             {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
                 editor={editor}
@@ -49,6 +97,7 @@ const EditorElement = (): Node => {
                     setValue(value);
                     // Save the value to Local Storage.
                     console.log(value);
+                    console.log(editor.history);
                 }}
             >
                 {/* <HoveringToolbar value={value} /> */}
