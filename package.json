@@ -16,6 +16,7 @@
     "eslint-plugin-react-hooks": "4",
     "is-hotkey": "^0.2.0",
     "lodash": "^4.17.20",
+    "mammoth": "^1.4.16",
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

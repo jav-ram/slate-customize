@@ -1,7 +1,11 @@
 // @flow
 import { jsx } from 'slate-hyperscript';
 
-export const deserializeHTML = (el: Node): Object => {
+export const deserializeHTML = (el: ?HTMLBodyElement): Object => {
+
+    if (!el) {
+        return {};
+    }
     
     if (el.nodeType === 3) {
         //TODO: check if those what it should

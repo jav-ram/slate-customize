@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useCallback } from 'react';
 import type { Node } from 'react';
-import _ from 'lodash';
+import mammoth from 'mammoth';
 import isHotkey from 'is-hotkey';
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
@@ -57,18 +57,37 @@ const EditorElement = (): Node => {
                 const f = event.target.files[0];
                 const reader = new FileReader();
                 setFile(f);
-                console.log(f, typeof f);
+                
+                const ext = f.name.split('.').slice(-1)[0];
 
                 reader.onload = (function(theFile) {
                     return function(e) {
                         const rawText = e.target.result;
-                        const document = new DOMParser().parseFromString(rawText, "text/html");
-                        console.log(document.body)
-                        setValue(deserializeHTML(document.body));
+
+                        if (ext === "docx") {
+                            console.log(rawText)
+                            mammoth.convertToHtml({ arrayBuffer: rawText })
+                                .then(result => {
+                                    const txtHTML = result.value;
+                                    const document = new DOMParser().parseFromString(txtHTML, "text/html");
+                                    setValue(deserializeHTML(document.body));
+                                })
+                                .catch( e => console.log(e) )
+                                .done();
+                        } else if (ext === "html") {
+                            const document = new DOMParser().parseFromString(rawText, "text/html");
+                            setValue(deserializeHTML(document.body));
+                        }
+
+                        
                     };
                 })(f);
 
-                console.log(reader.readAsText(f))
+                if (ext === "docx") {
+                    reader.readAsArrayBuffer(f)
+                } else if (ext === "html") {
+                    reader.readAsText(f);
+                }
             }}/>
             {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
@@ -78,6 +97,7 @@ const EditorElement = (): Node => {
                     setValue(value);
                     // Save the value to Local Storage.
                     console.log(value);
+                    console.log(editor.history);
                 }}
             >
                 {/* <HoveringToolbar value={value} /> */}
