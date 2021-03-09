@@ -12,8 +12,6 @@ const normalize = (editor, node, path) => {
         const selection = editor.selection;
         const xor = _.xor(path, selection.anchor.path);
         if (selection && selection.anchor.path.length === path.length && xor.length > 0) {
-            console.log(path, selection.anchor.path)
-            console.log('should delete command')
             // Remove the command tag
             Command.unset && Command.unset({ editor, at: path });
         }

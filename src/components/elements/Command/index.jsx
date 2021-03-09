@@ -48,7 +48,6 @@ const insert = InsertGenerator({ name, type });
 const Placeholder = ({ editor, ...props}) => {
     if (props.condition) {
         const path = editor.selection.anchor.path;
-        console.log(path);
         return (
             <a
                 contentEditable={false}

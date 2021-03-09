@@ -46,7 +46,6 @@ const EditorElement = (): Node => {
                     setValue(value);
                     // Save the value to Local Storage.
                     console.log(value);
-                    console.log(editor.history);
                 }}
             >
                 {/* <HoveringToolbar value={value} /> */}

@@ -6,9 +6,7 @@ import Underline from './underline';
 
 import styles from './leaf.module.css';
 
-export const Richtext = (props: Object): React.Element<*> => {
-    console.log(props.leaf);
-return (
+export const Richtext = (props: Object): React.Element<*> => (
     <span { ...props.attributes } className={`
         ${props.leaf.element === 'bold' || props.leaf.bold ? styles.bold : ''}
         ${props.leaf.element === 'italic' || props.leaf.italic ? styles.italic : ''}
@@ -16,7 +14,7 @@ return (
     `}>
         { props.children }
     </span>
-)}
+);
 
 export const BoldDefinition = Bold;
 export const ItalicDefinition = Italic;

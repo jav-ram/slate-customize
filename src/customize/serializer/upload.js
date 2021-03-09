@@ -15,7 +15,6 @@ export const OnChangeUpload = (event: SyntheticInputEvent<HTMLInputElement>, set
             const rawText = e.target.result;
 
             if (ext === "docx") {
-                console.log(rawText)
                 mammoth.convertToHtml({ arrayBuffer: rawText })
                     .then(result => {
                         const txtHTML = result.value;

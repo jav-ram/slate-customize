@@ -69,7 +69,7 @@ const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
     });
 
     const filteredElements = filterCommand(elements, text);
-    console.log(CommandEngine(text));
+    CommandEngine(text);
     return (
         <Portal>
             <div ref={ref} className={styles.menuContainer} contentEditable={false}>

@@ -91,7 +91,6 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                     default:
                         return;
                 }
-                console.log(element);
                 Transforms.removeNodes(editor, { at: path });
                 commandElement.insert && commandElement.insert({ editor, event, meta: { element } });
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
