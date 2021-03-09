@@ -5,7 +5,7 @@ import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
 
 import { getNode } from '../../components/hovermenu';
-import type { ElementDefinition, ElementType } from '../../components/elements';
+import type { ElementDefinitionType, ElementType } from '../elements';
 
 export type PathLocation = {
     offset: number,
@@ -19,7 +19,7 @@ export type PathType = {
 
 const COMMAND_KEY = '/'; 
 
-const getElementCommand = (command: string): (?ElementDefinition) => {
+const getElementCommand = (command: string): (?ElementDefinitionType) => {
     const text = command.replace(' ', '').replace('/', '');
     for (let key in Elements) {
         const element = Elements[key];

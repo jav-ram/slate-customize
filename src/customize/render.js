@@ -4,13 +4,13 @@ import type { ComponentType, Element as ReactElement } from 'react';
 
 import { Elements } from '../components/elements';
 
-import type { ElementDefinition } from '../components/elements';
+import type { ElementsDefinitionTypes } from './elements';
 
 type ElementRendererFunctionType = (Object, Object) => ReactElement<*>;
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
-export const MakeElementRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
+export const MakeElementRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
     const ElementRenderer = (props, editor) => {
         const name = props.element.element;
         const element = Elements[name];
@@ -26,7 +26,7 @@ export const MakeElementRenderer = (elements: { [string]: ElementDefinition }): 
     return ElementRenderer;
 }
 
-export const MakeLeafRenderer = (elements: { [string]: ElementDefinition }): ElementRendererFunctionType => {
+export const MakeLeafRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
     const LeafRenderer = (props, editor) => {
         const name = props.leaf.element;
         const leaf = Elements[name];

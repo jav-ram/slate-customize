@@ -2,10 +2,10 @@
 import { Editor, Transforms, Text } from 'slate';
 import { BiItalic } from 'react-icons/bi';
 
-import { toggleMark } from '../../../customize/extras.js';
-import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
 import { Richtext } from './index';
-import type { ElementDefinition, ElementLeafType } from '../index';
+import { toggleMark } from '../../../customize/extras.js';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';
 
 import styles from './leaf.module.css';
 
@@ -30,7 +30,7 @@ const Element = (props: Object) => (
     <Richtext {...props} />
 );
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     icon: BiItalic,

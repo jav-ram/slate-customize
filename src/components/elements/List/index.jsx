@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolArray } from 'react-icons/vsc';
 
-import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementBlockType, ElementLeafType, ElementType } from '../index';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementBlockType, ElementType } from '../../../customize/elements';
 
 import styles from './list.module.css';
 
@@ -34,7 +34,7 @@ const Element = (props: Object) => (
     </p>
 );
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     type,

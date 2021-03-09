@@ -6,10 +6,10 @@ import { MdErrorOutline } from 'react-icons/md';
 
 import Menu from './menu';
 import { Elements } from '../index';
-import { InsertGenerator } from '../actionGenerator';
+import { InsertGenerator } from '../../../customize/elements/actionGenerator';
 
-import type { ActionParamsType } from '../actionGenerator';
-import type { ElementDefinition } from '../index';
+import type { ActionParamsType } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType } from '../../../customize/elements';
 
 import styles from './command.module.css';
 
@@ -98,7 +98,7 @@ const Element = (props: Object) => {
     );
 }
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     component: Element,

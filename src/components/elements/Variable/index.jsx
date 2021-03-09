@@ -3,8 +3,8 @@ import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
-import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementLeafType } from '../index';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';
 
 import styles from './variable.module.css';
 
@@ -35,7 +35,7 @@ const Element = (props: Object) => (
 );
 
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     icon: VscSymbolVariable,

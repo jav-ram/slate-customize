@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 import { useRef, useEffect } from 'react';
 import { Editor, Range, Node } from 'slate';
@@ -8,7 +6,7 @@ import { css } from '@emotion/css';
 import { Portal, Menu } from './extras.jsx';
 
 const HoveringToolbar = ({ value }) => {
-    const ref = useRef<HTMLDivElement | void>();
+    const ref = useRef();
     const editor = useSlate();
 
     useEffect(() => {

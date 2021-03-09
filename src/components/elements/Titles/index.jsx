@@ -2,8 +2,8 @@
 import { Editor, Transforms, Text } from 'slate';
 import { BiHeading } from 'react-icons/bi';
 
-import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementBlockType } from '../index';
+import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementBlockType } from '../../../customize/elements';
 
 import styles from './titles.module.css';
 
@@ -52,7 +52,7 @@ const H4 = (props: Object) => (
     </h4>
 );
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     icon: BiHeading,

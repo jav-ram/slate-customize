@@ -4,8 +4,18 @@ import _ from 'lodash';
 import { Editor, Transforms, Text } from 'slate';
 import { GiChoice } from 'react-icons/gi';
 
-import { SetGenerator, UnsetGenerator, InsertGenerator } from '../actionGenerator';
-import type { ElementDefinition, ElementBlockType, ElementLeafType, ElementType } from '../index';
+import {
+    SetGenerator,
+    UnsetGenerator,
+    InsertGenerator
+} from '../../../customize/elements/actionGenerator';
+
+import type {
+    ElementDefinitionType,
+    ElementBlockType,
+    ElementLeafType,
+    ElementType,
+} from '../../../customize/elements';
 
 import styles from './conditional.module.css';
 
@@ -39,7 +49,7 @@ const Element = (props) => (
     </p>
 );
 
-const definition: ElementDefinition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     type,

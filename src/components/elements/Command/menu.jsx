@@ -7,21 +7,21 @@ import _ from 'lodash';
 import { subObjectMatcher } from '../../../customize/typeahead';
 import { Elements } from '../index';
 
-import type { ElementDefinition } from '../index';
+import type { ElementDefinitionType } from '../../../customize/elements';
 
 import styles from './menu.module.css';
 
 type MenuPropsType = {
     command: ?React.ElementRef<'span'>,
-    elements: {[string]: ElementDefinition},
+    elements: {[string]: ElementDefinitionType},
     text: string
 }
 
-type filterCommandParamsType = ({[string]: ElementDefinition}, string) => Array<ElementDefinition>;
+type filterCommandParamsType = ({[string]: ElementDefinitionType}, string) => Array<ElementDefinitionType>;
 type PortalPropsType = { children: React.Node, ref?: React.ElementRef<'span'> };
 export const Portal = ({ children, ref }: PortalPropsType): React.Node => ReactDOM.createPortal(children, ref || document.body);
 
-const Item = (element: ElementDefinition) => {
+const Item = (element: ElementDefinitionType) => {
     return (
         <div className={styles.itemContainer} key={element.name}>
             <div className={styles.itemLeftContainer}>
@@ -33,12 +33,12 @@ const Item = (element: ElementDefinition) => {
     );
 }
 
-const filterCommand = (elements, text): [ElementDefinition] => {
+const filterCommand = (elements, text): [ElementDefinitionType] => {
     const command = text.replace('/', '').replace(' ', '');
     // $FlowIgnore
-    const byName = Object.values(elements).filter((element: ElementDefinition) => element.name.includes(command));
+    const byName = Object.values(elements).filter((element: ElementDefinitionType) => element.name.includes(command));
     // $FlowIgnore
-    const byCommand = Object.values(elements).filter((element: ElementDefinition) => element.command.includes(command));
+    const byCommand = Object.values(elements).filter((element: ElementDefinitionType) => element.command.includes(command));
 
     return _.union(byName, byCommand);
 }
@@ -47,7 +47,7 @@ const filterCommand = (elements, text): [ElementDefinition] => {
 
 const Menu = ({ elements, command, text }: MenuPropsType): React.Node => {
     const ref = useRef<?React.ElementRef<'div'>>();
-    const CommandEngine = subObjectMatcher<ElementDefinition>({ options: elements, includes: ['name', 'command'] });
+    const CommandEngine = subObjectMatcher<ElementDefinitionType>({ options: elements, includes: ['name', 'command'] });
     useEffect(() => {
         const el = ref.current;
 

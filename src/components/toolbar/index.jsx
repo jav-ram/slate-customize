@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useMemo, useState, useCallback } from 'react';
 
 import type { Node } from 'react';
-import type { ElementDefinition } from '../elements';
+import type { ElementsDefinitionTypes } from '../../customize/elements';
 
 type ToolbarButtonPropsType = {
     editor: Object,
@@ -13,7 +13,7 @@ type ToolbarButtonPropsType = {
 
 type ToolbarPropsType = {
     editor: Object,
-    options: {[string]: ElementDefinition},
+    options: ElementsDefinitionTypes,
 }
 
 const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
