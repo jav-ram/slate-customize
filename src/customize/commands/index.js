@@ -4,6 +4,7 @@ import { Elements } from '../../components/elements';
 import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
 
+import { iterateValue } from '../extras';
 import { getNode } from '../../components/hovermenu';
 import type { ElementDefinitionType, ElementType } from '../elements';
 
@@ -17,7 +18,15 @@ export type PathType = {
     focus: PathLocation,
 }
 
-const COMMAND_KEY = '/'; 
+const COMMAND_KEY = '/';
+
+const cleanCommand = (editor, node, path) => {
+    if (node.element === 'command') {
+        Command.unset && Command.unset({ editor, at: path });
+    }
+}
+
+const cleanCommands = iterateValue(cleanCommand);
 
 const getElementCommand = (command: string): (?ElementDefinitionType) => {
     const text = command.replace(' ', '').replace('/', '');
@@ -35,6 +44,9 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
     const node = getNode(value, selection.anchor.path);
 
     if (event.key === COMMAND_KEY) {
+        // check if there is any other command on the editor if so delete it first
+        cleanCommands({ editor, value });
+
         event.preventDefault();
         Transforms.insertNodes(editor, { element: "command", text: COMMAND_KEY });
         return;
@@ -89,6 +101,7 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                         });
                         break;
                     default:
+                        commandElement.unset && commandElement.unset({ editor });
                         return;
                 }
                 Transforms.removeNodes(editor, { at: path });
@@ -96,7 +109,7 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
                 //commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
             } else {
-                // show alert of command not completed or bad command
+                // show alert of command not completed or bad command 
             }
             
         }

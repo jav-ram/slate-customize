@@ -43,7 +43,7 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
     editor = withHistory(editor, []);
 
     editor = withInlines(editor);
-    editor = withCommands(editor);
+    // editor = withCommands(editor);
     editor = withCopyPasteWithStyles(editor);
     console.log(editor);
 
