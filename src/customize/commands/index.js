@@ -22,7 +22,8 @@ const COMMAND_KEY = '/';
 
 const cleanCommand = (editor, node, path) => {
     if (node.element === 'command') {
-        Command.unset && Command.unset({ editor, at: path });
+        Transforms.removeNodes(editor, { at: path })
+        //Command.unset && Command.unset({ editor, at: path });
     }
 }
 
@@ -109,6 +110,8 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
                 //commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
             } else {
+                console.log("should delete it", commandElement)
+                Command.unset && Command.unset({ editor });
                 // show alert of command not completed or bad command 
             }
             
