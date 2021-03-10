@@ -37,7 +37,7 @@ const EditorElement = (): Node => {
 
     return (
         <div spellCheck="false">
-            <input type="file" name="file" onChange={ (event) => OnChangeUpload(event, setValue) }/>
+            <input type="file" name="file" onChange={ (event) => OnChangeUpload(editor, event, setValue) }/>
             {/* <Toolbar editor={editor} options={Elements} /> */}
             <Slate
                 editor={editor}

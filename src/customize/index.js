@@ -7,6 +7,7 @@ import { Transforms } from 'slate';
 import type { ElementsDefinitionTypes } from './elements';
 
 import { deserializeHTML } from './serializer';
+import { CleanHistory } from './history';
 import withCommands from './commands';
 import { iterateValue } from './extras'
 import Tokenize from './commands/tokenizer';
@@ -28,7 +29,8 @@ const withCopyPasteWithStyles = (editor: Object): Object => {
         if (html) {
             const parsed = new DOMParser().parseFromString(html, 'text/html');
             const fragment = deserializeHTML(parsed.body);
-            Transforms.insertFragment(editor, fragment)
+            Transforms.insertFragment(editor, fragment);
+            CleanHistory(editor);
             return;
         }
         insertData(data);
@@ -43,7 +45,7 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
     editor = withHistory(editor, []);
 
     editor = withInlines(editor);
-    // editor = withCommands(editor);
+    editor = withCommands(editor);
     editor = withCopyPasteWithStyles(editor);
     console.log(editor);
 

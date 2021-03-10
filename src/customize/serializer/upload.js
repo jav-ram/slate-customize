@@ -1,9 +1,10 @@
 // @flow
 import mammoth from 'mammoth';
 
+import { CleanHistory } from '../history';
 import { deserializeHTML } from './index';
 
-export const OnChangeUpload = (event: SyntheticInputEvent<HTMLInputElement>, setValue: Function) => {
+export const OnChangeUpload = (editor: Object, event: SyntheticInputEvent<HTMLInputElement>, setValue: Function) => {
     const f = event.target.files[0];
     const reader = new FileReader();
     
@@ -20,12 +21,14 @@ export const OnChangeUpload = (event: SyntheticInputEvent<HTMLInputElement>, set
                         const txtHTML = result.value;
                         const document = new DOMParser().parseFromString(txtHTML, "text/html");
                         setValue(deserializeHTML(document.body));
+                        editor = CleanHistory(editor);
                     })
                     .catch( e => console.log(e) )
                     .done();
             } else if (ext === "html") {
                 const document = new DOMParser().parseFromString(rawText, "text/html");
                 setValue(deserializeHTML(document.body));
+                editor = CleanHistory(editor);
             }
 
             
