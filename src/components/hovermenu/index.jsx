@@ -3,7 +3,9 @@ import { useRef, useEffect } from 'react';
 import { Editor, Range, Node } from 'slate';
 import { useSlate, ReactEditor } from 'slate-react';
 import { css } from '@emotion/css';
+
 import { Portal, Menu } from './extras.jsx';
+import { getNode } from '../../customize/extras';
 
 const HoveringToolbar = ({ value }) => {
     const ref = useRef();
@@ -67,20 +69,6 @@ const HoveringToolbar = ({ value }) => {
         </Portal>
   );
 };
-
-// FIXME: arreglar esta funcion y moverla a otro lado
-export const getNode = (root, path) => {
-  const pos = path;
-  let current = root;
-    for (let i of pos) {
-        let nCurrent = current.children ? current.children[i] : current[i];
-        if (!nCurrent || (!nCurrent.element && nCurrent.text)) {
-            return current;
-        }
-        current = nCurrent;
-    }
-    return current;
-}
 
 
 export default HoveringToolbar;

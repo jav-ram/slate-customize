@@ -10,7 +10,6 @@ export const deserializeHTML = (el: ?deserilizeHTMLParamsType): Object => {
     }
     
     if (el.nodeType === 3) {
-        //TODO: check if those what it should
         return jsx('text', {}, el.textContent);
     } else if (el.nodeType !== 1) {
         return null;
@@ -65,19 +64,11 @@ export const deserializeHTML = (el: ?deserilizeHTMLParamsType): Object => {
             return jsx('text', { element: 'bold' }, children);
         case 'EM':
         case 'I':
-            // TODO: Test if this works as intended
             return jsx('text', { element: 'italic' }, children);
         case 'U':
-            // TODO: Test if this works as intended
             return jsx('text', { element: 'underline' }, children);
         case 'META':
             return null;
-        // TODO: all others types
-        // * H1 ... H4
-        // * span or p with styles (css)
-        // * <i /> italic
-        // * <u /> underline
-        // * <b /> bold
         default:
             return jsx('text', {}, el.textContent);
     }

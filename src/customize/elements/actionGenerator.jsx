@@ -3,19 +3,7 @@ import { useSlate } from 'slate-react';
 import { Editor, Transforms, Text } from 'slate';
 
 import type { transformParamsType } from './index';
-
-// FIXME: MOVE IT OR IMPORT inspect
-// ----------------------------------
-export type PathLocation = {
-    offset: number,
-    path: Array<number>,
-}
-
-export type PathType = {
-    anchor: PathLocation,
-    focus: PathLocation,
-}
-// ----------------------------------
+import type { PathType } from '../extras.js';
 
 export type ActionDefinitionType = {
     before?: ActionFunctionType,

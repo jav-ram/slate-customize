@@ -7,6 +7,16 @@ type IterateSlateValueType = {
     path?: number[],
 }
 
+export type PathLocation = {
+    offset: number,
+    path: Array<number>,
+}
+
+export type PathType = {
+    anchor: PathLocation,
+    focus: PathLocation,
+}
+
 const isMarkActive = (editor: Object, key: string): boolean => {
     const marks = Editor.marks(editor)
     return marks ? marks[key] === true : false
@@ -36,4 +46,17 @@ export const iterateValue = (action: (Object, Object, number[]) => void): (Itera
         action(editor, value, path);
     }
     return loop;
+}
+
+export const getNode = (root: Object, path: [number]): Object => {
+  const pos = path;
+  let current = root;
+    for (let i of pos) {
+        let nCurrent = current.children ? current.children[i] : current[i];
+        if (!nCurrent || (!nCurrent.element && nCurrent.text)) {
+            return current;
+        }
+        current = nCurrent;
+    }
+    return current;
 }

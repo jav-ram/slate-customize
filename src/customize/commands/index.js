@@ -5,18 +5,8 @@ import Command from '../../components/elements/Command';
 import { withCommand } from './normalizer';
 
 import { iterateValue } from '../extras';
-import { getNode } from '../../components/hovermenu';
+import { getNode } from '../../customize/extras';
 import type { ElementDefinitionType, ElementType } from '../elements';
-
-export type PathLocation = {
-    offset: number,
-    path: Array<number>,
-}
-
-export type PathType = {
-    anchor: PathLocation,
-    focus: PathLocation,
-}
 
 const COMMAND_KEY = '/';
 

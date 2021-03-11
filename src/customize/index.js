@@ -4,7 +4,7 @@ import { withHistory } from 'slate-history';
 import { useMemo } from 'react';
 import { Transforms } from 'slate';
 
-import type { ElementsDefinitionTypes } from './elements';
+import type { ElementDefinitionType, ElementsDefinitionTypes } from './elements';
 
 import { deserializeHTML } from './serializer';
 import { CleanHistory } from './history';
@@ -39,7 +39,11 @@ const withCopyPasteWithStyles = (editor: Object): Object => {
 }
 
 export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes): Object => {
-    const withInlines = withCustomInlines(['list', 'variable', 'conditional']); // FIXME: better way to call the names
+    const inlines = Object.keys(elements)
+        .map(key => elements[key])
+        .filter((element: ElementDefinitionType) => element.type === "inline")
+        .map(element => element.name)
+    const withInlines = withCustomInlines(inlines);
 
     editor = withReact(editor, []);
     editor = withHistory(editor, []);
