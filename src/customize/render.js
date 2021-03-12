@@ -13,7 +13,7 @@ const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 export const MakeElementRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
     const ElementRenderer = (props, editor) => {
         const name = props.element.element;
-        const element = Elements[name];
+        const element = elements[name];
 
         if (element) {
             const Component = element.component;
@@ -29,7 +29,7 @@ export const MakeElementRenderer = (elements: ElementsDefinitionTypes): ElementR
 export const MakeLeafRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
     const LeafRenderer = (props, editor) => {
         const name = props.leaf.element;
-        const leaf = Elements[name];
+        const leaf = elements[name];
         if (leaf) {
             const Leaf = leaf.component;
             return <Leaf
