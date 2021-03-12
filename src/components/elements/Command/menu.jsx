@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { subObjectMatcher } from '../../../customize/typeahead';
-import { Elements } from '../index';
 
 import type { ElementDefinitionType } from '../../../customize/elements';
 

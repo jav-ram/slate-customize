@@ -9,7 +9,7 @@ import { Elements } from '../index';
 import { InsertGenerator } from '../../../customize/elements/actionGenerator';
 
 import type { ActionParamsType } from '../../../customize/elements/actionGenerator';
-import type { ElementDefinitionType } from '../../../customize/elements';
+import type { ElementDefinitionType, ElementsDefinitionTypes } from '../../../customize/elements';
 
 import styles from './command.module.css';
 
@@ -78,10 +78,11 @@ const Placeholder = ({ editor, ...props}) => {
     return null;
 }
 
-const Element = (props: Object) => {
+const Element = (props: Object & { elements?: ElementsDefinitionTypes }) => {
     const ref = useRef<?React.ElementRef<'span'>>();
     const text = props.children.props.text.text;
     const editor = props.editor;
+    const elements = props.elements ? props.elements : Elements; // get default or receive from editor
     return (
         <span
             ref={ref}
@@ -92,7 +93,7 @@ const Element = (props: Object) => {
             </span>
             <Placeholder editor={editor} condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
             {/*$FlowFixMe*/}
-            <Menu text={text} command={ref} elements={Elements} />
+            <Menu text={text} command={ref} elements={elements} />
         </span>
     );
 }
