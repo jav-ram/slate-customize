@@ -32,7 +32,11 @@ export const MakeLeafRenderer = (elements: ElementsDefinitionTypes): ElementRend
         const leaf = Elements[name];
         if (leaf) {
             const Leaf = leaf.component;
-            return <Leaf editor={editor} {...props} />
+            return <Leaf
+                editor={editor}
+                {...props}
+                elements={leaf.name === "command" ? elements : undefined}
+            />
         }
         else {
             // default
