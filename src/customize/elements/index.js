@@ -1,6 +1,14 @@
 // @flow
 import type { ComponentType } from 'react';
 
+import CommandDefinition from './Command';
+import TitleDefinition from './Titles';
+import {
+    BoldDefinition,
+    ItalicDefinition,
+    UnderlineDefinition,
+} from './LeafStyles';
+
 export type transformParamsType = { event?: Object, editor: Object, at: Object, meta?: Object };
 
 export type ElementType = {
@@ -39,3 +47,12 @@ export type ElementDefinitionType = {
 };
 
 export type ElementsDefinitionTypes = { [string]: ElementDefinitionType };
+
+export const Elements: ElementsDefinitionTypes = {
+    command: CommandDefinition,
+    title: TitleDefinition,
+
+    bold: BoldDefinition,
+    italic: ItalicDefinition,
+    underline: UnderlineDefinition,
+}

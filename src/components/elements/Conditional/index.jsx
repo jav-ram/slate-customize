@@ -37,7 +37,7 @@ const create = ({ condition, ifTrue, ifFalse }: createParamsType): ConditionalEl
 
 const name = 'conditional';
 const command = 'conditional';
-const type = 'block';
+const type = 'inline';
 
 const set = SetGenerator({ name, type });
 const unset = UnsetGenerator({ name, type });

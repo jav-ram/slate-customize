@@ -43,6 +43,8 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
         .map(key => elements[key])
         .filter((element: ElementDefinitionType) => element.type === "inline")
         .map(element => element.name)
+
+    console.log(inlines);
     const withInlines = withCustomInlines(inlines);
 
     editor = withReact(editor, []);

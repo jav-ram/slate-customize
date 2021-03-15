@@ -13,7 +13,7 @@ import { OnChangeUpload } from '../../customize/serializer/upload';
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
 import { Elements } from '../elements';
-import command from '../elements/Command';
+import command from '../../customize/elements/Command';
 
 import { getNode } from '../hovermenu';
 

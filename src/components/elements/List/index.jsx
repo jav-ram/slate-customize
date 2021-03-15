@@ -22,7 +22,7 @@ const create = ({ children, refs }: createParamsType): ListElementType => ({
 
 const name = 'list';
 const command = 'list';
-const type = 'block';
+const type = 'inline';
 
 const set = SetGenerator({ name, type });
 const unset = UnsetGenerator({ name, type });

@@ -1,7 +1,7 @@
 // @flow
 import { Transforms, Element, Text, Node, Editor } from 'slate';
 import { Elements } from '../../components/elements';
-import Command from '../../components/elements/Command';
+import Command from '../elements/Command';
 import { withCommand } from './normalizer';
 
 import { iterateValue } from '../extras';
