@@ -12,8 +12,8 @@ const COMMAND_KEY = '/';
 
 const cleanCommand = (editor, node, path) => {
     if (node.element === 'command') {
-        Transforms.removeNodes(editor, { at: path })
-        //Command.unset && Command.unset({ editor, at: path });
+        // Transforms.removeNodes(editor, { at: path })
+        Command.unset && Command.unset({ editor, at: path });
     }
 }
 
@@ -35,10 +35,10 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
     const node = getNode(value, selection.anchor.path);
 
     if (event.key === COMMAND_KEY) {
+        event.preventDefault();
         // check if there is any other command on the editor if so delete it first
         cleanCommands({ editor, value });
 
-        event.preventDefault();
         Transforms.insertNodes(editor, { element: "command", text: COMMAND_KEY });
         return;
     }
@@ -93,10 +93,11 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                         break;
                     default:
                         commandElement.unset && commandElement.unset({ editor });
+                        console.log("something went wrong")
                         return;
                 }
                 Transforms.removeNodes(editor, { at: path });
-                commandElement.insert && commandElement.insert({ editor, event, meta: { element } });
+                commandElement.insert && commandElement.insert({ editor, event, meta: { element, at: path } });
                 //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
                 //commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
             } else {

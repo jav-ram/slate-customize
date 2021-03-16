@@ -1,7 +1,7 @@
 // @flow
 import mammoth from 'mammoth';
 
-import { CleanHistory } from '../history';
+import { CleanHistory } from '../extras';
 import { deserializeHTML } from './index';
 
 export const OnChangeUpload = (editor: Object, event: SyntheticInputEvent<HTMLInputElement>, setValue: Function) => {

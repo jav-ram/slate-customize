@@ -7,10 +7,9 @@ import { Transforms } from 'slate';
 import type { ElementDefinitionType, ElementsDefinitionTypes } from './elements';
 
 import { deserializeHTML } from './serializer';
-import { CleanHistory } from './history';
+import { CleanHistory } from './extras';
 import withCommands from './commands';
-import { iterateValue } from './extras'
-import Tokenize from './commands/tokenizer';
+import { iterateValue } from './extras';
 
 const withCustomInlines = (elements: Array<string>): ((Object) => Object) => {
     return (editor) => {
@@ -51,7 +50,7 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
     editor = withHistory(editor, []);
 
     editor = withInlines(editor);
-    editor = withCommands(editor);
+    // editor = withCommands(editor);
     editor = withCopyPasteWithStyles(editor);
     console.log(editor);
 
