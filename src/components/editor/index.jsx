@@ -13,7 +13,7 @@ import { OnChangeUpload } from '../../customize/serializer/upload';
 import Toolbar from '../toolbar';
 import HoveringToolbar from '../hovermenu';
 import { Elements } from '../elements';
-import command from '../elements/Command';
+import command from '../../customize/elements/Command';
 
 import { getNode } from '../hovermenu';
 
@@ -45,7 +45,10 @@ const EditorElement = (): Node => {
                 onChange={value => {
                     setValue(value);
                     // Save the value to Local Storage.
+                    console.log("-----------")
                     console.log(value);
+                    console.log(editor.history)
+                    console.log("-----------")
                 }}
             >
                 {/* <HoveringToolbar value={value} /> */}

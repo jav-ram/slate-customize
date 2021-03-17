@@ -4,7 +4,7 @@ import { Transforms, Text, Element, Node } from 'slate';
 import { iterateValue } from '../extras';
 import _, { slice } from 'lodash';
 
-import Command from '../../components/elements/Command';
+import Command from '../elements/Command';
 
 const normalize = (editor, node, path) => {
     // if is text

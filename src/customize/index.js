@@ -7,10 +7,7 @@ import { Transforms } from 'slate';
 import type { ElementDefinitionType, ElementsDefinitionTypes } from './elements';
 
 import { deserializeHTML } from './serializer';
-import { CleanHistory } from './history';
-import withCommands from './commands';
-import { iterateValue } from './extras'
-import Tokenize from './commands/tokenizer';
+import { CleanHistory, iterateValue } from './extras';
 
 const withCustomInlines = (elements: Array<string>): ((Object) => Object) => {
     return (editor) => {
@@ -43,13 +40,14 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
         .map(key => elements[key])
         .filter((element: ElementDefinitionType) => element.type === "inline")
         .map(element => element.name)
+
+    console.log(inlines);
     const withInlines = withCustomInlines(inlines);
 
     editor = withReact(editor, []);
     editor = withHistory(editor, []);
 
     editor = withInlines(editor);
-    editor = withCommands(editor);
     editor = withCopyPasteWithStyles(editor);
     console.log(editor);
 

@@ -22,6 +22,12 @@ const isMarkActive = (editor: Object, key: string): boolean => {
     return marks ? marks[key] === true : false
 }
 
+export const CleanHistory = (HistoryEditor: Object): Object => {
+    const newEditor = HistoryEditor;
+    newEditor.history = { undos: [], redos: [] };
+    return newEditor;
+}
+
 export const toggleMark = (editor: Object, key: string): void => {
     isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key);
 };
