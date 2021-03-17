@@ -12,7 +12,7 @@ const COMMAND_KEY = '/';
 
 const cleanCommand = (editor, node, path) => {
     if (node.element === 'command') {
-        // Transforms.removeNodes(editor, { at: path })
+        // Transforms.removeNodes(editor, { at: path });
         Command.unset && Command.unset({ editor, at: path });
     }
 }
@@ -93,7 +93,6 @@ export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: 
                         break;
                     default:
                         commandElement.unset && commandElement.unset({ editor });
-                        console.log("something went wrong")
                         return;
                 }
                 Transforms.removeNodes(editor, { at: path });
