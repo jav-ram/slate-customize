@@ -1,16 +1,17 @@
+// @flow
 import mammoth from 'mammoth';
 
 import { CleanHistory } from '../extras';
 import { deserializeHTML } from './index';
 
-export const OnChangeUpload = (editor, event, setValue) => {
+export const OnChangeUpload = (editor: Object, event: SyntheticInputEvent<HTMLInputElement>, setValue: Function) => {
     const f = event.target.files[0];
     const reader = new FileReader();
     
     const ext = f.name.split('.').slice(-1)[0];
 
     reader.onload = (function(theFile) {
-        return (e) => {
+        return (e: ProgressEvent) => {
             // $FlowIgnore
             const rawText = e.target.result;
 

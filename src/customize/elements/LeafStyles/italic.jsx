@@ -1,12 +1,9 @@
-// @flow
 import { Editor, Transforms, Text } from 'slate';
 import { BiItalic } from 'react-icons/bi';
 
 import { Richtext } from './index';
 import { toggleMark } from '../../../customize/extras.js';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
-
-import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';
 
 import styles from './leaf.module.css';
 
@@ -18,8 +15,7 @@ const set = ({ event, editor, at, meta }) => Editor.addMark(editor, name, true);
 const unset = ({ event, editor, at, meta }) => Editor.removeMark(editor, name);
 const insert = InsertGenerator({ name, type });
 
-type createParamsType = { text: string };
-const create = ({ text }: createParamsType): ElementLeafType => ({
+const create = ({ text }) => ({
     element: name,
     type,
     italic: true,
@@ -27,11 +23,11 @@ const create = ({ text }: createParamsType): ElementLeafType => ({
 });
 
 
-const Element = (props: Object) => (
+const Element = (props) => (
     <Richtext {...props} />
 );
 
-const definition: ElementDefinitionType = {
+const definition = {
     name,
     command,
     icon: BiItalic,

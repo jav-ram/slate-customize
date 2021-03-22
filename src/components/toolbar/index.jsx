@@ -1,32 +1,17 @@
-//@flow
 import * as React from 'react';
 import { useMemo, useState, useCallback } from 'react';
 
-import type { Node } from 'react';
-import type { ElementsDefinitionTypes } from '../../customize/elements';
-
-type ToolbarButtonPropsType = {
-    editor: Object,
-    Icon: Function,
-    action: Function
-}
-
-type ToolbarPropsType = {
-    editor: Object,
-    options: ElementsDefinitionTypes,
-}
-
-const ToolbarButton = ({editor, Icon, action}: ToolbarButtonPropsType) => (
+const ToolbarButton = ({editor, Icon, action}) => (
     <button onClick={(event) => action({ event, editor })}>
         {<Icon />}
     </button>
 );
 
-const Toolbar = ({editor, options}: ToolbarPropsType): React$Element<'div'> => (
+const Toolbar = ({editor, options}) => (
     <div>
         {Object.values(options).map(
             // $FlowIgnore
-            (option: ElementDefinition) => (!option.hideInToolbar ?
+            (option) => (!option.hideInToolbar ?
                 <ToolbarButton key={option.name} editor={editor} Icon={option.icon} action={option.action} /> :
                 null
             )

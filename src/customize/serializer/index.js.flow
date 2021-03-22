@@ -1,6 +1,9 @@
+// @flow
 import { jsx } from 'slate-hyperscript';
 
-export const deserializeHTML = (el) => {
+type deserilizeHTMLParamsType = HTMLBodyElement | Node;
+
+export const deserializeHTML = (el: ?deserilizeHTMLParamsType): Object => {
 
     if (!el) {
         return {};
