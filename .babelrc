@@ -1,6 +1,15 @@
 {
   "presets": [
-    "react-native"
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types",
+    ["babel-plugin-react-css-modules",
+      {
+        "webpackHotModuleReloading": true,
+        "autoResolveMultipleImports": true
+    }]
   ],
   "retainLines": true
 }

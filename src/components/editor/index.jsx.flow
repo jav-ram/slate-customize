@@ -1,4 +1,6 @@
+// @flow
 import React, { useState, useCallback } from 'react';
+import type { Node } from 'react';
 import isHotkey from 'is-hotkey';
 import { Editor, createEditor, Transforms, Text, Range, Element as SlateElement, Node as SlateNode } from 'slate';
 import { Slate, Editable } from 'slate-react';
@@ -17,7 +19,7 @@ import { getNode } from '../hovermenu';
 
 const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
-const EditorElement = () => {
+const EditorElement = (): Node => {
     const [ file, setFile ] = useState({})
 
     const { list, variable, conditional, title } = Elements;

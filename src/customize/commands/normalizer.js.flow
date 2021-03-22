@@ -1,3 +1,5 @@
+//@flow
+
 import { Transforms, Text, Element, Node } from 'slate';
 import { iterateValue } from '../extras';
 import _, { slice } from 'lodash';
@@ -18,10 +20,10 @@ const normalize = (editor, node, path) => {
 
 const iterativeNormalize = iterateValue(normalize);
 
-export const withCommand = (editor) => {
+export const withCommand = (editor: Object): Object => {
     const { normalizeNode } = editor
 
-    editor.normalizeNode = (entry) => {
+    editor.normalizeNode = (entry: [Object, number[]]) => {
         const [node, path] = entry
 
         // If the element is a paragraph, ensure its children are valid.

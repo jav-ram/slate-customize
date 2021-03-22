@@ -1,3 +1,4 @@
+// @flow
 import { Transforms, Element, Text, Node, Editor } from 'slate';
 import { Elements } from '../../components/elements';
 import Command from '../elements/Command';
@@ -5,6 +6,7 @@ import { withCommand } from './normalizer';
 
 import { iterateValue } from '../extras';
 import { getNode } from '../../customize/extras';
+import type { ElementDefinitionType, ElementType } from '../elements';
 
 const COMMAND_KEY = '/';
 
@@ -17,7 +19,7 @@ const cleanCommand = (editor, node, path) => {
 
 const cleanCommands = iterateValue(cleanCommand);
 
-const getElementCommand = (command) => {
+const getElementCommand = (command: string): (?ElementDefinitionType) => {
     const text = command.replace(' ', '').replace('/', '');
     for (let key in Elements) {
         const element = Elements[key];
@@ -27,7 +29,7 @@ const getElementCommand = (command) => {
     return;
 }
 
-export const customizeOnKeyDown = (event, editor, value) => {
+export const customizeOnKeyDown = (event: KeyboardEvent, editor: Object, value: Object) => {
     const { selection } = editor;
     const { path, offset } = editor.selection.anchor;
     const node = getNode(value, selection.anchor.path);
@@ -48,7 +50,7 @@ export const customizeOnKeyDown = (event, editor, value) => {
             event.preventDefault();
             const commandElement = getElementCommand(node.text);
             if (commandElement) {
-                let element = {};
+                let element: ElementType = {};
                 switch (commandElement.name) {
                     case Elements.variable.name:
                         element = commandElement.create({ ref: 'var' });

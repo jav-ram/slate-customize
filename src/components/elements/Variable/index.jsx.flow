@@ -1,10 +1,16 @@
+// @flow
 import React from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { VscSymbolVariable } from 'react-icons/vsc';
 
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';
 
 import styles from './variable.module.css';
+
+export type VariableElementType = ElementLeafType & {
+    ref: string,
+};
 
 const name = 'variable';
 const command = 'var';
@@ -14,21 +20,22 @@ const set = SetGenerator({ name, type });
 const unset = UnsetGenerator({ name, type });
 const insert = InsertGenerator({ name, type });
 
-const create = ({ ref }) => ({
+type createParamsType = { ref: string };
+const create = ({ ref }: createParamsType): VariableElementType => ({
     element: name,
     type,
     ref,
     text: ref,
 });
 
-const Element = (props) => (
+const Element = (props: Object) => (
     <span className={styles.wrapper} {...props.attributes}>
         {props.children}
     </span>
 );
 
 
-const definition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     icon: VscSymbolVariable,

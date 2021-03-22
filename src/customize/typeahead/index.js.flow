@@ -1,12 +1,20 @@
+// @flow
 
-export const subObjectMatcher = ({ options, includes }) => {
+type OptionsParamsType<T> = T[] | {[string]: T};
+type EngineMatcherFunction<T> = string => T[];
+type subObjectMatcherParamsType<T> = {
+    options: OptionsParamsType<T>,
+    includes?: string[]
+}
+
+export const subObjectMatcher = <T>({ options, includes }: subObjectMatcherParamsType<T>): EngineMatcherFunction<T> => {
     // $FlowIgnore
-    const list = Array.isArray(options) ? options : (Object.values(options));
+    const list: T[] = Array.isArray(options) ? options : (Object.values(options): T[]);
     const check = includes ? includes : undefined;
 
-    return (t) => {
+    return (t: string): T[] => {
         const text = t.replace("/", "");
-        const matches = [];
+        const matches: T[] = [];
         const substrRegex = new RegExp(text, 'i');
         for (const item of list) {
             if (item) {

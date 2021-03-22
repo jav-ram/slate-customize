@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import { useRef } from 'react';
 import { Editor, Transforms, Text } from 'slate';
@@ -6,14 +7,18 @@ import { MdErrorOutline } from 'react-icons/md';
 import Menu from './menu';
 import { Elements } from '../index';
 import { InsertGenerator } from '../../../customize/elements/actionGenerator';
+
+import type { ActionParamsType } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementsDefinitionTypes } from '../../../customize/elements';
+
 import styles from './command.module.css';
 
 const name = 'command';
 const command = '';
 const type = 'inline';
 
-const set = ({ event, editor, at }) => {
-    const options = {
+const set = ({ event, editor, at }: ActionParamsType): void => {
+    const options: Object = {
         match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
@@ -25,8 +30,8 @@ const set = ({ event, editor, at }) => {
     );
 }
 
-export const unset = ({event, editor, at}) => {
-    const options = {
+export const unset = ({event, editor, at}: ActionParamsType): void => {
+    const options: Object = {
         match: n => Text.isText(n) && n.type !== type,
         split: true,
     };
@@ -73,8 +78,8 @@ const Placeholder = ({ editor, ...props}) => {
     return null;
 }
 
-const Element = (props) => {
-    const ref = useRef();
+const Element = (props: Object & { elements?: ElementsDefinitionTypes }) => {
+    const ref = useRef<?React.ElementRef<'span'>>();
     const text = props.children.props.text.text;
     const editor = props.editor;
     const elements = props.elements ? props.elements : Elements; // get default or receive from editor
@@ -93,7 +98,7 @@ const Element = (props) => {
     );
 }
 
-const definition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     component: Element,
