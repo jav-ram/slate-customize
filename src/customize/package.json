@@ -1,0 +1,9 @@
+{
+  "name": "customize",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/ram16230/slate-customize/tree/main/src/customize",
+  "author": "Javier Ramos",
+  "license": "MIT",
+  "private": false
+}
