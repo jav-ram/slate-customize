@@ -1,12 +1,9 @@
 {
   "name": "slate-customize",
-  "main": "lib/index.js",
-  "files": [
-    "lib"
-  ],
-  "version": "0.1.31",
+  "version": "0.0.1",
   "private": false,
   "license": "MIT",
+  "main": "dist",
   "repository": {
     "type": "git",
     "url": "https://github.com/ram16230/slate-customize"
@@ -38,11 +35,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "publish:npm": "rm -rf dist && mkdir dist &&  babel ./src -d dist --copy-files",
     "flow": "flow",
-    "prepack": "npm run prepack:babel && npm run prepack:flow",
-    "prepack:babel": "yarn babel src/ -d lib",
-    "prepack:flow": "yarn flow-copy-source src lib"
+    "prepack": "npm run prepack:clean && npm run prepack:babel && npm run prepack:flow",
+    "prepack:clean": "rm -rf dist && mkdir dist",
+    "prepack:babel": "babel src/ -d dist --copy-files",
+    "prepack:flow": "flow-copy-source src dist"
   },
   "eslintConfig": {
     "extends": "react-app"
