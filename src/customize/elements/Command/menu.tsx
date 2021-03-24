@@ -1,19 +1,30 @@
-import * as React from 'react';
+import React from 'react';
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { subObjectMatcher } from '../../../customize/typeahead';
+import type { ElementDefinitionType } from '../../../customize/elements';
 
 import styles from './menu.module.css';
 
-export const Portal = ({ children, ref }) => ReactDOM.createPortal(children, ref || document.body);
+type MenuPropsType = {
+    command?: React.MutableRefObject<HTMLSpanElement>,
+    elements: {[key: string]: ElementDefinitionType},
+    text: string
+}
 
-const Item = (element) => {
+type filterCommandParamsType = (elements: {[key: string]: ElementDefinitionType}, text: string) => Array<ElementDefinitionType>;
+type PortalPropsType = { children: JSX.Element, ref?: HTMLSpanElement };
+export const Portal = ({ children, ref }: PortalPropsType) => ReactDOM.createPortal(children, ref || document.body);
+
+const Item = (element: ElementDefinitionType) => {
+    const Icon = element.icon;
     return (
         <div className={styles.itemContainer} key={element.name}>
             <div className={styles.itemLeftContainer}>
-                {element.icon ? <element.icon /> : null}
+                
+                {Icon ? <Icon /> : null}
                 <span className={styles.itemName}> { element.name } </span>
             </div>
             <code className={styles.itemCommand}> { element.command } </code>
@@ -21,20 +32,17 @@ const Item = (element) => {
     );
 }
 
-const filterCommand = (elements, text) => {
+const filterCommand: filterCommandParamsType = (elements, text) => {
     const command = text.replace('/', '').replace(' ', '');
-    // $FlowIgnore
-    const byName = Object.values(elements).filter((element) => element.name.includes(command));
-    // $FlowIgnore
-    const byCommand = Object.values(elements).filter((element) => element.command.includes(command));
+
+    const byName = Object.values(elements).filter((element: ElementDefinitionType) => element.name.includes(command));
+    const byCommand = Object.values(elements).filter((element: ElementDefinitionType) => element.command.includes(command));
 
     return _.union(byName, byCommand);
 }
 
-
-
-const Menu = ({ elements, command, text }) => {
-    const ref = useRef();
+const Menu = ({ elements, command, text }: MenuPropsType) => {
+    const ref = useRef<HTMLDivElement>();
     const CommandEngine = subObjectMatcher<ElementDefinitionType>({ options: elements, includes: ['name', 'command'] });
     useEffect(() => {
         const el = ref.current;
@@ -48,11 +56,13 @@ const Menu = ({ elements, command, text }) => {
         const rect = domRange.getBoundingClientRect();
 
         const top = rect.top + 32;
-        // $FlowFixMe
+        // @ts-ignore
         const left = command.current.offsetLeft;
-
+        // @ts-ignore
         el.style.opacity = '1';
+        // @ts-ignore
         el.style.top = `${top}px`;
+        // @ts-ignore
         el.style.left = `${left}px`;
     });
 

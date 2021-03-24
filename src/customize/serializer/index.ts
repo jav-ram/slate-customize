@@ -1,6 +1,7 @@
 import { jsx } from 'slate-hyperscript';
 
-export const deserializeHTML = (el) => {
+type deserializeHTMLParamsType = HTMLBodyElement | Node;
+export const deserializeHTML = (el: deserializeHTMLParamsType): any => {
 
     if (!el) {
         return {};
@@ -18,6 +19,7 @@ export const deserializeHTML = (el) => {
         return t;
     });
     // translate
+    // @ts-ignore
     const styles = el.style ? el.style : {};
     let isBlock = children[0] && children[0].element;
     isBlock = children.length > 1 || isBlock;

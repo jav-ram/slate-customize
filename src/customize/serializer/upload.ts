@@ -1,10 +1,12 @@
 import mammoth from 'mammoth';
+import { Editor } from 'slate';
 
 import { CleanHistory } from '../extras';
 import { deserializeHTML } from './index';
 
-export const OnChangeUpload = (editor, event, setValue) => {
-    const f = event.target.files[0];
+export const OnChangeUpload = (editor: Editor, event: Event, setValue: Function) => {
+    const input = event.target as HTMLInputElement;
+    const f = input.files[0];
     const reader = new FileReader();
     
     const ext = f.name.split('.').slice(-1)[0];

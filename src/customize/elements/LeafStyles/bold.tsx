@@ -1,36 +1,40 @@
+import * as React from 'react';
 import { Editor, Transforms, Text } from 'slate';
-import { BiItalic } from 'react-icons/bi';
+import { BiBold } from 'react-icons/bi';
 
 import { Richtext } from './index';
 import { toggleMark } from '../../../customize/extras.js';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
 
+import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';
+
 import styles from './leaf.module.css';
 
-const name = 'italic';
-const command = 'i';
+const name = 'bold';
+const command = 'b';
 const type = 'inline';
 
 const set = ({ event, editor, at, meta }) => Editor.addMark(editor, name, true);
 const unset = ({ event, editor, at, meta }) => Editor.removeMark(editor, name);
 const insert = InsertGenerator({ name, type });
 
-const create = ({ text }) => ({
+type createParamsType = { text: string };
+const create = ({ text }: createParamsType): ElementLeafType => ({
     element: name,
     type,
-    italic: true,
     text,
+    bold: true,
 });
 
 
-const Element = (props) => (
+const Element = (props: any) => (
     <Richtext {...props} />
 );
 
-const definition = {
+const definition: ElementDefinitionType = {
     name,
     command,
-    icon: BiItalic,
+    icon: BiBold,
     component: Element,
     type,
 

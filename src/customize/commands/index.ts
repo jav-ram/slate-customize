@@ -1,14 +1,15 @@
-import { Transforms, Element, Text, Node, Editor } from 'slate';
-import { Elements } from '../../components/elements';
+import { Transforms, Element, Text, Node, Editor, Path } from 'slate';
+import { Elements } from '../elements';
 import Command from '../elements/Command';
 import { withCommand } from './normalizer';
 
 import { iterateValue } from '../extras';
 import { getNode } from '../../customize/extras';
+import { ElementDefinitionType, ElementType } from '../elements';
 
 const COMMAND_KEY = '/';
 
-const cleanCommand = (editor, node, path) => {
+const cleanCommand = (editor: Editor, node: Node, path: Path) => {
     if (node.element === 'command') {
         // Transforms.removeNodes(editor, { at: path });
         Command.unset && Command.unset({ editor, at: path });
@@ -17,7 +18,7 @@ const cleanCommand = (editor, node, path) => {
 
 const cleanCommands = iterateValue(cleanCommand);
 
-const getElementCommand = (command) => {
+const getElementCommand = (command: string): (ElementDefinitionType | void) => {
     const text = command.replace(' ', '').replace('/', '');
     for (let key in Elements) {
         const element = Elements[key];
@@ -27,7 +28,7 @@ const getElementCommand = (command) => {
     return;
 }
 
-export const customizeOnKeyDown = (event, editor, value) => {
+export const customizeOnKeyDown = (event: KeyboardEvent, editor: Editor, value: any) => {
     const { selection } = editor;
     const { path, offset } = editor.selection.anchor;
     const node = getNode(value, selection.anchor.path);
