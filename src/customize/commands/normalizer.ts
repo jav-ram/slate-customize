@@ -1,10 +1,10 @@
-import { Transforms, Text, Element, Node } from 'slate';
+import { Transforms, Text, Element, Node, Editor, Path, NodeEntry } from 'slate';
 import { iterateValue } from '../extras';
 import _, { slice } from 'lodash';
 
 import Command from '../elements/Command';
 
-const normalize = (editor, node, path) => {
+const normalize = (editor: Editor, node: Node, path: Path) => {
     // if is text
     if (Text.isText(node) && node.element && node.element === 'command') {
         const selection = editor.selection;
@@ -18,10 +18,10 @@ const normalize = (editor, node, path) => {
 
 const iterativeNormalize = iterateValue(normalize);
 
-export const withCommand = (editor) => {
+export const withCommand = (editor: Editor): Editor => {
     const { normalizeNode } = editor
 
-    editor.normalizeNode = (entry) => {
+    editor.normalizeNode = (entry: NodeEntry) => {
         const [node, path] = entry
 
         // If the element is a paragraph, ensure its children are valid.
@@ -31,5 +31,5 @@ export const withCommand = (editor) => {
         normalizeNode(entry)
     }
 
-    return editor
+    return editor;
 }

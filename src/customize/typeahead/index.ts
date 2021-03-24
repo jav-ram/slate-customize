@@ -1,10 +1,17 @@
 
-export const subObjectMatcher = ({ options, includes }) => {
+type OptionsParamsType<T> = T[] | {[key: string]: T};
+type EngineMatcherFunction<T> = (string) => T[];
+type subObjectMatcherParamsType<T> = {
+    options: OptionsParamsType<T>,
+    includes?: string[]
+}
+
+export const subObjectMatcher = <T>({ options, includes }: subObjectMatcherParamsType<T>): EngineMatcherFunction<T> => {
     // $FlowIgnore
-    const list = Array.isArray(options) ? options : (Object.values(options));
+    const list: T[] = Array.isArray(options) ? options : (Object.values(options));
     const check = includes ? includes : undefined;
 
-    return (t) => {
+    return (t: string): T[] => {
         const text = t.replace("/", "");
         const matches = [];
         const substrRegex = new RegExp(text, 'i');

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useRef } from 'react';
 import { Editor, Transforms, Text } from 'slate';
 import { MdErrorOutline } from 'react-icons/md';
@@ -6,15 +6,17 @@ import { MdErrorOutline } from 'react-icons/md';
 import Menu from './menu';
 import { Elements } from '../index';
 import { InsertGenerator } from '../../../customize/elements/actionGenerator';
+import type { ElementDefinitionType, ElementsDefinitionTypes, ElementActionFunctionParamsType } from '../../../customize/elements';
+
 import styles from './command.module.css';
 
 const name = 'command';
 const command = '';
 const type = 'inline';
 
-const set = ({ event, editor, at }) => {
-    const options = {
-        match: n => Text.isText(n) && n.type !== type,
+const set = ({ event, editor, at }: ElementActionFunctionParamsType): void => {
+    const options: any = {
+        match: (n: Node) => Text.isText(n) && n.type !== type,
         split: true,
     };
     if (at) options.at = at;
@@ -25,9 +27,9 @@ const set = ({ event, editor, at }) => {
     );
 }
 
-export const unset = ({event, editor, at}) => {
-    const options = {
-        match: n => Text.isText(n) && n.type !== type,
+export const unset = ({event, editor, at}: ElementActionFunctionParamsType): void => {
+    const options: any = {
+        match: (n: Node) => Text.isText(n) && n.type !== type,
         split: true,
     };
     if (at) options.at = at;
@@ -40,7 +42,8 @@ export const unset = ({event, editor, at}) => {
 
 const insert = InsertGenerator({ name, type });
 
-const Placeholder = ({ editor, ...props}) => {
+type placeholderParamsType = { editor: Editor, [key: string]: any }
+const Placeholder = ({ editor, ...props}: placeholderParamsType) => {
     if (props.condition) {
         const path = editor.selection.anchor.path;
         return (
@@ -73,8 +76,8 @@ const Placeholder = ({ editor, ...props}) => {
     return null;
 }
 
-const Element = (props) => {
-    const ref = useRef();
+const Element = (props: any) => {
+    const ref = useRef<HTMLSpanElement>(null);
     const text = props.children.props.text.text;
     const editor = props.editor;
     const elements = props.elements ? props.elements : Elements; // get default or receive from editor
@@ -87,13 +90,12 @@ const Element = (props) => {
                 {props.children}
             </span>
             <Placeholder editor={editor} condition={text === '/' || text === '/ '}> Insert command...</Placeholder>
-            {/*$FlowFixMe*/}
             <Menu text={text} command={ref} elements={elements} />
         </span>
     );
 }
 
-const definition = {
+const definition: ElementDefinitionType = {
     name,
     command,
     component: Element,

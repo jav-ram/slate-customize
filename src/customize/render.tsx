@@ -1,11 +1,16 @@
 import * as React from 'react';
+import type { FunctionComponent } from 'react';
+import type { Editor } from 'slate';
 
 import { Elements } from '../components/elements';
+import type { ElementsDefinitionTypes } from './elements';
 
-const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
+const DefaultElement = (props: any) => <p {...props.attributes}>{props.children}</p>;
 
-export const MakeElementRenderer = (elements) => {
-    const ElementRenderer = (props, editor) => {
+type ElementRendererFunctionType = (props: any, editor: Editor) => JSX.Element;
+
+export const MakeElementRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
+    const ElementRenderer = (props: any, editor: Editor) => {
         const name = props.element.element;
         const element = elements[name];
 
@@ -20,8 +25,8 @@ export const MakeElementRenderer = (elements) => {
     return ElementRenderer;
 }
 
-export const MakeLeafRenderer = (elements) => {
-    const LeafRenderer = (props, editor) => {
+export const MakeLeafRenderer = (elements: ElementsDefinitionTypes): ElementRendererFunctionType => {
+    const LeafRenderer = (props: any, editor: Editor) => {
         const name = props.leaf.element;
         const leaf = elements[name];
         if (leaf) {

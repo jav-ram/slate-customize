@@ -3,7 +3,7 @@ import { Editor, Transforms, Text } from 'slate';
 import { BiItalic } from 'react-icons/bi';
 
 import { Richtext } from './index';
-import { toggleMark } from '../../../customize/extras.js';
+import { toggleMark } from '../../../customize/extras';
 import { SetGenerator, UnsetGenerator, InsertGenerator } from '../../../customize/elements/actionGenerator';
 
 import type { ElementDefinitionType, ElementLeafType } from '../../../customize/elements';

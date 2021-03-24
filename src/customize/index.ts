@@ -6,16 +6,18 @@ import { Transforms } from 'slate';
 import { deserializeHTML } from './serializer';
 import { CleanHistory, iterateValue } from './extras';
 
-const withCustomInlines = (elements) => {
+import type { ElementType } from './elements';
+
+const withCustomInlines = (elements: string[]): ((editor: any) => any) => {
     return (editor) => {
-        editor.isInline = (node) => {
+        editor.isInline = (node: ElementType) => {
             return elements.includes(node.element ? node.element : '');
         }
         return editor;
     }
 };
 
-const withCopyPasteWithStyles = (editor) => {
+const withCopyPasteWithStyles = (editor: any): any => {
     const { insertData } = editor;
     editor.insertData = data => {
         const html = data.getData('text/html');
@@ -32,7 +34,7 @@ const withCopyPasteWithStyles = (editor) => {
     return editor;
 }
 
-export const withCustomize = (editor, elements) => {
+export const withCustomize = (editor: any, elements) => {
     const inlines = Object.keys(elements)
         .map(key => elements[key])
         .filter((element) => element.type === "inline")
@@ -41,8 +43,8 @@ export const withCustomize = (editor, elements) => {
     console.log(inlines);
     const withInlines = withCustomInlines(inlines);
 
-    editor = withReact(editor, []);
-    editor = withHistory(editor, []);
+    editor = withReact(editor);
+    editor = withHistory(editor);
 
     editor = withInlines(editor);
     editor = withCopyPasteWithStyles(editor);

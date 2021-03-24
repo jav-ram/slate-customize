@@ -1,27 +1,33 @@
-import { Editor } from 'slate';
+import { Editor, Node, Path } from 'slate';
 
-const isMarkActive = (editor, key) => {
+type IterateSlateValueType = {
+    editor: Editor,
+    value: any,
+    path?: Path,
+}
+
+const isMarkActive = (editor: any, key: string): boolean => {
     const marks = Editor.marks(editor)
     return marks ? marks[key] === true : false
 }
 
-export const CleanHistory = (HistoryEditor) => {
+export const CleanHistory = (HistoryEditor: any): any => {
     const newEditor = HistoryEditor;
     newEditor.history = { undos: [], redos: [] };
     return newEditor;
 }
 
-export const toggleMark = (editor, key) => {
-    isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key);
+export const toggleMark = (editor: any, key: string): void => {
+    isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key, true);
 };
 
-export const iterateValue = (action) => {
-    let loop = ({editor, value, path = []}) => {
+export const iterateValue = (action: (editor: Editor, value: any, path: Path) => void): (arg0: IterateSlateValueType) => void => {
+    let loop = ({editor, value, path = []}: IterateSlateValueType): void => {
         let children = undefined;
         if (value.children) {
             children = value.children;
         } else if (value.length > 0) {
-            children = value
+            children = [value];
         }
         if (children) {
             for (const [i, node] of Object.entries(children)) {
