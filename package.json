@@ -1,6 +1,6 @@
 {
   "name": "slate-customize",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "private": false,
   "license": "MIT",
   "main": "dist/index.js",
