@@ -1,6 +1,6 @@
 {
   "name": "slate-customize",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "private": false,
   "license": "MIT",
   "main": "dist/index.js",
@@ -26,6 +26,7 @@
     "is-hotkey": "0.2.0",
     "lodash": "4.17.20",
     "mammoth": "1.4.16",
+    "npm-css": "^0.2.3",
     "react-icons": "4.1.0",
     "react-scripts": "4.0.3",
     "slate": "0.59.0",
