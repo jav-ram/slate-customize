@@ -1,5 +1,6 @@
 import type { ComponentType, ReactElement, ReactNode } from 'react';
-import type { Editor, Location } from 'slate'
+import type { Editor, Location } from 'slate';
+export * from './actionGenerator';
 
 import CommandDefinition from './Command';
 import TitleDefinition from './Titles';

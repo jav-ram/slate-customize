@@ -1,6 +1,6 @@
 
 type OptionsParamsType<T> = T[] | {[key: string]: T};
-type EngineMatcherFunction<T> = (string) => T[];
+type EngineMatcherFunction<T> = (t: string) => T[];
 type subObjectMatcherParamsType<T> = {
     options: OptionsParamsType<T>,
     includes?: string[]

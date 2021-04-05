@@ -1,6 +1,7 @@
 {
   "presets": [
-    "@babel/env",
+    ["env", { "targets": { "node": "current" }}],
+    "@babel/preset-env",
     "@babel/preset-typescript",
     "@babel/preset-react"
   ],
@@ -8,11 +9,11 @@
     "@babel/plugin-transform-flow-strip-types",
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread",
-    ["babel-plugin-react-css-modules",
-      {
-        "webpackHotModuleReloading": true,
-        "autoResolveMultipleImports": true
-    }]
+    [
+      "css-modules-transform", {
+        "extractCss": "./dist/index.css"
+      }
+  ]
   ],
   "retainLines": true
 }

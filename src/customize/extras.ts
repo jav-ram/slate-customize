@@ -1,4 +1,4 @@
-import { Editor, Node, Path } from 'slate';
+import { Editor, Path } from 'slate';
 
 type IterateSlateValueType = {
     editor: Editor,
@@ -27,7 +27,7 @@ export const iterateValue = (action: (editor: Editor, value: any, path: Path) =>
         if (value.children) {
             children = value.children;
         } else if (value.length > 0) {
-            children = [value];
+            children = value;
         }
         if (children) {
             for (const [i, node] of Object.entries(children)) {

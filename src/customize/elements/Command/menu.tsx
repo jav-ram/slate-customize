@@ -1,4 +1,5 @@
 import React from 'react';
+import * as PortalReact from 'react-dom/node_modules/@types/react';
 import { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';

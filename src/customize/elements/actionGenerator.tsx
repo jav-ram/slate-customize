@@ -37,7 +37,7 @@ const generateDefaultMatch = (
     return () => {
         const [match] = Editor.nodes(editor, {
             match: n => n[key] === value,
-        });
+        }) as unknown as NodeEntry[];
         return match;
     }
 }

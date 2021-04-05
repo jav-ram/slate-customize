@@ -1,4 +1,5 @@
 import { jsx } from 'slate-hyperscript';
+export { OnChangeUpload } from './upload';
 
 type deserializeHTMLParamsType = HTMLBodyElement | Node;
 export const deserializeHTML = (el: deserializeHTMLParamsType): any => {
