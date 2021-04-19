@@ -29,7 +29,8 @@ const getElementCommand = (command: string, elements: ElementsDefinitionTypes): 
 }
 
 type onKeyDownFunctionType = (event: KeyboardEvent, editor: Editor, value:any, elements: ElementsDefinitionTypes) => any | void;
-export const makeOnKeyDown = (handlerer: onKeyDownFunctionType, elements: ElementsDefinitionTypes): onKeyDownFunctionType => {
+type onKeyDownHandlererFunctionType = (command: ElementDefinitionType | void) => any | void; 
+export const makeOnKeyDown = (handlerer: onKeyDownHandlererFunctionType, elements: ElementsDefinitionTypes): onKeyDownFunctionType => {
     const onKeyDown = (event: KeyboardEvent, editor: Editor, value: any) => {
         const { selection } = editor;
         const { path, offset } = editor.selection.anchor;
@@ -93,9 +94,11 @@ export const makeOnKeyDown = (handlerer: onKeyDownFunctionType, elements: Elemen
                             });
                             break;
                         default:
-                            element = handlerer(event, editor, value, elements);
-                            /* commandElement.unset && commandElement.unset({ editor });
-                            return; */
+                            element = handlerer(commandElement);
+                            if (!element) {
+                                commandElement.unset && commandElement.unset({ editor });
+                                return;
+                            }
                     }
                     if (element) {
                         Transforms.removeNodes(editor, { at: path });
@@ -107,7 +110,6 @@ export const makeOnKeyDown = (handlerer: onKeyDownFunctionType, elements: Elemen
                     //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
                     //commandElement.insert && commandElement.insert({ editor, event, meta: {element: { text: 'var', ref: 'var' }}});
                 } else {
-                    console.log("should delete it", commandElement)
                     Command.unset && Command.unset({ editor });
                     // show alert of command not completed or bad command 
                 }
