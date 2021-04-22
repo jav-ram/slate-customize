@@ -6,18 +6,18 @@ type IterateSlateValueType = {
     path?: Path,
 }
 
-const isMarkActive = (editor: any, key: string): boolean => {
+export const isMarkActive = (editor: Editor, key: string): boolean => {
     const marks = Editor.marks(editor)
-    return marks ? marks[key] === true : false
+    return marks ? marks[key] === true : false;
 }
 
-export const CleanHistory = (HistoryEditor: any): any => {
+export const CleanHistory = (HistoryEditor: Editor): any => {
     const newEditor = HistoryEditor;
     newEditor.history = { undos: [], redos: [] };
     return newEditor;
 }
 
-export const toggleMark = (editor: any, key: string): void => {
+export const toggleMark = (editor: Editor, key: string): void => {
     isMarkActive(editor, key) ? Editor.removeMark(editor, key) : Editor.addMark(editor, key, true);
 };
 
@@ -43,12 +43,13 @@ export const iterateValue = (action: (editor: Editor, value: any, path: Path) =>
     return loop;
 }
 
-export const getNode = (root, path) => {
-  const pos = path;
-  let current = root;
+export const getNode = (root: any, path: Path) => {
+    const pos = path;
+    let current = root;
+
     for (let i of pos) {
         let nCurrent = current.children ? current.children[i] : current[i];
-        if (!nCurrent || (!nCurrent.element && nCurrent.text)) {
+        if (!nCurrent) {
             return current;
         }
         current = nCurrent;
