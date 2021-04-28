@@ -1,6 +1,6 @@
 {
   "name": "slate-customize",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "private": false,
   "license": "MIT",
   "main": "dist/index.js",
@@ -47,10 +47,12 @@
     "prepack": "npm run prepack:clean && npm run prepack:babel && npm run prepack:tsc",
     "prepack:clean": "rm -rf dist && mkdir dist",
     "prepack:babel": "babel src/ -d dist --extensions .ts,.tsx",
-    "prepack:tsc": "tsc --declaration --outDir dist/ --emitDeclarationOnly --declarationMap --allowJs false --checkJs false"
+    "prepack:tsc": "tsc -p tsconfig.json --declaration --outDir dist/ --emitDeclarationOnly --declarationMap --allowJs false --checkJs false"
   },
   "jest": {
-    "testPathIgnorePatterns": ["dist"]
+    "testPathIgnorePatterns": [
+      "dist"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
