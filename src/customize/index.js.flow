@@ -35,13 +35,12 @@ const withCopyPasteWithStyles = (editor: Object): Object => {
     return editor;
 }
 
-export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes): Object => {
+export const withCustomize = (editor: any, elements: ElementsDefinitionTypes): Object => {
     const inlines = Object.keys(elements)
         .map(key => elements[key])
         .filter((element: ElementDefinitionType) => element.type === "inline")
-        .map(element => element.name)
+        .map(element => element.name);
 
-    console.log(inlines);
     const withInlines = withCustomInlines(inlines);
 
     editor = withReact(editor, []);
@@ -49,7 +48,6 @@ export const withCustomize = (editor: Object, elements: ElementsDefinitionTypes)
 
     editor = withInlines(editor);
     editor = withCopyPasteWithStyles(editor);
-    console.log(editor);
 
     return useMemo(() => editor, []); // TODO: take advantage of memoization
 }
