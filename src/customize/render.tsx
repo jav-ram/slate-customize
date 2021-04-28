@@ -1,11 +1,9 @@
 import * as React from 'react';
-import type { FunctionComponent } from 'react';
 import type { Editor } from 'slate';
 
-import { Elements } from '../components/elements';
 import type { ElementsDefinitionTypes } from './elements';
 
-const DefaultElement = (props: any) => <p {...props.attributes}>{props.children}</p>;
+export const DefaultElement = (props: any) => <p {...props.attributes}>{props.children}</p>;
 
 type ElementRendererFunctionType = (props: any, editor: Editor) => JSX.Element;
 

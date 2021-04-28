@@ -8,19 +8,9 @@ import { MakeElementRenderer, MakeLeafRenderer } from '../../customize/render';
 import { customizeOnKeyDown } from '../../customize/commands';
 import { OnChangeUpload } from '../../customize/serializer/upload';
 
-import Toolbar from '../toolbar';
-import HoveringToolbar from '../hovermenu';
 import { Elements } from '../elements';
-import command from '../../customize/elements/Command';
-
-import { getNode } from '../hovermenu';
-
-const DefaultElement = (props) => <p {...props.attributes}>{props.children}</p>;
 
 const EditorElement = () => {
-    const [ file, setFile ] = useState({})
-
-    const { list, variable, conditional, title } = Elements;
 
     const [value, setValue] = useState([
         {

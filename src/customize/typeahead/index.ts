@@ -7,7 +7,6 @@ type subObjectMatcherParamsType<T> = {
 }
 
 export const subObjectMatcher = <T>({ options, includes }: subObjectMatcherParamsType<T>): EngineMatcherFunction<T> => {
-    // $FlowIgnore
     const list: T[] = Array.isArray(options) ? options : (Object.values(options));
     const check = includes ? includes : undefined;
 
