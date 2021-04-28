@@ -41,7 +41,6 @@ export const withCustomize = (editor: Editor, elements: ElementsDefinitionTypes)
         .filter((element) => element.type === "inline")
         .map(element => element.name)
 
-    console.log(inlines);
     const withInlines = withCustomInlines(inlines);
 
     editor = withReact(editor);
@@ -49,7 +48,6 @@ export const withCustomize = (editor: Editor, elements: ElementsDefinitionTypes)
 
     editor = withInlines(editor);
     editor = withCopyPasteWithStyles(editor);
-    console.log(editor);
 
     return useMemo(() => editor, []); // TODO: take advantage of memoization
 }

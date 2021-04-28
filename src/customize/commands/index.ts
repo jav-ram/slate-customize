@@ -104,7 +104,6 @@ export const makeOnKeyDown = (handlerer: onKeyDownHandlererFunctionType, element
                         Transforms.removeNodes(editor, { at: path });
                         commandElement.insert && commandElement.insert({ editor, event, meta: { element, at: path } });
                     } else {
-                        console.log("should delete it", commandElement)
                         Command.unset && Command.unset({ editor });
                     }
                     //Transforms.insertNodes(editor, {text: 'var', element: 'variable', ref: 'var'})
