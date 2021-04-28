@@ -32,6 +32,8 @@
     "node_modules",
     "build",
     "dist",
-    "example"
+    "example",
+    "**/*.test.ts", // ignore tests
+    "**/*.test.tsx" // ignore tests
   ]
 }

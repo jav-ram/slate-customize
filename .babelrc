@@ -13,7 +13,11 @@
       "css-modules-transform", {
         "extractCss": "./dist/index.css"
       }
-  ]
+    ]
+  ],
+  "ignore": [
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "retainLines": true
 }
